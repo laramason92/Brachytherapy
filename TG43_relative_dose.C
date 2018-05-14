@@ -4,7 +4,10 @@
 
 gROOT -> Reset();
 TFile f("brachytherapy.root");
- 					     
+
+TH1F * h1 = (TH1F*)f.Get(“h10”);
+h1->Draw();
+
 Double_t Seed_length = 0.35; //seed length in cm
 
 Double_t EnergyMap[401]; //2D map of total energy in "radial distance (mm)" and "angle (5 degrees)"
