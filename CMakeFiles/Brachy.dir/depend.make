@@ -1372,6 +1372,8 @@ CMakeFiles/Brachy.dir/src/BrachyDetectorConstructionGammaMed.cc.o: /Users/larama
 CMakeFiles/Brachy.dir/src/BrachyDetectorConstructionGammaMed.cc.o: /Users/laramason/Downloads/Geant4/geant4.10.03.p03-install/include/Geant4/G4SystemOfUnits.hh
 CMakeFiles/Brachy.dir/src/BrachyDetectorConstructionGammaMed.cc.o: /Users/laramason/Downloads/Geant4/geant4.10.03.p03-install/include/Geant4/G4Threading.hh
 CMakeFiles/Brachy.dir/src/BrachyDetectorConstructionGammaMed.cc.o: /Users/laramason/Downloads/Geant4/geant4.10.03.p03-install/include/Geant4/G4ThreeVector.hh
+CMakeFiles/Brachy.dir/src/BrachyDetectorConstructionGammaMed.cc.o: /Users/laramason/Downloads/Geant4/geant4.10.03.p03-install/include/Geant4/G4Torus.hh
+CMakeFiles/Brachy.dir/src/BrachyDetectorConstructionGammaMed.cc.o: /Users/laramason/Downloads/Geant4/geant4.10.03.p03-install/include/Geant4/G4Torus.icc
 CMakeFiles/Brachy.dir/src/BrachyDetectorConstructionGammaMed.cc.o: /Users/laramason/Downloads/Geant4/geant4.10.03.p03-install/include/Geant4/G4TouchableHandle.hh
 CMakeFiles/Brachy.dir/src/BrachyDetectorConstructionGammaMed.cc.o: /Users/laramason/Downloads/Geant4/geant4.10.03.p03-install/include/Geant4/G4TouchableHistory.hh
 CMakeFiles/Brachy.dir/src/BrachyDetectorConstructionGammaMed.cc.o: /Users/laramason/Downloads/Geant4/geant4.10.03.p03-install/include/Geant4/G4TouchableHistory.icc
@@ -1398,6 +1400,7 @@ CMakeFiles/Brachy.dir/src/BrachyDetectorConstructionGammaMed.cc.o: /Users/larama
 CMakeFiles/Brachy.dir/src/BrachyDetectorConstructionGammaMed.cc.o: /Users/laramason/Downloads/Geant4/geant4.10.03.p03-install/include/Geant4/G4UIparameter.hh
 CMakeFiles/Brachy.dir/src/BrachyDetectorConstructionGammaMed.cc.o: /Users/laramason/Downloads/Geant4/geant4.10.03.p03-install/include/Geant4/G4UItokenNum.hh
 CMakeFiles/Brachy.dir/src/BrachyDetectorConstructionGammaMed.cc.o: /Users/laramason/Downloads/Geant4/geant4.10.03.p03-install/include/Geant4/G4USolid.hh
+CMakeFiles/Brachy.dir/src/BrachyDetectorConstructionGammaMed.cc.o: /Users/laramason/Downloads/Geant4/geant4.10.03.p03-install/include/Geant4/G4UTorus.hh
 CMakeFiles/Brachy.dir/src/BrachyDetectorConstructionGammaMed.cc.o: /Users/laramason/Downloads/Geant4/geant4.10.03.p03-install/include/Geant4/G4UTubs.hh
 CMakeFiles/Brachy.dir/src/BrachyDetectorConstructionGammaMed.cc.o: /Users/laramason/Downloads/Geant4/geant4.10.03.p03-install/include/Geant4/G4UserStackingAction.hh
 CMakeFiles/Brachy.dir/src/BrachyDetectorConstructionGammaMed.cc.o: /Users/laramason/Downloads/Geant4/geant4.10.03.p03-install/include/Geant4/G4UserSteppingAction.hh

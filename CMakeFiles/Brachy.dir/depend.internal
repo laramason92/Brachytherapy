@@ -1373,6 +1373,8 @@ CMakeFiles/Brachy.dir/src/BrachyDetectorConstructionGammaMed.cc.o
  /Users/laramason/Downloads/Geant4/geant4.10.03.p03-install/include/Geant4/G4SystemOfUnits.hh
  /Users/laramason/Downloads/Geant4/geant4.10.03.p03-install/include/Geant4/G4Threading.hh
  /Users/laramason/Downloads/Geant4/geant4.10.03.p03-install/include/Geant4/G4ThreeVector.hh
+ /Users/laramason/Downloads/Geant4/geant4.10.03.p03-install/include/Geant4/G4Torus.hh
+ /Users/laramason/Downloads/Geant4/geant4.10.03.p03-install/include/Geant4/G4Torus.icc
  /Users/laramason/Downloads/Geant4/geant4.10.03.p03-install/include/Geant4/G4TouchableHandle.hh
  /Users/laramason/Downloads/Geant4/geant4.10.03.p03-install/include/Geant4/G4TouchableHistory.hh
  /Users/laramason/Downloads/Geant4/geant4.10.03.p03-install/include/Geant4/G4TouchableHistory.icc
@@ -1399,6 +1401,7 @@ CMakeFiles/Brachy.dir/src/BrachyDetectorConstructionGammaMed.cc.o
  /Users/laramason/Downloads/Geant4/geant4.10.03.p03-install/include/Geant4/G4UIparameter.hh
  /Users/laramason/Downloads/Geant4/geant4.10.03.p03-install/include/Geant4/G4UItokenNum.hh
  /Users/laramason/Downloads/Geant4/geant4.10.03.p03-install/include/Geant4/G4USolid.hh
+ /Users/laramason/Downloads/Geant4/geant4.10.03.p03-install/include/Geant4/G4UTorus.hh
  /Users/laramason/Downloads/Geant4/geant4.10.03.p03-install/include/Geant4/G4UTubs.hh
  /Users/laramason/Downloads/Geant4/geant4.10.03.p03-install/include/Geant4/G4UserStackingAction.hh
  /Users/laramason/Downloads/Geant4/geant4.10.03.p03-install/include/Geant4/G4UserSteppingAction.hh
