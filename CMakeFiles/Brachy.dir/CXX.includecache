@@ -4547,6 +4547,8 @@ G4Cons.hh
 /Users/laramason/Downloads/Geant4/geant4.10.03.p03/examples/advanced/brachytherapy/src/G4Cons.hh
 G4Torus.hh
 /Users/laramason/Downloads/Geant4/geant4.10.03.p03/examples/advanced/brachytherapy/src/G4Torus.hh
+G4Sphere.hh
+/Users/laramason/Downloads/Geant4/geant4.10.03.p03/examples/advanced/brachytherapy/src/G4Sphere.hh
 G4LogicalVolume.hh
 /Users/laramason/Downloads/Geant4/geant4.10.03.p03/examples/advanced/brachytherapy/src/G4LogicalVolume.hh
 G4ThreeVector.hh
