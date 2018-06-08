@@ -3,7 +3,7 @@
 // with the simulation results containted in brachytherapy.root
 
 gROOT -> Reset();
-TFile f("brachytherapy_old.root");
+TFile f("brachytherapy.root");
  					     
 Double_t Seed_length = 0.35; //seed length in cm
 
@@ -20,6 +20,7 @@ Double_t radius; //radius (mm)
 Double_t radius_k; //radius (mm)
 Int_t radInt; //nearest integer of radius (mm)
 Int_t numberOfBins=801;
+Int_t numberOfBinsKerma=201;
 
 for (int i=0; i <401; i++)
  {
@@ -33,7 +34,7 @@ for (int k=0; k< numberOfBins; k++)
    for (int m=0; m< numberOfBins; m++) 
  {
    Double_t xx_histo = h20.GetXaxis()->GetBinCenter(k);
-   cout << "k  " << k << "xx_histo  "<< xx_histo << endl;
+   //cout << "k  " << k << "xx_histo  "<< xx_histo << endl;
    Double_t yy_histo = h20.GetYaxis()->GetBinCenter(m);
    Double_t edep_histo=h20.GetBinContent(k, m);
    radius = sqrt(xx_histo*xx_histo+yy_histo*yy_histo); //This is the way to do the radial dose
@@ -57,16 +58,16 @@ for (int k=0; k< numberOfBins; k++)
 
 ofstream myfile;
 myfile.open ("Kerma.txt");
-for (int j=2; j<1800; j++)
+for (int j=0; j<numberOfBinsKerma; j++)
  {
-  for (int l=2; l<1800; l++)
+  for (int l=0; l<numberOfBinsKerma; l++)
  { 
    Double_t xx_histo3 = h30.GetYaxis()->GetBinCenter(l);
    Double_t yy_histo3 = h30.GetYaxis()->GetBinCenter(j);
    radius_k = sqrt(xx_histo3*xx_histo3+yy_histo3*yy_histo3); 
    Double_t kerma_histo3=h30.GetBinContent(l,j);
   
-   if (radius_k > 20 && radius_k <= 100){ //want to measure between 2 and 100 
+   if (radius_k > 20 && radius_k <= 1000 && kerma_histo3!=0){ //want to measure between 2 and 100 
        cout << radius_k << "kerma     " << kerma_histo3 << endl;
        myfile << radius_k <<  "     " << kerma_histo3 << "\n";
   }                        
