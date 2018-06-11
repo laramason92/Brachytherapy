@@ -2,11 +2,14 @@
 // Create output file geant4_dose.txt with the dose rate distribution, calculated
 // with the simulation results containted in brachytherapy.root
 
+//#include <math.h>
+
 gROOT -> Reset();
 TFile f("brachytherapy.root");
  					     
 Double_t L = 0.35; //seed length in cm
 
+Double_t KermaMap[101];
 Double_t EnergyMap[401]; //2D map of total energy in "radial distance (mm)" and "angle (5 degrees)"
 Int_t Voxels[401]; //the number of voxels used to provide dose to each element of the energy map
 Double_t normDose[401]; //Energy map divided by voxels used to make cell, normalised to energy deposition at 1cm, 90 degrees
@@ -17,17 +20,19 @@ Double_t R;     //radial distance in cm
 Double_t K;     //polar angle in radians
 Double_t Radial[401]; //radial dose function
 Double_t radius; //radius (mm)
-Double_t radius_k; //radius (mm)
+Double_t radius_k; //radius (cm)
+Int_t radius_k_rounded; //radius (cm)
 Double_t radius_geom;
 Double_t theta;
 Double_t theta_1;
 Double_t theta_2;
 Double_t GL;
 Double_t GL_0;
+Int_t count_i;
 
 Int_t radInt; //nearest integer of radius (mm)
 Int_t numberOfBins=801;
-Int_t numberOfBinsKerma=201;
+Int_t numberOfBinsKerma=2001;
 Double_t Sk; // = ?? todo!
 Double_t D_dot_0; // = ?? todo!
 // ******** calculate the TG43 params!
@@ -66,6 +71,8 @@ for (int k=0; k< numberOfBins; k++)
 
 }}
 
+std::cout << "Energy Map Complete" << std::endl;
+
 // *******************    Get geometry function *************************** //
 //for (int q=0; q< numberOfBins; q++)
 // {
@@ -103,26 +110,46 @@ for (int k=0; k< numberOfBins; k++)
         
 //}}
 
-ofstream myfile;
-myfile.open ("Kerma.txt");
+for (int i=0; i<101; i++)
+ {
+ KermaMap[i]=0.;
+}
+
 for (int j=0; j<numberOfBinsKerma; j++)
  {
   for (int l=0; l<numberOfBinsKerma; l++)
  { 
-   Double_t xx_histo3 = h30.GetYaxis()->GetBinCenter(l)/10.; //put it in cm for the sk conversion
-   Double_t yy_histo3 = h30.GetYaxis()->GetBinCenter(j)/10.;
-   radius_k = sqrt(xx_histo3*xx_histo3+yy_histo3*yy_histo3); 
+   Double_t xx_histo3 = h30.GetYaxis()->GetBinCenter(l); //put it in cm for the sk conversion
+   Double_t yy_histo3 = h30.GetYaxis()->GetBinCenter(j);
    Double_t kerma_histo3=h30.GetBinContent(l,j);
+   radius_k = sqrt(xx_histo3*xx_histo3+yy_histo3*yy_histo3); 
   
-   if (radius_k > 2 && radius_k <= 100 && kerma_histo3!=0){ //want to measure between 2 and 100 
-       //cout << radius_k << "kerma     " << kerma_histo3 << endl;
-       myfile << radius_k <<  "     " << kerma_histo3 << "\n";
+   if (radius_k > 5 && radius_k <= 100 && kerma_histo3!=0){ //want to measure between 2 and 100 
+       //radius_k += 0.5;
+       radius_k_rounded = TMath::Nint(radius_k);
+       std::cout << radius_k_rounded << "kerma     " << kerma_histo3 << std::endl;
+       KermaMap[radius_k_rounded] += kerma_histo3;
+       //myfile << radius_k <<  "     " << kerma_histo3 << "\n";
   }                        
  } 
 }
-myfile.close();
 
-std::cout << "Energy Map Complete" << std::endl;
+
+
+
+//ofstream myfile;
+//myfile.open ("Kerma.txt");
+//for (int t=0; t<101; t++)
+// {
+//  myfile << t <<   "     " << KermaMap[t] << "\n";
+// }
+//myfile.close();
+
+//std::cout << "Kerma Map Complete" << std::endl;
+
+
+
+
 
 //Create Normalised Dose Map
 std::cout << "The energy deposition at the reference point is " << EnergyMap[40] << std::endl;
