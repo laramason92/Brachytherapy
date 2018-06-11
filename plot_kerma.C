@@ -8,11 +8,11 @@ TFile f("brachytherapy.root");
 //   
   
 TCanvas* c1 = new TCanvas("c1", " ");
-h30 -> GetXaxis()->SetTitle("x (mm)");
-h30 ->GetXaxis()->SetRangeUser(-100,100);
-h30 -> GetYaxis()->SetTitle("y (mm)");
-h30 ->GetYaxis()->SetRangeUser(-100,100);
-h30 -> SetTitle("");
+h50 -> GetXaxis()->SetTitle("x (mm)");
+h50 ->GetXaxis()->SetRangeUser(-100,100);
+h50 -> GetYaxis()->SetTitle("y (mm)");
+h50 ->GetYaxis()->SetRangeUser(-100,100);
+h50 -> SetTitle("");
 
 //STYLE TINGS
 gStyle->SetOptStat(0);
@@ -25,20 +25,20 @@ Int_t font=42;
 Double_t tsize=0.04;
 Int_t offset=1;
 
-h30 -> GetXaxis()->SetTitleSize(tsize);
-h30 -> GetXaxis()->SetTitleFont(font);
-h30 -> GetXaxis()->SetTitleOffset(offset);
-h30 -> GetXaxis()->SetLabelFont(font);
-h30 -> GetXaxis()->SetLabelSize(tsize);
-//h30 -> GetXaxis()->SetLabelOffset(offset);
+h50 -> GetXaxis()->SetTitleSize(tsize);
+h50 -> GetXaxis()->SetTitleFont(font);
+h50 -> GetXaxis()->SetTitleOffset(offset);
+h50 -> GetXaxis()->SetLabelFont(font);
+h50 -> GetXaxis()->SetLabelSize(tsize);
+//h50 -> GetXaxis()->SetLabelOffset(offset);
 
-h30 -> GetYaxis()->SetTitleSize(tsize);
-h30 -> GetYaxis()->SetTitleFont(font);
-h30 -> GetYaxis()->SetTitleOffset(offset);
-h30 -> GetYaxis()->SetLabelFont(font);
-h30 -> GetYaxis()->SetLabelSize(tsize);
-//h30 -> GetXaxis()->SetLabelOffset(offset);
+h50 -> GetYaxis()->SetTitleSize(tsize);
+h50 -> GetYaxis()->SetTitleFont(font);
+h50 -> GetYaxis()->SetTitleOffset(offset);
+h50 -> GetYaxis()->SetLabelFont(font);
+h50 -> GetYaxis()->SetLabelSize(tsize);
+//h50 -> GetXaxis()->SetLabelOffset(offset);
 
 
-h30.Draw("COLZ");
+h50.Draw("COLZ");
 }
