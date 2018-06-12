@@ -12,14 +12,18 @@
 /score/create/boxMesh boxMesh_4
 #
 # the voxels are 0.25 mm wide.
+# FOR XY PLANE
 /score/mesh/boxSize 10.0125 10.0125 0.0125 cm
 /score/mesh/nBin 801 801 1
+# FOR ZY PLANE
+#/score/mesh/boxSize 0.0125 10.0125 10.0125 cm
+#/score/mesh/nBin 1 801 801
 /score/quantity/energyDeposit eDep
 #
 /score/close
 #
 /score/list                                             
-/run/beamOn 1000000
+/run/beamOn 500000
 #1000000000
 #
 # Dump scores to a file

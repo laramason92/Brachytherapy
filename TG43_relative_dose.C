@@ -8,8 +8,8 @@ gROOT -> Reset();
 TFile f("brachytherapy.root");
  					     
 Double_t L = 0.35; //seed length in cm
-
-Double_t KermaMap[101];
+Int_t len_KermaMap=101;
+Double_t KermaMap[len_KermaMap];
 Double_t EnergyMap[401]; //2D map of total energy in "radial distance (mm)" and "angle (5 degrees)"
 Int_t Voxels[401]; //the number of voxels used to provide dose to each element of the energy map
 Double_t normDose[401]; //Energy map divided by voxels used to make cell, normalised to energy deposition at 1cm, 90 degrees
@@ -32,7 +32,7 @@ Int_t count_i;
 
 Int_t radInt; //nearest integer of radius (mm)
 Int_t numberOfBins=801;
-Int_t numberOfBinsKerma=2001;
+Int_t numberOfBinsKerma=201;
 Double_t Sk; // = ?? todo!
 Double_t D_dot_0; // = ?? todo!
 // ******** calculate the TG43 params!
@@ -124,10 +124,10 @@ for (int j=0; j<numberOfBinsKerma; j++)
    Double_t kerma_histo3=h30.GetBinContent(l,j);
    radius_k = sqrt(xx_histo3*xx_histo3+yy_histo3*yy_histo3); 
   
-   if (radius_k > 5 && radius_k <= 100 && kerma_histo3!=0){ //want to measure between 2 and 100 
+   if (radius_k > 10 && radius_k <= 100 && kerma_histo3!=0){ //want to measure between 2 and 100 
        //radius_k += 0.5;
        radius_k_rounded = TMath::Nint(radius_k);
-       std::cout << radius_k_rounded << "kerma     " << kerma_histo3 << std::endl;
+       //std::cout << radius_k_rounded << "kerma     " << kerma_histo3 << std::endl;
        KermaMap[radius_k_rounded] += kerma_histo3;
        //myfile << radius_k <<  "     " << kerma_histo3 << "\n";
   }                        
@@ -137,24 +137,27 @@ for (int j=0; j<numberOfBinsKerma; j++)
 
 
 
-//ofstream myfile;
-//myfile.open ("Kerma.txt");
-//for (int t=0; t<101; t++)
-// {
-//  myfile << t <<   "     " << KermaMap[t] << "\n";
-// }
-//myfile.close();
+ofstream myfile;
+myfile.open ("Kerma.txt");
+for (int t=0; t<101; t++)
+ {
+ if (KermaMap[t]>0){
+    myfile << t <<   "     " << KermaMap[t] << "\n";
+  }
+ }
+myfile.close();
 
-//std::cout << "Kerma Map Complete" << std::endl;
-
-
-
+std::cout << "Kerma Map Complete" << std::endl;
 
 
 //Create Normalised Dose Map
 std::cout << "The energy deposition at the reference point is " << EnergyMap[40] << std::endl;
 Double_t tempNormValue = EnergyMap[40]/Voxels[40]; //this must be the dose in water keV/g
 std::cout << "dose rate at normalisation pt" << tempNormValue << std::endl; 
+Double_t EnergyDepNorm = EnergyMap[40] * 1.60218e-16 * 10 * 3.7e10 * 2.363 * 100 * 3600;
+Double_t MassNorm = Voxels[40] * 0.001 *1000 ;
+Double_t DoseRateNorm = EnergyDepNorm/MassNorm;
+std::cout << "dose rate at normalisation pt in correct units" << DoseRateNorm << std::endl; 
 //value at 1cm, 90 degrees, the normalisation point
 std::cout << "Dose rate ditribution (distances in cm)" << std::endl;
 
