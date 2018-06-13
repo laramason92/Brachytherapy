@@ -5,13 +5,13 @@
 //#include <math.h>
 
 gROOT -> Reset();
-TFile f("brachytherapy.root");
- 					     
+//TFile f("brachytherapy.root");
+TFile f("brachytherapy_280mil_xymesh.root");
+
+//******************** DEFINITIONS ******************************// 					     
 Double_t L = 0.35; //seed length in cm
 Int_t len_KermaMap=101;
 Double_t KermaMap[len_KermaMap];
-Double_t EnergyMap[401]; //2D map of total energy in "radial distance (mm)" and "angle (5 degrees)"
-Int_t Voxels[401]; //the number of voxels used to provide dose to each element of the energy map
 Double_t normDose[401]; //Energy map divided by voxels used to make cell, normalised to energy deposition at 1cm, 90 degrees
 Double_t GeomFunction[401]; //Geometry Function, normalised to the geometry function at the reference point
 Double_t GeometryFunctionZero;  //Geometry function at reference point, 1cm and 90 degrees
@@ -26,17 +26,20 @@ Double_t radius_geom;
 Double_t theta;
 Double_t theta_1;
 Double_t theta_2;
-Double_t GL;
-Double_t GL_0;
+Double_t GL_val;
+Double_t GL_0=1;
 Int_t count_i;
+Double_t Ci=10.0;
 
 Int_t radInt; //nearest integer of radius (mm)
 Int_t numberOfBins=801;
 Int_t numberOfBinsKerma=201;
 Double_t Sk; // = ?? todo!
 Double_t D_dot_0; // = ?? todo!
-// ******** calculate the TG43 params!
-// Double_t Lambda = D_dot_0/Sk; //cm-2
+
+//******************** GET RADIAL DOSE RATE ALONE ******************************// 
+Double_t EnergyMap[401]; //2D map of total energy in "radial distance (mm)" and "angle (5 degrees)"
+Int_t Voxels[401]; //the number of voxels used to provide dose to each element of the energy map
 
 for (int i=0; i <401; i++)
  {
@@ -53,56 +56,72 @@ for (int k=0; k< numberOfBins; k++)
    //cout << "k  " << k << "xx_histo  "<< xx_histo << endl;
    Double_t yy_histo = h20.GetYaxis()->GetBinCenter(m);
    Double_t edep_histo=h20.GetBinContent(k, m);
-   radius = sqrt(xx_histo*xx_histo+yy_histo*yy_histo); //This is the way to do the radial dose
+   radius = sqrt(xx_histo*xx_histo+yy_histo*yy_histo); 
 
- //  if ((edep_histo!=0) && radius < 12. && radius > 9) std::cout << "histo: " << xx_histo << ", " << yy_histo 
-   //                                                             << ", radius: " << radius <<", edep: "<< edep_histo << std::endl;
-
-    if (radius != 0){
+   if (radius != 0){
 		      radInt = TMath::Nint(4*radius);
 		      if ((radInt>0)&&(radInt<=400))
 			{
 			 EnergyMap[radInt]+= edep_histo;
-			 Voxels[radInt]+= 1; //store the number of voxels
-                      //   if (radius < 12. && radius > 9 && edep_histo!=0)std::cout<< "Radius: " << radius << ", radInt:"<<radInt << ", EnergyMap: "<< EnergyMap[radInt]<< ", voxels: " << Voxels[radInt]<< std::endl;
-                         
+			 Voxels[radInt]+= 1; //store the number of voxels 
 				}
 			}
-
 }}
 
 std::cout << "Energy Map Complete" << std::endl;
 
-// *******************    Get geometry function *************************** //
+//******************** DOSE RATE AND GEOMETRY FUNCTION GL ******************************// 
+//******************** DOSE RATE AND GEOMETRY FUNCTION GL ******************************// 
+
+//Double_t EnergyMap[401][401]; //2D map of total energy in "radial distance (mm)" and "angle (5 degrees)"
+//Int_t Voxels[401][401]; //the number of voxels used to provide dose to each element of the energy map
+//Double_t GL[401][401];
+
+//for (int i=0; i <401; i++)
+// {
+// for (int j=0; j<401; j++)
+//  {
+//   EnergyMap[i][j]=0.;
+//   Voxels[i][j]=0.;
+//}}
+
+
 //for (int q=0; q< numberOfBins; q++)
 // {
 //   for (int w=0; w<numberOfBins; w++)
 // {
    
-//   Double_t zz_geom_histo = hgeom.GetZaxis()->GetBinCenter(q);
+//   Double_t zz_geom_histo = hgeom.GetXaxis()->GetBinCenter(q);
 //   Double_t yy_geom_histo = hgeom.GetYaxis()->GetBinCenter(w);
 //   Double_t edep_histo    = hgeom.GetBinContent(q,w);
+//   radius = sqrt(zz_geom_histo*zz_geom_histo + yy_geom_histo*yy_geom_histo);
 
-//   if ((zz_geom_histo>0)&&(yy_geom_histo>0)){ //stick in the top right quadrant for now
+//   if (radius != 0){
+//     radZ = TMath::Nint(4*zz_geom_histo);
+//     radY = TMath::Nint(4*yy_geom_histo);
 
-//     radius_geom = sqrt(zz_geom_histo*zz_geom_histo+yy_geom_histo*yy_geom_histo); 
+//     radInt = TMath::Nint(4*radius);
+//     if ( (radZ>0)&&(radZ<=400) && (radY>0)&&(radY<=400) )
+//          {
+//          EnergyMap[radZ][radY] += edep_histo; //this will be to calculate the dose
+//          Voxels[radZ][radY] +=1
+//          }
+      
+//          theta = atan(yy_geom_histo,zz_geom_histo)/deg;
+//          theta_1 = atan(y,(z-L/2))/deg;
+//          theta_2 = atan(y,(z+L/2))/deg;
+//          beta = theta_2 - theta_1;
 
-//     theta = atan(y,z)/deg;
-//     theta_1 = atan(y,(z-L/2))/deg;
-//     theta_2 = atan(y,(z+L/2))/deg;
-//     beta = theta_2 - theta_1;
-
-//     if (radius_geom != 0){
-//              radInt_geom = TMath::Nint(4*radius_geom);
-//             }
-//       if (theta == 0){
-//              GL = 1./(radInt_geom**2-L**2/4.);
+//          if (theta == 0){
+//              GL_val = 1./(radInt_geom**2-L**2/4.);
 //              }
-//       else{
-//              GL = beta/(L*radInt_geom*sin(theta)); 
+//          else{
+//              GL_val = beta/(L*radInt_geom*sin(theta)); 
 
-//              if ((theta == 90)&&(radInt_geom==1.)){
-//               GL_0 = GL 
+//              if ((theta == 90)&&(radInt_geom==40)){
+//               GL_0 = GL_val //I dont think this is going to work - will have to get from the lookup table
+//               std::cout << "New value of GL_0 << std::endl; 
+//          GL[radZ][radY] = GL_val
 //        }
 //       }
 //     }
@@ -127,8 +146,9 @@ for (int j=0; j<numberOfBinsKerma; j++)
    if (radius_k > 10 && radius_k <= 100 && kerma_histo3!=0){ //want to measure between 2 and 100 
        //radius_k += 0.5;
        radius_k_rounded = TMath::Nint(radius_k);
+       Double_t kerma_histo_rate = kerma_histo3 * 1.60218e-19 * Ci * 3.7e10 * 1 *2.363 * 60*60;
        //std::cout << radius_k_rounded << "kerma     " << kerma_histo3 << std::endl;
-       KermaMap[radius_k_rounded] += kerma_histo3;
+       KermaMap[radius_k_rounded] += kerma_histo_rate;
        //myfile << radius_k <<  "     " << kerma_histo3 << "\n";
   }                        
  } 
