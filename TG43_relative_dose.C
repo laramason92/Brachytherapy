@@ -10,8 +10,9 @@ TFile f("brachytherapy_280mil_xymesh.root");
 
 //******************** DEFINITIONS ******************************// 					     
 Double_t L = 0.35; //seed length in cm
-Int_t len_KermaMap=101;
+Int_t len_KermaMap=4001;
 Double_t KermaMap[len_KermaMap];
+Double_t Y_cm[len_KermaMap];
 Double_t normDose[401]; //Energy map divided by voxels used to make cell, normalised to energy deposition at 1cm, 90 degrees
 Double_t GeomFunction[401]; //Geometry Function, normalised to the geometry function at the reference point
 Double_t GeometryFunctionZero;  //Geometry function at reference point, 1cm and 90 degrees
@@ -33,7 +34,7 @@ Double_t Ci=10.0;
 
 Int_t radInt; //nearest integer of radius (mm)
 Int_t numberOfBins=801;
-Int_t numberOfBinsKerma=201;
+Int_t numberOfBinsKerma=2001;
 Double_t Sk; // = ?? todo!
 Double_t D_dot_0; // = ?? todo!
 
@@ -70,7 +71,180 @@ for (int k=0; k< numberOfBins; k++)
 
 std::cout << "Energy Map Complete" << std::endl;
 
-//******************** DOSE RATE AND GEOMETRY FUNCTION GL ******************************// 
+//Create Normalised Dose Map
+std::cout << "The energy deposition at the reference point is " << EnergyMap[40] << std::endl;
+Double_t tempNormValue = EnergyMap[40]/Voxels[40]; //this must be the dose in water keV/g
+std::cout << "dose rate at normalisation pt" << tempNormValue << std::endl; 
+Double_t EnergyDepNorm = EnergyMap[40] * 1.60218e-16 * 10 * 3.7e10 * 2.363 * 100 * 3600;
+Double_t MassNorm = Voxels[40] * 0.001 *1000 ;
+Double_t DoseRateNorm = EnergyDepNorm/MassNorm;
+std::cout << "dose rate at normalisation pt in correct units" << DoseRateNorm << std::endl; 
+//value at 1cm, 90 degrees, the normalisation point
+std::cout << "Dose rate ditribution (distances in cm)" << std::endl;
+
+ofstream myfile;
+
+myfile.open ("geant4_dose.txt");
+
+for (int i=0; i<=400; i++)
+{
+ R = double(i)/40; //distance in CM!!!
+ if (Voxels[i]>0) normDose[i] = EnergyMap[i]/Voxels[i]/tempNormValue;
+    else normDose[i] = 0;
+
+ 
+            
+ if (R>  0.05)
+    {
+    //cout << R << "     " << normDose[i] << endl;  
+    myfile << R <<  "     " << normDose[i] << "\n";                     
+    }
+}
+
+myfile.close();
+}
+
+
+
+
+//******************** GET RADIAL DOSE RATE ALONE ******************************// 
+Double_t EnergyMap[401]; //2D map of total energy in "radial distance (mm)" and "angle (5 degrees)"
+Int_t Voxels[401]; //the number of voxels used to provide dose to each element of the energy map
+
+for (int i=0; i <401; i++)
+ {
+ EnergyMap[i]=0.;
+ Voxels[i]=0.;
+}
+
+//Build Energy Deposition Map
+for (int k=0; k< numberOfBins; k++)
+ {
+   for (int m=0; m< numberOfBins; m++) 
+ {
+   Double_t xx_histo = h30.GetXaxis()->GetBinCenter(k);
+   //cout << "k  " << k << "xx_histo  "<< xx_histo << endl;
+   Double_t yy_histo = h30.GetYaxis()->GetBinCenter(m);
+   Double_t edep_histo=h30.GetBinContent(k, m);
+   radius = sqrt(xx_histo*xx_histo+yy_histo*yy_histo); 
+
+   if (radius != 0){
+		      radInt = TMath::Nint(4*radius);
+		      if ((radInt>0)&&(radInt<=400))
+			{
+			 EnergyMap[radInt]+= edep_histo;
+			 Voxels[radInt]+= 1; //Number of times around the cylindrical symmetry that the same r was used? 
+				}
+			}
+}}
+
+std::cout << "Energy Map Complete" << std::endl;
+
+//Create Normalised Dose Map
+std::cout << "The energy deposition at the reference point is " << EnergyMap[40] << std::endl;
+
+Double_t tempNormValue = EnergyMap[40]/Voxels[40]; //this must be the dose in water keV/g
+std::cout << "dose rate at normalisation pt" << tempNormValue << std::endl; 
+
+Double_t EnergyDepNorm = EnergyMap[40] * 1.60218e-16 * 10 * 3.7e10 * 2.363 * 3600; //J/kg/h = Gy/h
+Double_t MassNorm = Voxels[40] ; // density dry air is 0.0012928 g/cm^3
+Double_t DoseRateNorm = EnergyDepNorm/MassNorm;
+std::cout << "dose rate at normalisation pt in correct units" << DoseRateNorm << std::endl; 
+//value at 1cm, 90 degrees, the normalisation point
+std::cout << "Dose rate ditribution (distances in cm)" << std::endl;
+
+ofstream myfile;
+
+myfile.open ("geant4_dose.txt");
+
+for (int i=0; i<=400; i++)
+{
+ R = double(i)/40; //distance in CM!!!
+ if (Voxels[i]>0) normDose[i] = (EnergyMap[i]*1.60218e-16 * 10 * 3.7e10 * 2.363 * 3600 * 100) /  (Voxels[i]);// 100* J/Kg/h == 100* Gy/h = cGy/h
+    else normDose[i] = 0;
+
+ 
+            
+ if (R>  0.05)
+    {
+    //cout << R << "     " << normDose[i] << endl;  
+    myfile << R <<  "     " << normDose[i] << "\n";                     
+    }
+}
+
+myfile.close();
+}
+
+
+
+
+
+
+
+
+
+
+
+
+//********************!!!!!!!! WRONG !!!!!!!!!!!!! AIR KERMA RATE ******************************// 
+
+//for (int i=0; i<4001; i++)
+// {
+// KermaMap[i]=0.;
+// Y_cm[i]=0.;
+//}
+
+//for (int j=0; j<numberOfBinsKerma; j++)
+// {
+//  for (int l=0; l<numberOfBinsKerma; l++)
+// { 
+//   Double_t xx_histo3 = h20.GetXaxis()->GetBinCenter(l); //put it in cm for the sk conversion
+//   Double_t yy_histo3 = h20.GetYaxis()->GetBinCenter(j);
+//   Double_t kerma_histo3 = h20.GetBinContent(l,j);
+//   radius_k = sqrt(xx_histo3*xx_histo3+yy_histo3*yy_histo3);//mm 
+
+//   if (radius_k !=0){ //want to measure between 2 and 100 
+//     radius_k_rounded = TMath::Nint(4*radius_k); //mm
+//     if ((radius_k_rounded>0)&&(radius_k_rounded<=4000))
+//       { 
+//       Double_t kerma_histo_rate = kerma_histo3 ;//* 1.60218e-13 * 1000 * Ci * 3.7e10 * 1 *2.363 * 60*60 * 100; //cGy/h
+//
+//       //std::cout << "   radius   " << radius_k_rounded << "   y   " << y_kerma_cm << "  kerma     " << kerma_histo3 << std::endl;
+//       KermaMap[radius_k_rounded] += kerma_histo_rate; //mm
+//       //myfile << radius_k <<  "     " << kerma_histo3 << "\n";
+//  }
+//  }                        
+// } 
+//}
+//
+
+
+
+//ofstream myfile;
+//myfile.open ("Kerma.txt");
+//for (int t=0; t<4001; t+=10)
+// {
+// if (KermaMap[t]>0){
+//    myfile << t <<   "     " << KermaMap[t] << "\n";
+//  }
+// }
+//myfile.close();
+
+//std::cout << "Kerma Map Complete" << std::endl;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 //******************** DOSE RATE AND GEOMETRY FUNCTION GL ******************************// 
 
 //Double_t EnergyMap[401][401]; //2D map of total energy in "radial distance (mm)" and "angle (5 degrees)"
@@ -128,80 +302,5 @@ std::cout << "Energy Map Complete" << std::endl;
     
         
 //}}
-
-for (int i=0; i<101; i++)
- {
- KermaMap[i]=0.;
-}
-
-for (int j=0; j<numberOfBinsKerma; j++)
- {
-  for (int l=0; l<numberOfBinsKerma; l++)
- { 
-   Double_t xx_histo3 = h30.GetYaxis()->GetBinCenter(l); //put it in cm for the sk conversion
-   Double_t yy_histo3 = h30.GetYaxis()->GetBinCenter(j);
-   Double_t kerma_histo3=h30.GetBinContent(l,j);
-   radius_k = sqrt(xx_histo3*xx_histo3+yy_histo3*yy_histo3); 
-  
-   if (radius_k > 10 && radius_k <= 100 && kerma_histo3!=0){ //want to measure between 2 and 100 
-       //radius_k += 0.5;
-       radius_k_rounded = TMath::Nint(radius_k);
-       Double_t kerma_histo_rate = kerma_histo3 * 1.60218e-19 * Ci * 3.7e10 * 1 *2.363 * 60*60;
-       //std::cout << radius_k_rounded << "kerma     " << kerma_histo3 << std::endl;
-       KermaMap[radius_k_rounded] += kerma_histo_rate;
-       //myfile << radius_k <<  "     " << kerma_histo3 << "\n";
-  }                        
- } 
-}
-
-
-
-
-ofstream myfile;
-myfile.open ("Kerma.txt");
-for (int t=0; t<101; t++)
- {
- if (KermaMap[t]>0){
-    myfile << t <<   "     " << KermaMap[t] << "\n";
-  }
- }
-myfile.close();
-
-std::cout << "Kerma Map Complete" << std::endl;
-
-
-//Create Normalised Dose Map
-std::cout << "The energy deposition at the reference point is " << EnergyMap[40] << std::endl;
-Double_t tempNormValue = EnergyMap[40]/Voxels[40]; //this must be the dose in water keV/g
-std::cout << "dose rate at normalisation pt" << tempNormValue << std::endl; 
-Double_t EnergyDepNorm = EnergyMap[40] * 1.60218e-16 * 10 * 3.7e10 * 2.363 * 100 * 3600;
-Double_t MassNorm = Voxels[40] * 0.001 *1000 ;
-Double_t DoseRateNorm = EnergyDepNorm/MassNorm;
-std::cout << "dose rate at normalisation pt in correct units" << DoseRateNorm << std::endl; 
-//value at 1cm, 90 degrees, the normalisation point
-std::cout << "Dose rate ditribution (distances in cm)" << std::endl;
-
-ofstream myfile;
-
-myfile.open ("geant4_dose.txt");
-
-for (int i=0; i<=400; i++)
-{
- R = double(i)/40; //distance in CM!!!
- if (Voxels[i]>0) normDose[i] = EnergyMap[i]/Voxels[i]/tempNormValue;
-    else normDose[i] = 0;
-
- 
-            
- if (R>  0.05)
-    {
-    //cout << R << "     " << normDose[i] << endl;  
-    myfile << R <<  "     " << normDose[i] << "\n";                     
-    }
-}
-
-myfile.close();
-}
-
 
  

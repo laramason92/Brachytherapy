@@ -8,14 +8,17 @@ for l in file_kerma:
     row = l.split()
 
     #print row[1]
-    y.append(float(row[0]))
+    y.append(float(row[0])/40.)
     K.append(float(row[1]))
 
-print len(K)
+print K
+
+
 ky2 = []
 for i in range(len(K)):
-    val = y[i]**2*K[i]
+    val = y[i]*y[i]*K[i]
     ky2.append(val)
+    print "y   ", y[i],"   K   ",K[i],"   y^2   ", y[i]*y[i], "   Ky^2   ", K[i]*y[i]*y[i] 
 plt.plot(y,ky2,'ro')
 
 #plt.plot(y,K,'x')

@@ -19,7 +19,7 @@
 /score/close
 #
 /score/list                                             
-/run/beamOn 5000
+/run/beamOn 10000000
 #
 # Dump scores to a file
 #
