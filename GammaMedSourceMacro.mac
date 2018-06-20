@@ -14,16 +14,19 @@
 # the voxels are 0.25 mm wide.
 # FOR XY PLANE
 /score/mesh/boxSize 100.0125 100.0125 0.0125 cm
-/score/mesh/nBin 8001 8001 1
+/score/mesh/nBin 801 801 1
 # FOR XYZ PLANE
 #/score/mesh/boxSize 10.0125 10.0125 10.0125 cm
 #/score/mesh/nBin 801 801 801
 /score/quantity/energyDeposit eDep
+
+#/score/quantity/doseDeposit doseDep
+
 #
 /score/close
 #
 /score/list                                             
-/run/beamOn 1000000000
+/run/beamOn 280000000
 #1000000000
 #
 # Dump scores to a file
