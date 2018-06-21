@@ -6,7 +6,7 @@
 
 gROOT -> Reset();
 //TFile f("brachytherapy.root");
-TFile f("brachytherapy.root");
+TFile f("brachytherapy210601.root");
 
 //******************** DEFINITIONS ******************************// 					     
 Double_t L = 0.35; //seed length in cm
@@ -26,12 +26,19 @@ Double_t radius_geom;
 Double_t theta;
 Double_t theta_1;
 Double_t theta_2;
+
+Double_t Pi = 3.14159265;
+
 Double_t GL_val;
 Double_t GL_0=1;
+
 Int_t count_i;
 Double_t Ci=10.0;
 
+Int_t thetaInt;
 Int_t radInt; //nearest integer of radius (mm)
+Int_t radZ;
+Int_t radY;
 Int_t radIntKERMA; //nearest integer of radius (mm)
 Int_t numberOfBins=801;
 Int_t numberOfBinsKERMA=8001;
@@ -41,135 +48,134 @@ Double_t D_dot_0; // = ?? todo!
 
 //******************** GET RADIAL DOSE RATE ALONE ******************************// 
 
-Double_t EnergyMap[401]; //2D map of total energy in "radial distance (mm)" and "angle (5 degrees)"
-Int_t Voxels[401]; //the number of voxels used to provide dose to each element of the energy map
+//Double_t EnergyMap[401]; //2D map of total energy in "radial distance (mm)" and "angle (5 degrees)"
+//Int_t Voxels[401]; //the number of voxels used to provide dose to each element of the energy map
 
-for (int i=0; i <401; i++)
- {
- EnergyMap[i]=0.;
- Voxels[i]=0.;
-}
-
-//Build Energy Deposition Map
-for (int k=0; k< numberOfBins; k++)
- {
-   for (int m=0; m< numberOfBins; m++) 
- {
-   Double_t xx_histo = h20.GetXaxis()->GetBinCenter(k);
-   //cout << "k  " << k << "xx_histo  "<< xx_histo << endl;
-   Double_t yy_histo = h20.GetYaxis()->GetBinCenter(m);
-   Double_t edep_histo=h20.GetBinContent(k, m);
-   radius = sqrt(xx_histo*xx_histo+yy_histo*yy_histo); 
-
-   if (radius != 0){
-		      radInt = TMath::Nint(4*radius);
-		      if ((radInt>0)&&(radInt<=400))
-			{
-			 EnergyMap[radInt]+= edep_histo;
-			 Voxels[radInt]+= 1; //store the number of voxels 
-				}
-			}
-}}
-
-std::cout << "Energy Map Complete" << std::endl;
-
-//Create Normalised Dose Map
-std::cout << "The energy deposition at the reference point is " << EnergyMap[40] << std::endl;
-Double_t tempNormValue = EnergyMap[40]/Voxels[40]; //this must be the dose in water keV/g
-std::cout << "dose rate at normalisation pt" << tempNormValue << std::endl; 
-Double_t EnergyDepNorm = EnergyMap[40] * 1.60218e-16 * 10 * 3.7e10 * 2.363 * 100 * 3600;
-Double_t MassNorm = Voxels[40] * 0.001 *1000 ;
-Double_t DoseRateNorm = EnergyDepNorm/MassNorm;
-std::cout << "dose rate at normalisation pt in correct units" << DoseRateNorm << std::endl; 
-//value at 1cm, 90 degrees, the normalisation point
-std::cout << "Dose rate ditribution (distances in cm)" << std::endl;
-
-ofstream myfile;
-
-myfile.open ("Kerma.txt");
-
-for (int i=0; i<=400; i++)
-{
- R = double(i)/40; //distance in CM!!!
- if (Voxels[i]>0) normDose[i] = EnergyMap[i]/Voxels[i];///tempNormValue;
-    else normDose[i] = 0;
-
-
-            
- if (R>  0.05)
-    {
-    //cout << R << "     " << normDose[i] << endl;  
-    myfile << R <<  "     " << normDose[i] << "\n";                     
-    }
-}
-
-myfile.close();
-
-
-
-
-
-//******************** GET KERMA ******************************// 
-//Double_t EnergyMapKERMA[1001]; //2D map of total energy in "radial distance (mm)" and "angle (5 degrees)"
-//Int_t VoxelsKERMA[1001]; //the number of voxels used to provide dose to each element of the energy map
-//
-//for (int i=0; i <1001; i++)
+//for (int i=0; i <401; i++)
 // {
-// EnergyMapKERMA[i]=0.;
-// VoxelsKERMA[i]=0.;
+// EnergyMap[i]=0.;
+// Voxels[i]=0.;
 //}
-//
-////Build Energy Deposition Map
-//for (int k=0; k< numberOfBinsKERMA; k++)
-// {
-//   for (int m=0; m< numberOfBinsKERMA; m++) 
-// {
-//   Double_t xx_histoKERMA = h30.GetXaxis()->GetBinCenter(k);
-//   //cout << "k  " << k << "xx_histo  "<< xx_histo << endl;
-//   Double_t yy_histoKERMA = h30.GetYaxis()->GetBinCenter(m);
-//   Double_t edep_histoKERMA=h30.GetBinContent(k, m);
-//   radiusKERMA = 4*sqrt(xx_histoKERMA*xx_histoKERMA+yy_histoKERMA*yy_histoKERMA); //into mm when we have 8001 bins
 
-//   if (radiusKERMA != 0){
-//		      radIntKERMA = TMath::Nint(radiusKERMA); //histogram in mm
-//		      if ((radIntKERMA>0)&&(radIntKERMA<=1000))
+////Build Energy Deposition Map
+//for (int k=0; k< numberOfBins; k++)
+// {
+//   for (int m=0; m< numberOfBins; m++) 
+// {
+//   Double_t xx_histo = h20.GetXaxis()->GetBinCenter(k);
+//   //cout << "k  " << k << "xx_histo  "<< xx_histo << endl;
+//   Double_t yy_histo = h20.GetYaxis()->GetBinCenter(m);
+//   Double_t edep_histo=h20.GetBinContent(k, m);
+//   radius = sqrt(xx_histo*xx_histo+yy_histo*yy_histo); //in mm from hist 
+//
+//   if (radius != 0){
+//		      radInt = TMath::Nint(4*radius); //number of voxels to radius
+//		      if ((radInt>0)&&(radInt<=400))
 //			{
-//			 EnergyMapKERMA[radIntKERMA]+= edep_histoKERMA;
-//			 VoxelsKERMA[radIntKERMA]+= 1; //Number of times around the cylindrical symmetry that the same r was used? 
+//			 EnergyMap[radInt]+= edep_histo;
+//			 Voxels[radInt]+= 1; //store the number of voxels 
 //				}
 //			}
 //}}
 
-//std::cout << "KERMA Map Complete" << std::endl;
-//
+//std::cout << "Energy Map Complete" << std::endl;
+
 ////Create Normalised Dose Map
-//std::cout << "The KERMA at the reference point is " << EnergyMapKERMA[10] << std::endl;
-//
-//Double_t tempNormValueKERMA = EnergyMapKERMA[10]/VoxelsKERMA[10]; //this must be the dose in water keV/g
+//std::cout << "The energy deposition at the reference point is " << EnergyMap[40] << std::endl;
+//Double_t tempNormValue = EnergyMap[40]/Voxels[40]; //this must be the dose in water keV/g
+//std::cout << "dose rate at normalisation pt" << tempNormValue << std::endl; 
+//Double_t EnergyDepNorm = EnergyMap[40] * 1.60218e-16 * 10 * 3.7e10 * 2.363 * 100 * 3600;
+//Double_t MassNorm = Voxels[40] * 0.001 *1000 ;
+//Double_t DoseRateNorm = EnergyDepNorm/MassNorm;
+//std::cout << "dose rate at normalisation pt in correct units" << DoseRateNorm << std::endl; 
+////value at 1cm, 90 degrees, the normalisation point
+//std::cout << "Dose rate ditribution (distances in cm)" << std::endl;
 
-//std::cout << "KERMA at normalisation pt" << tempNormValueKERMA << std::endl; 
-
-//Double_t EnergyDepNormKERMA = EnergyMapKERMA[10] * 1.60218e-16 * 10 * 3.7e10 * 2.363 * 3600; //J/kg/h = Gy/h
-//Double_t VoxelsNormKERMA = VoxelsKERMA[10] ; // density dry air is 0.0012928 g/cm^3
-//Double_t KERMANorm = EnergyDepNormKERMA/VoxelsNormKERMA;
-//std::cout << "KERMA at normalisation pt in correct units" << KERMANorm << std::endl; 
-//
 //ofstream myfile;
-//
-//myfile.open ("Kerma.txt");
 
-//for (int i=0; i<=1000; i++)
+//myfile.open ("geant4_dose.txt");
+
+//for (int i=0; i<=400; i++)
 //{
-// RKERMA = i;//double(i)/10; //distance in CM!!!
-// if (VoxelsKERMA[i]>0) normDoseKERMA[i] = (EnergyMapKERMA[i]*1.60218e-16 * 10 * 3.7e10 * 2.363 * 3600 * 100) /  (VoxelsKERMA[i]);// 100* J/Kg/h == 100* Gy/h = cGy/h
-//    else normDoseKERMA[i] = 0;
-//
-// 
+// R = double(i)/40; //distance in CM!!!
+// if (Voxels[i]>0) normDose[i] = EnergyMap[i]/Voxels[i]/tempNormValue;
+//    else normDose[i] = 0;
+
+
             
-// if (RKERMA>  20)
+// if (R>  0.05)
 //    {
 //    //cout << R << "     " << normDose[i] << endl;  
-//    myfile << RKERMA <<  "     " << normDoseKERMA[i] << "\n";                     
+//    myfile << R <<  "     " << normDose[i] << "\n";                     
+//    }
+//}
+//
+//myfile.close();
+//
+
+
+//******************** GET KERMA ALONE ******************************// 
+
+//Double_t EnergyMap[401]; //2D map of total energy in "radial distance (mm)" and "angle (5 degrees)"
+//Int_t Voxels[401]; //the number of voxels used to provide dose to each element of the energy map
+
+//for (int i=0; i <401; i++)
+// {
+// EnergyMap[i]=0.;
+// Voxels[i]=0.;
+//}
+
+////Build Energy Deposition Map
+//for (int k=0; k< numberOfBins; k++)
+// {
+//   for (int m=0; m< numberOfBins; m++) 
+// {
+//   Double_t xx_histo = h20.GetXaxis()->GetBinCenter(k);
+//   cout << "k  " << k << "xx_histo  "<< xx_histo << endl;
+//   Double_t yy_histo = h20.GetYaxis()->GetBinCenter(m);
+//   Double_t edep_histo=h20.GetBinContent(k, m);
+//   radius = sqrt(xx_histo*xx_histo+yy_histo*yy_histo); 
+
+//   if (radius != 0){
+//		      radInt = TMath::Nint(4*radius);
+//		      if ((radInt>0)&&(radInt<=400))
+//			{
+//			 EnergyMap[radInt]+= edep_histo;
+//			 Voxels[radInt]+= 1; //store the number of voxels 
+//				}
+//			}
+//}}
+//
+//std::cout << "Energy Map Complete" << std::endl;
+
+//Create Normalised Dose Map
+//std::cout << "The energy deposition at the reference point is " << EnergyMap[40] << std::endl;
+//Double_t tempNormValue = EnergyMap[40]/Voxels[40]; //this must be the dose in water keV/g
+//std::cout << "dose rate at normalisation pt" << tempNormValue << std::endl; 
+//Double_t EnergyDepNorm = EnergyMap[40] * 1.60218e-16 * 10 * 3.7e10 * 2.363 * 100 * 3600;
+//Double_t MassNorm = Voxels[40] * 0.001 *1000 ;
+//Double_t DoseRateNorm = EnergyDepNorm/MassNorm;
+//std::cout << "dose rate at normalisation pt in correct units" << DoseRateNorm << std::endl; 
+////value at 1cm, 90 degrees, the normalisation point
+//std::cout << "Dose rate ditribution (distances in cm)" << std::endl;
+
+//ofstream myfile;
+
+//myfile.open ("Kerma.txt");
+//
+//for (int i=0; i<=400; i++)
+//{
+// R = double(i)/40; //distance in CM!!!
+// if (Voxels[i]>0) normDose[i] = EnergyMap[i]/Voxels[i];///tempNormValue;
+ //   else normDose[i] = 0;
+//
+
+            
+// if (R>  0.05)
+// if (R>  2)
+//    {
+//    //cout << R << "     " << normDose[i] << endl;  
+//    myfile << R <<  "     " << normDose[i] << "\n";                     
 //    }
 //}
 
@@ -178,62 +184,69 @@ myfile.close();
 
 
 
+
+
+
+
 //******************** DOSE RATE AND GEOMETRY FUNCTION GL ******************************// 
 
-//Double_t EnergyMap[401][401]; //2D map of total energy in "radial distance (mm)" and "angle (degrees)"
-//Int_t Voxels[401][401]; //the number of voxels used to provide dose to each element of the energy map 
-//Double_t GL[401][401];
+Double_t EnergyMap[401][401]; //2D map of total energy in "radial distance (mm)" and "angle (degrees)"
+Int_t Voxels[401][401]; //the number of voxels used to provide dose to each element of the energy map 
+Double_t GL[401][401];
 
-//for (int i=0; i <401; i++)
-// {
-// for (int j=0; j<401; j++)
-//  {
-//   EnergyMap[i][j]=0.;
-//   Voxels[i][j]=0.;
-//}}
+for (int i=0; i <401; i++)
+ {
+ for (int j=0; j<401; j++)
+  {
+   EnergyMap[i][j]=0.;
+   Voxels[i][j]=0.;
+   GL[i][j]=0.;
+}}
 
 
-//for (int q=0; q< numberOfBins; q++)
-// {
-//   for (int w=0; w<numberOfBins; w++)
-// {
+for (int q=0; q< numberOfBins; q++)
+ {
+   for (int w=0; w<numberOfBins; w++)
+ {
    
-//   Double_t zz_geom_histo = hgeom.GetXaxis()->GetBinCenter(q);
-//   Double_t yy_geom_histo = hgeom.GetYaxis()->GetBinCenter(w);
-//   Double_t edep_histo    = hgeom.GetBinContent(q,w);
-//   radius = sqrt(zz_geom_histo*zz_geom_histo + yy_geom_histo*yy_geom_histo);
+   Double_t zz_geom_histo = hgeom.GetXaxis()->GetBinCenter(q);
+   Double_t yy_geom_histo = hgeom.GetYaxis()->GetBinCenter(w);
+   Double_t edep_histo    = hgeom.GetBinContent(q,w);
+   radius = sqrt(zz_geom_histo*zz_geom_histo + yy_geom_histo*yy_geom_histo);
 
-//   if (radius != 0){
-//     radZ = TMath::Nint(4*zz_geom_histo);
-//     radY = TMath::Nint(4*yy_geom_histo);
+   if (radius != 0){
+     radZ = TMath::Nint(4*zz_geom_histo); //get into number of voxels
+     radY = TMath::Nint(4*yy_geom_histo);
 
-//     radInt = TMath::Nint(4*radius);
-//     if ( (radZ>0)&&(radZ<=400) && (radY>0)&&(radY<=400) )
-//          {
-//          EnergyMap[radZ][radY] += edep_histo; //this will be to calculate the dose
-//          Voxels[radZ][radY] +=1
-//          }
-      
-//          theta = atan(yy_geom_histo,zz_geom_histo)/deg;
-//          theta_1 = atan(y,(z-L/2))/deg;
-//          theta_2 = atan(y,(z+L/2))/deg;
-//          beta = theta_2 - theta_1;
+     radInt = TMath::Nint(4*radius);
+     if ( (radZ>0)&&(radZ<=400) && (radY>0)&&(radY<=400) ) //we are in the top right quadrant
+        { 
+          theta = atan( yy_geom_histo/zz_geom_histo ) * 180 / Pi ;
+          theta_1 = atan( yy_geom_histo/(zz_geom_histo-L/2) ) * 180 / Pi ;
+          theta_2 = atan( yy_geom_histo/(zz_geom_histo+L/2) ) * 180 / Pi ;
+          beta = theta_2 - theta_1;
 
-//          if (theta == 0){
-//              GL_val = 1./(radInt_geom**2-L**2/4.);
-//              }
-//          else{
-//              GL_val = beta/(L*radInt_geom*sin(theta)); 
+          thetaInt = TMath::Nint(theta);
+  
+          EnergyMap[radInt][thetaInt] += edep_histo; //should this be += or just =? Probably += becuase of the Nint thing - more can be rounded to same place
+          Voxels[radInt][thetaInt] +=1; 
 
-//              if ((theta == 90)&&(radInt_geom==40)){
-//               GL_0 = GL_val //I dont think this is going to work - will have to get from the lookup table
-//               std::cout << "New value of GL_0 << std::endl; 
-//          GL[radZ][radY] = GL_val
-//        }
-//       }
-//     }
-    
+          if (thetaInt == 0){
+              GL_val = 1./(radInt**2-L**2/4.);
+              }
+          else{
+              GL_val = beta/(L*radInt*sin(theta)); 
+
+              if ((thetaInt == 90)&&(radInt==40)){
+               GL_0 = GL_val;
+               std::cout << "New value of GL_0" << std::endl; 
+                   }
+               }
+          GL[radInt][thetaInt] = GL_val; // this is = not += because it's not dose - it's just one value
+        }
+     }
+  }  
         
-//}}
+}
 
 } 

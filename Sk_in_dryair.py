@@ -1,7 +1,7 @@
 from scipy.optimize import curve_fit
 import matplotlib.pyplot as plt
 
-file_kerma = open("geant4_dose_280M.txt", "r")
+file_kerma = open("Kerma.txt", "r")
 y,K = [],[]
 
 for l in file_kerma:
