@@ -190,19 +190,23 @@ Double_t D_dot_0; // = ?? todo!
 
 //******************** DOSE RATE AND GEOMETRY FUNCTION GL ******************************// 
 
-Double_t EnergyMap[401][401]; //2D map of total energy in "radial distance (mm)" and "angle (degrees)"
-Int_t Voxels[401][401]; //the number of voxels used to provide dose to each element of the energy map 
-Double_t GL[401][401];
+Double_t EnergyMap[401][91]; //2D map of total energy in "radial distance (mm)" and "angle (degrees)"
+Int_t Voxels[401][91]; //the number of voxels used to provide dose to each element of the energy map 
+Double_t GL[401][91];
+Double_t Mass_water_voxel = 0.00025; //grams
+Double_t conv = 1.6022e-16 * 1e3 * 10 * 3.7e10 * 1 * 2.363 * 3600 * 100;//1.6022e-16 (J/kev) *1e3 (g/kg) * 10 Ci * 3.7e10 (Bq/Ci) * 1 (decay/s)/Bq * 2.363 photons/decay *3600 (s/h) = [Gy/h] * 100 = [cGy/h]
+
 
 for (int i=0; i <401; i++)
  {
- for (int j=0; j<401; j++)
+ for (int j=0; j<91; j++)
   {
    EnergyMap[i][j]=0.;
    Voxels[i][j]=0.;
    GL[i][j]=0.;
 }}
 
+std::cout << Voxels[200][450] <<std::endl;
 
 for (int q=0; q< numberOfBins; q++)
  {
@@ -219,34 +223,70 @@ for (int q=0; q< numberOfBins; q++)
      radY = TMath::Nint(4*yy_geom_histo);
 
      radInt = TMath::Nint(4*radius);
-     if ( (radZ>0)&&(radZ<=400) && (radY>0)&&(radY<=400) ) //we are in the top right quadrant
-        { 
-          theta = atan( yy_geom_histo/zz_geom_histo ) * 180 / Pi ;
-          theta_1 = atan( yy_geom_histo/(zz_geom_histo-L/2) ) * 180 / Pi ;
-          theta_2 = atan( yy_geom_histo/(zz_geom_histo+L/2) ) * 180 / Pi ;
-          beta = theta_2 - theta_1;
 
+     if ((yy_geom_histo>=0) && zz_geom_histo >= 0) //we are in the top right quadrant
+        {
+       if ( (radInt < 400) )
+        { 
+          theta = atan( yy_geom_histo/zz_geom_histo ) * 180. / Pi ;
+          theta_1 = atan( yy_geom_histo/(zz_geom_histo-L/2.) ) * 180. / Pi ;
+          theta_2 = atan( yy_geom_histo/(zz_geom_histo+L/2.) ) * 180. / Pi ;
+          beta = theta_2 - theta_1;
           thetaInt = TMath::Nint(theta);
-  
-          EnergyMap[radInt][thetaInt] += edep_histo; //should this be += or just =? Probably += becuase of the Nint thing - more can be rounded to same place
+          EnergyMap[radInt][thetaInt] += edep_histo; 
           Voxels[radInt][thetaInt] +=1; 
 
           if (thetaInt == 0){
-              GL_val = 1./(radInt**2-L**2/4.);
+              GL_val = 1./((double)radInt**2-L**2/4.);
+              //std::cout << "theta is zero and GL is   " << GL_val << std::endl;
               }
           else{
-              GL_val = beta/(L*radInt*sin(theta)); 
+              GL_val = beta/ ( L*(double)radInt*sin((double)thetaInt)); 
 
               if ((thetaInt == 90)&&(radInt==40)){
+               //std::cout <<radInt << std::endl;
                GL_0 = GL_val;
                std::cout << "New value of GL_0" << std::endl; 
                    }
                }
           GL[radInt][thetaInt] = GL_val; // this is = not += because it's not dose - it's just one value
+          //std::cout << "radius  " << radInt << ",  theta  " << thetaInt << ",   GL   " << GL_val << std::endl;
         }
      }
-  }  
+  } } 
         
 }
+std::cout << "GL filled" << std::endl;
+Double_t D_r0_theta0 = (EnergyMap[40][90]/(Voxels[40][90] * Mass_water_voxel) )* conv;
+std::cout << "Dose rate at norm pt   " << D_r0_theta0 << std::endl; //keV / g
+Double_t GL_r0_theta0 = GL[40][90];
+std::cout << "GL at norm pt   " << GL_r0_theta0 << std::endl; //keV / g
+
+Double_t D_dot[401][91];
+Double_t GL_norm[401][91];
+
+Double_t F_r_theta[401][91];
+Double_t gL_r[401];
+
+for (int i=0; i<401; i++)
+{
+ for (int j=0; j<91; j++)
+{
+
+ D_dot[i][j] = (EnergyMap[i][j]/(Voxels[i][j] * Mass_water_voxel) )* conv;
+ GL_norm[i][j] = (double)i*(double)i*GL[i][j] / GL_r0_theta0 ; //for plotting comparisons (Determination of the geometry function.pdf) 
+ } 
+}
+
+
+for (int i=0; i<401; i++)
+{
+ gL_r[i] = ( D_dot[i][90]/D_dot[40][90])*( GL[40][90] / GL[i][90]);
+ for (int j=0; j<91; j++)
+ {
+ F_r_theta[i][j] = ( D_dot[i][j] / D_dot[i][90] ) * ( GL[i][90] / GL[i][j] );
+ }
+}
+
 
 } 
