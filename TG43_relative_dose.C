@@ -229,24 +229,27 @@ for (int q=0; q< numberOfBins; q++)
        if ( (radInt < 400) )
         { 
           theta = atan( yy_geom_histo/zz_geom_histo ) * 180. / Pi ;
-          theta_1 = atan( yy_geom_histo/(zz_geom_histo-L/2.) ) * 180. / Pi ;
-          theta_2 = atan( yy_geom_histo/(zz_geom_histo+L/2.) ) * 180. / Pi ;
-          beta = theta_2 - theta_1;
+          //theta_1 = atan( yy_geom_histo/(zz_geom_histo-L/2.) ) * 180. / Pi ;
+          //theta_2 = atan( yy_geom_histo/(zz_geom_histo+L/2.) ) * 180. / Pi ;
+          theta_1 = atan( (zz_geom_histo-L/2.)/yy_geom_histo ) * 180. / Pi ; //why is it this way according to the paper?
+          theta_2 = atan( (zz_geom_histo+L/2.)/yy_geom_histo ) * 180. / Pi ;
+          beta = theta_2 - theta_1; // 90-theta1-(90-theta2)
+
           thetaInt = TMath::Nint(theta);
           EnergyMap[radInt][thetaInt] += edep_histo; 
-          Voxels[radInt][thetaInt] +=1; 
+          Voxels[radInt][thetaInt] +=1;
 
           if (thetaInt == 0){
-              GL_val = 1./((double)radInt**2-L**2/4.);
-              //std::cout << "theta is zero and GL is   " << GL_val << std::endl;
+              GL_val = 1./ ( (radInt/40.)**2-L**2/4.);
+              //std::cout << "theta is zero and GL*r^2 is   " << GL_val*radInt*radInt << "when r is   " << radInt/40. << std::endl;
               }
           else{
-              GL_val = beta/ ( L*(double)radInt*sin((double)thetaInt)); 
+              GL_val = beta/ ( L*(radInt/40.)*sin(thetaInt)); 
 
               if ((thetaInt == 90)&&(radInt==40)){
                //std::cout <<radInt << std::endl;
                GL_0 = GL_val;
-               std::cout << "New value of GL_0" << std::endl; 
+               std::cout << "New value of GL_0 is  " << GL_val << std::endl; 
                    }
                }
           GL[radInt][thetaInt] = GL_val; // this is = not += because it's not dose - it's just one value
@@ -268,13 +271,14 @@ Double_t GL_norm[401][91];
 Double_t F_r_theta[401][91];
 Double_t gL_r[401];
 
-for (int i=0; i<401; i++)
+for (int i=0; i<400; i++)
 {
  for (int j=0; j<91; j++)
 {
 
  D_dot[i][j] = (EnergyMap[i][j]/(Voxels[i][j] * Mass_water_voxel) )* conv;
- GL_norm[i][j] = (double)i*(double)i*GL[i][j] / GL_r0_theta0 ; //for plotting comparisons (Determination of the geometry function.pdf) 
+ GL_norm[i][j] = i/40.*i/40.*GL[i][j] / GL_r0_theta0 ; //for plotting comparisons (Determination of the geometry function.pdf) 
+ std::cout << i << "      " << j << "     " << GL_norm[i][j] << std::endl;
  } 
 }
 
