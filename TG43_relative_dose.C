@@ -12,40 +12,38 @@ TFile f("brachytherapy210601.root");
 Double_t L = 0.35; //seed length in cm
 Double_t normDose[401]; //Energy map divided by voxels used to make cell, normalised to energy deposition at 1cm, 90 degrees
 Double_t normDoseKERMA[1001]; //Energy map divided by voxels used to make cell, normalised to energy deposition at 1cm, 90 degrees
-Double_t GeomFunction[401]; //Geometry Function, normalised to the geometry function at the reference point
-Double_t GeometryFunctionZero;  //Geometry function at reference point, 1cm and 90 degrees
-Double_t beta;  //beta angle for Geometry Function calculation
+
 Double_t R;     //radial distance in cm
 Double_t RKERMA;     //radial distance in cm
-Double_t K;     //polar angle in radians
-Double_t Radial[401]; //radial dose function
+
 Double_t radius; //radius (mm)
 Double_t radiusKERMA; //radius (cm)
-Int_t radius_k_rounded; //radius (cm)
-Double_t radius_geom;
+
 Double_t theta;
 Double_t theta_1;
 Double_t theta_2;
+Double_t beta;  //beta angle for Geometry Function calculation
 
 Double_t Pi = 3.14159265;
 
 Double_t GL_val;
 Double_t GL_0=1;
 
-Int_t count_i;
-Double_t Ci=10.0;
 
 Int_t thetaInt;
 Int_t radInt; //nearest integer of radius (mm)
 Int_t radZ;
 Int_t radY;
+
 Int_t radIntKERMA; //nearest integer of radius (mm)
+
 Int_t numberOfBins=801;
 Int_t numberOfBinsKERMA=8001;
 
-Double_t Sk; // = ?? todo!
-Double_t D_dot_0; // = ?? todo!
+Double_t Sk = 36519.0; // [U] from Lopez Donaire and Alcalde
+Double_t Lambda;
 
+std::cout << "Have you edited the uncertainty params correctly?" << std::endl;
 //******************** GET RADIAL DOSE RATE ALONE ******************************// 
 
 //Double_t EnergyMap[401]; //2D map of total energy in "radial distance (mm)" and "angle (5 degrees)"
@@ -182,19 +180,37 @@ Double_t D_dot_0; // = ?? todo!
 //myfile.close();
 
 
-
-
-
-
-
-
 //******************** DOSE RATE AND GEOMETRY FUNCTION GL ******************************// 
 
 Double_t EnergyMap[401][91]; //2D map of total energy in "radial distance (mm)" and "angle (degrees)"
 Int_t Voxels[401][91]; //the number of voxels used to provide dose to each element of the energy map 
 Double_t GL[401][91];
 Double_t Mass_water_voxel = 0.00025; //grams
-Double_t conv = 1.6022e-16 * 1e3 * 10 * 3.7e10 * 1 * 2.363 * 3600 * 100;//1.6022e-16 (J/kev) *1e3 (g/kg) * 10 Ci * 3.7e10 (Bq/Ci) * 1 (decay/s)/Bq * 2.363 photons/decay *3600 (s/h) = [Gy/h] * 100 = [cGy/h]
+Double_t conv = 1e3 * 1.6022e-19 * 1e3 * 10 * 3.7e10 * 1 * 2.363 * 100 * 3600;//1.6022e-16 (J/kev) *1e3 (g/kg) * 10 Ci * 3.7e10 (Bq/Ci) * 1 (decay/s)/Bq * 2.363 photons/decay *3600 (s/h) = [Gy/h] * 100 = [cGy/h]
+
+//************ UNCERTAINTIES***********//
+
+Double_t Unc_D_dot[401][91];
+Double_t Unc_GL[401][91];
+Double_t Unc_gL[401];
+Double_t Unc_F[401][91];
+Double_t Unc_GL_norm[401][91];
+
+Double_t RMS_h_geom = 0.01;
+Double_t U_xsec = 0.02;
+Double_t U_I = 0.005;
+Double_t U_geom = 0.02;
+
+Double_t U_D_dot_factor = sqrt( RMS_h_geom*RMS_h_geom + U_xsec*U_xsec + U_I*U_I + U_geom*U_geom );
+Double_t U_Lambda_factor = sqrt(U_D_dot_factor*U_D_dot_factor + U_D_dot_factor*U_D_dot_factor);
+Double_t U_GL_factor = sqrt(RMS_h_geom*RMS_h_geom); //just uncertainty on the point itself
+Double_t U_gL_factor = sqrt( U_D_dot_factor*U_D_dot_factor + U_D_dot_factor*U_D_dot_factor + U_GL_factor*U_GL_factor + U_GL_factor*U_GL_factor);
+Double_t U_F_factor = sqrt( U_D_dot_factor*U_D_dot_factor + U_D_dot_factor*U_D_dot_factor + U_GL_factor*U_GL_factor + U_GL_factor*U_GL_factor);
+Double_t U_GL_norm_factor = sqrt(2*U_D_dot_factor*U_D_dot_factor + 2*U_GL_factor*U_GL_factor);
+
+std::cout << "Sk = " << Sk << " +/- " << U_D_dot_factor << " %" << std::endl;
+std::cout << "Lambda = " << Lambda << " +/- " <<  U_Lambda_factor << " %" << std::endl;
+//**************************************//
 
 
 for (int i=0; i <401; i++)
@@ -253,15 +269,19 @@ for (int q=0; q< numberOfBins; q++)
                    }
                }
           GL[radInt][thetaInt] = GL_val; // this is = not += because it's not dose - it's just one value
-          //std::cout << "radius  " << radInt << ",  theta  " << thetaInt << ",   GL   " << GL_val << std::endl;
+          Unc_GL[radInt][thetaInt] = GL_val*U_GL_factor; 
         }
      }
   } } 
         
 }
-std::cout << "GL filled" << std::endl;
+//std::cout << "GL filled" << std::endl;
 Double_t D_r0_theta0 = (EnergyMap[40][90]/(Voxels[40][90] * Mass_water_voxel) )* conv;
-std::cout << "Dose rate at norm pt   " << D_r0_theta0 << std::endl; //keV / g
+std::cout << "Dose rate at norm pt   " << D_r0_theta0 << std::endl; 
+
+Lambda = D_r0_theta0/Sk;
+std::cout << "Lambda is " << Lambda << " cGy/(hU)" << std::endl;
+
 Double_t GL_r0_theta0 = GL[40][90];
 std::cout << "GL at norm pt   " << GL_r0_theta0 << std::endl; //keV / g
 
@@ -271,14 +291,21 @@ Double_t GL_norm[401][91];
 Double_t F_r_theta[401][91];
 Double_t gL_r[401];
 
+
 for (int i=0; i<400; i++)
 {
  for (int j=0; j<91; j++)
 {
-
- D_dot[i][j] = (EnergyMap[i][j]/(Voxels[i][j] * Mass_water_voxel) )* conv;
+ if (Voxels[i][j] > 0){
+  D_dot[i][j] = (EnergyMap[i][j]/(Voxels[i][j] * Mass_water_voxel) )* conv;
+  Unc_D_dot[i][j] = (EnergyMap[i][j]/(Voxels[i][j] * Mass_water_voxel) )* conv *U_D_dot_factor;
+  }
+ else {
+  D_dot[i][j] = 0;
+  Unc_D_dot[i][j] = 0;
+  }
  GL_norm[i][j] = i/40.*i/40.*GL[i][j] / GL_r0_theta0 ; //for plotting comparisons (Determination of the geometry function.pdf) 
- std::cout << i << "      " << j << "     " << GL_norm[i][j] << std::endl;
+ Unc_GL_norm[i][j] = (i/40.*i/40.*GL[i][j] / GL_r0_theta0)*U_GL_norm_factor;
  } 
 }
 
@@ -286,11 +313,45 @@ for (int i=0; i<400; i++)
 for (int i=0; i<401; i++)
 {
  gL_r[i] = ( D_dot[i][90]/D_dot[40][90])*( GL[40][90] / GL[i][90]);
+ std::cout << i << "  " << gL_r[i] << std::endl; 
+ Unc_gL[i] = ( D_dot[i][90]/D_dot[40][90])*( GL[40][90] / GL[i][90])*U_gL_factor;
  for (int j=0; j<91; j++)
  {
  F_r_theta[i][j] = ( D_dot[i][j] / D_dot[i][90] ) * ( GL[i][90] / GL[i][j] );
+ Unc_F[i][j] = (( D_dot[i][j] / D_dot[i][90] ) * ( GL[i][90] / GL[i][j] )) * U_F_factor;
  }
 }
 
+ofstream myfile_dose;
+ofstream myfile_GL;
+ofstream myfile_gL;
+ofstream myfile_F;
+
+myfile_dose.open ("geant4_dose_with_theta.txt");
+myfile_GL.open ("GL_r_theta.txt");
+myfile_gL.open ("gL_r.txt");
+myfile_F.open ("F_r_theta.txt");
+
+for (int i=0; i<=400; i++)
+{
+ R = double(i)/40; //distance in CM!!!
+ myfile_gL << R <<  "     " <<  gL_r[i] <<  "     " <<  Unc_gL[i] << "\n";                     
+ for (int j=0; j<91; j++)
+ { 
+ if (R>  0.05)
+
+    {
+    //cout << R << "     " << normDose[i] << endl;  
+    myfile_dose << R <<  "     " << j << "     " << D_dot[i][j] <<  "     " << Unc_D_dot[i][j] <<  "\n";                     
+    myfile_GL << R <<  "     " << j << "     " << GL_norm[i][j] << "     " << Unc_GL_norm[i][j] <<    "\n";                     
+    myfile_F << R <<  "     " << j << "     " << F_r_theta[i][j] << "     " << Unc_F[i][j] <<     "\n";                     
+    }
+   }
+}
+
+myfile_dose.close();
+myfile_GL.close();
+myfile_F.close();
+myfile_gL.close();
 
 } 
