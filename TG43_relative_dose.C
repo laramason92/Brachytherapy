@@ -185,7 +185,7 @@ std::cout << "Have you edited the uncertainty params correctly?" << std::endl;
 Double_t EnergyMap[401][91]; //2D map of total energy in "radial distance (mm)" and "angle (degrees)"
 Int_t Voxels[401][91]; //the number of voxels used to provide dose to each element of the energy map 
 Double_t GL[401][91];
-Double_t Mass_water_voxel = 0.00025; //grams
+Double_t Mass_water_voxel = 10;// 0.00025 = .25mm^3, 1 = 1cm^3 - which is it??; //grams
 Double_t conv = 1e3 * 1.6022e-19 * 1e3 * 10 * 3.7e10 * 1 * 2.363 * 100 * 3600;//1.6022e-16 (J/kev) *1e3 (g/kg) * 10 Ci * 3.7e10 (Bq/Ci) * 1 (decay/s)/Bq * 2.363 photons/decay *3600 (s/h) = [Gy/h] * 100 = [cGy/h]
 
 //************ UNCERTAINTIES***********//
@@ -313,7 +313,7 @@ for (int i=0; i<400; i++)
 for (int i=0; i<401; i++)
 {
  gL_r[i] = ( D_dot[i][90]/D_dot[40][90])*( GL[40][90] / GL[i][90]);
- std::cout << i << "  " << gL_r[i] << std::endl; 
+ //std::cout << i << "  " << gL_r[i] << std::endl; 
  Unc_gL[i] = ( D_dot[i][90]/D_dot[40][90])*( GL[40][90] / GL[i][90])*U_gL_factor;
  for (int j=0; j<91; j++)
  {

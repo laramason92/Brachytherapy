@@ -16,8 +16,11 @@
 #/score/mesh/boxSize 10.0125 10.0125 0.0125 cm
 #/score/mesh/nBin 801 801 1
 # FOR XYZ PLANE
-/score/mesh/boxSize 10.0125 10.0125 10.0125 cm
-/score/mesh/nBin 801 801 801
+#/score/mesh/boxSize 10.0125 10.0125 10.0125 cm
+#/score/mesh/nBin 801 801 801
+#FOR YZ PLANE
+/score/mesh/boxSize 0.0125 10.0125 10.0125 cm
+/score/mesh/nBin 1 801 801
 /score/quantity/energyDeposit eDep
 
 #/score/quantity/doseDeposit doseDep
@@ -26,7 +29,7 @@
 /score/close
 #
 /score/list                                             
-/run/beamOn 1000000000
+/run/beamOn 280000000
 #1000000000
 #
 # Dump scores to a file
