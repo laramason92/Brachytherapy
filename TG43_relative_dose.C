@@ -255,7 +255,7 @@ for (int q=0; q< numberOfBins; q++)
           
           arg =   ( L * sin( atan( ( (radInt/40.)*sin(thetaInt*Pi/180.) )/( (radInt/40.)*cos(thetaInt*Pi/180.)-(L/2.) ))))/ (sqrt( ( (radInt/40.)*sin(thetaInt*Pi/180.))**2. + ( (radInt/40.)*cos(thetaInt*Pi/180.)+L/2.)**2) ) ;
           if ( (arg < -1)) {
-          std::cout << thetaInt << ", " << radInt/40. << ", "<< arg << std::endl;
+          //std::cout << thetaInt << ", " << radInt/40. << ", "<< arg << std::endl;
           arg = -1;
           }
           beta = asin(arg);
@@ -300,7 +300,7 @@ Double_t F_r_theta[401][91];
 Double_t gL_r[401];
 
 
-for (int i=0; i<400; i++)
+for (int i=0; i<401; i++)
 {
  for (int j=0; j<91; j++)
 {
@@ -320,19 +320,27 @@ for (int i=0; i<400; i++)
 }
 
 
-for (int i=0; i<401; i++)
+for (int i=0; i<400; i++)
 {
- gL_r[i] = ( D_dot[i][90]/D_dot[40][90])*( GL[40][90] / GL[i][90]);
- //std::cout << i << "  " << gL_r[i] << std::endl; 
+ //std::cout << i << std::endl;
+ gL_r[i] = ( D_dot[i][90] * GL[40][90]/Voxels[40][90])/(D_dot[40][90]*(GL[i][90]/Voxels[i][90]));//something happens at 7.5cm?! Dunno wot
  Unc_gL[i] = ( D_dot[i][90]/D_dot[40][90])*( GL[40][90] / GL[i][90])*U_gL_factor;
  for (int j=0; j<91; j++)
  {
- F_r_theta[i][j] = ( D_dot[i][j] / D_dot[i][90] ) * ( GL[i][90] / GL[i][j] );
+ if ( (D_dot[i][90] >0) && ( GL[i][j] >0 )){ 
+ F_r_theta[i][j] = ( D_dot[i][j] / D_dot[i][90] ) * ( (GL[i][90]/Voxels[i][90]) / (GL[i][j]/Voxels[i][j]) );
  Unc_F[i][j] = (( D_dot[i][j] / D_dot[i][90] ) * ( GL[i][90] / GL[i][j] )) * U_F_factor;
+ }
+ else{
+ F_r_theta[i][j] = 0;
+ Unc_F[i][j] = 0;
+ }
  }
 }
 
 ofstream myfile_dose;
+ofstream myfile_dose_val;
+
 ofstream myfile_GL_0;
 ofstream myfile_GL_10;
 ofstream myfile_GL_20;
@@ -343,11 +351,23 @@ ofstream myfile_GL_60;
 ofstream myfile_GL_70;
 ofstream myfile_GL_80;
 ofstream myfile_GL_90;
+
 ofstream myfile_gL;
-ofstream myfile_F;
-ofstream myfile_dose_val;
+
+ofstream myfile_F_0;
+ofstream myfile_F_10;
+ofstream myfile_F_20;
+ofstream myfile_F_30;
+ofstream myfile_F_40;
+ofstream myfile_F_50;
+ofstream myfile_F_60;
+ofstream myfile_F_70;
+ofstream myfile_F_80;
+ofstream myfile_F_90;
 
 myfile_dose.open ("geant4_dose_with_theta.txt");
+myfile_dose_val.open("geant4_dose.txt");
+
 myfile_GL_0.open ("GL_r_theta_0.txt");
 myfile_GL_10.open ("GL_r_theta_10.txt");
 myfile_GL_20.open ("GL_r_theta_20.txt");
@@ -359,14 +379,26 @@ myfile_GL_70.open ("GL_r_theta_70.txt");
 myfile_GL_80.open ("GL_r_theta_80.txt");
 myfile_GL_90.open ("GL_r_theta_90.txt");
 myfile_gL.open ("gL_r.txt");
-myfile_F.open ("F_r_theta.txt");
-myfile_dose_val.open("geant4_dose.txt");
+
+myfile_F_0.open ("F_r_theta_0.txt");
+myfile_F_10.open ("F_r_theta_10.txt");
+myfile_F_20.open ("F_r_theta_20.txt");
+myfile_F_30.open ("F_r_theta_30.txt");
+myfile_F_40.open ("F_r_theta_40.txt");
+myfile_F_50.open ("F_r_theta_50.txt");
+myfile_F_60.open ("F_r_theta_60.txt");
+myfile_F_70.open ("F_r_theta_70.txt");
+myfile_F_80.open ("F_r_theta_80.txt");
+myfile_F_90.open ("F_r_theta_90.txt");
 
 for (int i=0; i<=400; i++)
 {
  R = double(i)/40; //distance in CM!!!
+
  myfile_gL << R <<  "     " <<  gL_r[i] <<  "     " <<  Unc_gL[i] << "\n";                     
+
  myfile_dose_val << R <<  "     " << D_dot[i][90]/D_dot[40][90] <<  "\n";                     
+
  myfile_GL_0 << R <<  "     " << GL_norm[i][0] << "     " << Unc_GL_norm[i][0] <<    "\n";                     
  myfile_GL_10 << R <<  "     " << GL_norm[i][10] << "     " << Unc_GL_norm[i][10] <<    "\n";                     
  myfile_GL_20 << R <<  "     " << GL_norm[i][20] << "     " << Unc_GL_norm[i][20] <<    "\n";                     
@@ -377,14 +409,23 @@ for (int i=0; i<=400; i++)
  myfile_GL_70 << R <<  "     " << GL_norm[i][70] << "     " << Unc_GL_norm[i][70] <<    "\n";                     
  myfile_GL_80 << R <<  "     " << GL_norm[i][80] << "     " << Unc_GL_norm[i][80] <<    "\n";                     
  myfile_GL_90 << R <<  "     " << GL_norm[i][90] << "     " << Unc_GL_norm[i][90] <<    "\n";                     
+
+ myfile_F_0 << R <<  "    " << F_r_theta[i][0] << "     " << Unc_F[i][0] <<     "\n";                     
+ myfile_F_10 << R <<  "    " << F_r_theta[i][10] << "     " << Unc_F[i][10] <<     "\n";                     
+ myfile_F_20 << R <<  "    " << F_r_theta[i][20] << "     " << Unc_F[i][20] <<     "\n";                     
+ myfile_F_30 << R <<  "    " << F_r_theta[i][30] << "     " << Unc_F[i][30] <<     "\n";                     
+ myfile_F_40 << R <<  "    " << F_r_theta[i][40] << "     " << Unc_F[i][40] <<     "\n";                     
+ myfile_F_50 << R <<  "    " << F_r_theta[i][50] << "     " << Unc_F[i][50] <<     "\n";                     
+ myfile_F_60 << R <<  "    " << F_r_theta[i][60] << "     " << Unc_F[i][60] <<     "\n";                     
+ myfile_F_70 << R <<  "    " << F_r_theta[i][70] << "     " << Unc_F[i][70] <<     "\n";                     
+ myfile_F_80 << R <<  "    " << F_r_theta[i][80] << "     " << Unc_F[i][80] <<     "\n";                     
+ myfile_F_90 << R <<  "    " << F_r_theta[i][90] << "     " << Unc_F[i][90] <<     "\n";                     
+
  for (int j=0; j<91; j++)
  { 
  if (R>  0.05)
-
     {
-    //cout << R << "     " << normDose[i] << endl;  
     myfile_dose << R <<  "     " << j << "     " << D_dot[i][j] <<  "     " << Unc_D_dot[i][j] <<  "\n";                     
-    myfile_F << R <<  "     " << j << "     " << F_r_theta[i][j] << "     " << Unc_F[i][j] <<     "\n";                     
     }
    }
 }
@@ -400,7 +441,18 @@ myfile_GL_60.close();
 myfile_GL_70.close();
 myfile_GL_80.close();
 myfile_GL_90.close();
-myfile_F.close();
+
+myfile_F_0.close();
+myfile_F_10.close();
+myfile_F_20.close();
+myfile_F_30.close();
+myfile_F_40.close();
+myfile_F_50.close();
+myfile_F_60.close();
+myfile_F_70.close();
+myfile_F_80.close();
+myfile_F_90.close();
+
 myfile_gL.close();
 myfile_dose_val.close();
 } 
