@@ -12,27 +12,23 @@
 /score/create/boxMesh boxMesh_4
 #
 # the voxels are 0.25 mm wide.
-# FOR XY PLANE
-#/score/mesh/boxSize 10.0125 10.0125 0.0125 cm
-#/score/mesh/nBin 801 801 1
-# FOR XYZ PLANE
-#/score/mesh/boxSize 10.0125 10.0125 10.0125 cm
-#/score/mesh/nBin 801 801 801
-#FOR YZ PLANE
-/score/mesh/boxSize 0.0125 10.0125 10.0125 cm
-/score/mesh/nBin 1 801 801
+/score/mesh/boxSize 10.0125 10.0125 0.0125 cm
+/score/mesh/nBin 801 801 1
 /score/quantity/energyDeposit eDep
-
-#/score/quantity/doseDeposit doseDep
-
 #
 /score/close
 #
 /score/list                                             
-#/run/beamOn 100000000000
-/run/beamOn 1000000000
-/run/beamOn 1000000000
-/run/beamOn 1000000000
+
+# 0 position
+/run/beamOn 5
+
+#next
+/gammamed/detector/SourceTranslationX 1. mm
+/gammamed/detector/SourceTranslationY 1. mm
+/gammamed/detector/SourceTranslationZ 1. mm
+
+/run/beamOn 5
 #
 # Dump scores to a file
 #

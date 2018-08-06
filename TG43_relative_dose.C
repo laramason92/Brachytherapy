@@ -6,7 +6,7 @@
 
 gROOT -> Reset();
 //TFile f("brachytherapy.root");
-TFile f("brachytherapy210601.root");
+TFile f(" 260601brachytherapy.root");
 
 //******************** DEFINITIONS ******************************// 					     
 Double_t L = 0.35; //seed length in cm
@@ -185,7 +185,7 @@ std::cout << "Have you edited the uncertainty params correctly?" << std::endl;
 Double_t EnergyMap[401][91]; //2D map of total energy in "radial distance (mm)" and "angle (degrees)"
 Int_t Voxels[401][91]; //the number of voxels used to provide dose to each element of the energy map 
 Double_t GL[401][91];
-Double_t Mass_water_voxel = 10;// 0.00025 = .25mm^3, 1 = 1cm^3 - which is it??; //grams
+Double_t Mass_water_voxel = 0.00025;// = .25mm^3, 1 = 1cm^3 - which is it??; //grams
 Double_t conv = 1e3 * 1.6022e-19 * 1e3 * 10 * 3.7e10 * 1 * 2.363 * 100 * 3600;//1.6022e-16 (J/kev) *1e3 (g/kg) * 10 Ci * 3.7e10 (Bq/Ci) * 1 (decay/s)/Bq * 2.363 photons/decay *3600 (s/h) = [Gy/h] * 100 = [cGy/h]
 
 //************ UNCERTAINTIES***********//
@@ -326,16 +326,19 @@ ofstream myfile_dose;
 ofstream myfile_GL;
 ofstream myfile_gL;
 ofstream myfile_F;
+ofstream myfile_dose_val;
 
 myfile_dose.open ("geant4_dose_with_theta.txt");
 myfile_GL.open ("GL_r_theta.txt");
 myfile_gL.open ("gL_r.txt");
 myfile_F.open ("F_r_theta.txt");
+myfile_dose_val.open("geant4_dose.txt");
 
 for (int i=0; i<=400; i++)
 {
  R = double(i)/40; //distance in CM!!!
  myfile_gL << R <<  "     " <<  gL_r[i] <<  "     " <<  Unc_gL[i] << "\n";                     
+ myfile_dose_val << R <<  "     " << D_dot[i][90]/D_dot[40][90] <<  "\n";                     
  for (int j=0; j<91; j++)
  { 
  if (R>  0.05)
@@ -353,5 +356,5 @@ myfile_dose.close();
 myfile_GL.close();
 myfile_F.close();
 myfile_gL.close();
-
+myfile_dose_val.close();
 } 
