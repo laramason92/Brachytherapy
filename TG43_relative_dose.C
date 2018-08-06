@@ -6,7 +6,7 @@
 
 gROOT -> Reset();
 //TFile f("brachytherapy.root");
-TFile f(" 260601brachytherapy.root");
+TFile f(" brachytherapy0608.root");
 
 //******************** DEFINITIONS ******************************// 					     
 Double_t L = 0.35; //seed length in cm
@@ -23,6 +23,7 @@ Double_t theta;
 Double_t theta_1;
 Double_t theta_2;
 Double_t beta;  //beta angle for Geometry Function calculation
+Double_t arg;
 
 Double_t Pi = 3.14159265;
 
@@ -231,45 +232,52 @@ for (int q=0; q< numberOfBins; q++)
    
    Double_t zz_geom_histo = hgeom.GetXaxis()->GetBinCenter(q);
    Double_t yy_geom_histo = hgeom.GetYaxis()->GetBinCenter(w);
-   Double_t edep_histo    = hgeom.GetBinContent(q,w);
+   Double_t edep_histo    = hgeom.GetBinContent(q,w); //get the energy
    radius = sqrt(zz_geom_histo*zz_geom_histo + yy_geom_histo*yy_geom_histo);
 
    if (radius != 0){
-     radZ = TMath::Nint(4*zz_geom_histo); //get into number of voxels
-     radY = TMath::Nint(4*yy_geom_histo);
+     //radZ = TMath::Nint(4*zz_geom_histo); //get number of voxels
+     //radY = TMath::Nint(4*yy_geom_histo);
 
      radInt = TMath::Nint(4*radius);
 
      if ((yy_geom_histo>=0) && zz_geom_histo >= 0) //we are in the top right quadrant
         {
-       if ( (radInt < 400) )
+       if ( (radInt < 400) ) //four voxels per mm, so this is between 0 and 10 cm
         { 
           theta = atan( yy_geom_histo/zz_geom_histo ) * 180. / Pi ;
-          //theta_1 = atan( yy_geom_histo/(zz_geom_histo-L/2.) ) * 180. / Pi ;
-          //theta_2 = atan( yy_geom_histo/(zz_geom_histo+L/2.) ) * 180. / Pi ;
-          theta_1 = atan( (zz_geom_histo-L/2.)/yy_geom_histo ) * 180. / Pi ; //why is it this way according to the paper?
-          theta_2 = atan( (zz_geom_histo+L/2.)/yy_geom_histo ) * 180. / Pi ;
-          beta = theta_2 - theta_1; // 90-theta1-(90-theta2)
+          //theta = atan( yy_geom_histo/zz_geom_histo );// * 180. / Pi ;
+          theta_1 = atan( yy_geom_histo/(zz_geom_histo-L/2.) ) * 180. / Pi ; //Geometry function of a linear brachytherapy source King and Anderson
+          theta_2 = atan( yy_geom_histo/(zz_geom_histo+L/2.) ) * 180. / Pi ;
+          //beta = theta_2 - theta_1; // 90-theta1-(90-theta2)
 
-          thetaInt = TMath::Nint(theta);
+          thetaInt = TMath::Nint(theta); //our mesh is in 1 degree and 1mm blocks
+          
+          arg =   ( L * sin( atan( ( (radInt/40.)*sin(thetaInt*Pi/180.) )/( (radInt/40.)*cos(thetaInt*Pi/180.)-(L/2.) ))))/ (sqrt( ( (radInt/40.)*sin(thetaInt*Pi/180.))**2. + ( (radInt/40.)*cos(thetaInt*Pi/180.)+L/2.)**2) ) ;
+          if ( (arg < -1)) {
+          std::cout << thetaInt << ", " << radInt/40. << ", "<< arg << std::endl;
+          arg = -1;
+          }
+          beta = asin(arg);
+
           EnergyMap[radInt][thetaInt] += edep_histo; 
-          Voxels[radInt][thetaInt] +=1;
+          Voxels[radInt][thetaInt] +=1; //how many times did we add to this coordinate - so essentially we are taking the average of this many energy depositions in this little square to get the energy deposition at this point 
 
           if (thetaInt == 0){
-              GL_val = 1./ ( (radInt/40.)**2-L**2/4.);
+              GL_val = fabs(1./ ( (radInt/40.)**2-L**2/4.)); //radInt in cm
               //std::cout << "theta is zero and GL*r^2 is   " << GL_val*radInt*radInt << "when r is   " << radInt/40. << std::endl;
               }
           else{
-              GL_val = beta/ ( L*(radInt/40.)*sin(thetaInt)); 
+              GL_val = fabs(beta/ ( L*(radInt/40.)*sin(thetaInt*Pi/180.))); 
 
+              //std::cout << "r = " << radInt/40. << ", " << "theta = " << thetaInt<< ", " << "GL = "<< GL_val << std::endl;
               if ((thetaInt == 90)&&(radInt==40)){
-               //std::cout <<radInt << std::endl;
                GL_0 = GL_val;
                std::cout << "New value of GL_0 is  " << GL_val << std::endl; 
                    }
                }
-          GL[radInt][thetaInt] = GL_val; // this is = not += because it's not dose - it's just one value
-          Unc_GL[radInt][thetaInt] = GL_val*U_GL_factor; 
+          GL[radInt][thetaInt] += GL_val; // this is = not += because it's not dose - it's just one value
+          Unc_GL[radInt][thetaInt] += GL_val*U_GL_factor; 
         }
      }
   } } 
@@ -282,7 +290,7 @@ std::cout << "Dose rate at norm pt   " << D_r0_theta0 << std::endl;
 Lambda = D_r0_theta0/Sk;
 std::cout << "Lambda is " << Lambda << " cGy/(hU)" << std::endl;
 
-Double_t GL_r0_theta0 = GL[40][90];
+Double_t GL_r0_theta0 = GL[40][90]/Voxels[40][90];
 std::cout << "GL at norm pt   " << GL_r0_theta0 << std::endl; //keV / g
 
 Double_t D_dot[401][91];
@@ -299,13 +307,15 @@ for (int i=0; i<400; i++)
  if (Voxels[i][j] > 0){
   D_dot[i][j] = (EnergyMap[i][j]/(Voxels[i][j] * Mass_water_voxel) )* conv;
   Unc_D_dot[i][j] = (EnergyMap[i][j]/(Voxels[i][j] * Mass_water_voxel) )* conv *U_D_dot_factor;
+  GL_norm[i][j] = i/40.*i/40.*(GL[i][j]/Voxels[i][j]) / GL_r0_theta0 ; //for plotting comparisons (Determination of the geometry function.pdf) 
+  Unc_GL_norm[i][j] = (i/40.*i/40.*(GL[i][j]/Voxels[i][j])  / GL_r0_theta0)*U_GL_norm_factor;
   }
  else {
   D_dot[i][j] = 0;
   Unc_D_dot[i][j] = 0;
+  GL_norm[i][j] = 0;
+  Unc_GL_norm[i][j] = 0; 
   }
- GL_norm[i][j] = i/40.*i/40.*GL[i][j] / GL_r0_theta0 ; //for plotting comparisons (Determination of the geometry function.pdf) 
- Unc_GL_norm[i][j] = (i/40.*i/40.*GL[i][j] / GL_r0_theta0)*U_GL_norm_factor;
  } 
 }
 
@@ -323,13 +333,31 @@ for (int i=0; i<401; i++)
 }
 
 ofstream myfile_dose;
-ofstream myfile_GL;
+ofstream myfile_GL_0;
+ofstream myfile_GL_10;
+ofstream myfile_GL_20;
+ofstream myfile_GL_30;
+ofstream myfile_GL_40;
+ofstream myfile_GL_50;
+ofstream myfile_GL_60;
+ofstream myfile_GL_70;
+ofstream myfile_GL_80;
+ofstream myfile_GL_90;
 ofstream myfile_gL;
 ofstream myfile_F;
 ofstream myfile_dose_val;
 
 myfile_dose.open ("geant4_dose_with_theta.txt");
-myfile_GL.open ("GL_r_theta.txt");
+myfile_GL_0.open ("GL_r_theta_0.txt");
+myfile_GL_10.open ("GL_r_theta_10.txt");
+myfile_GL_20.open ("GL_r_theta_20.txt");
+myfile_GL_30.open ("GL_r_theta_30.txt");
+myfile_GL_40.open ("GL_r_theta_40.txt");
+myfile_GL_50.open ("GL_r_theta_50.txt");
+myfile_GL_60.open ("GL_r_theta_60.txt");
+myfile_GL_70.open ("GL_r_theta_70.txt");
+myfile_GL_80.open ("GL_r_theta_80.txt");
+myfile_GL_90.open ("GL_r_theta_90.txt");
 myfile_gL.open ("gL_r.txt");
 myfile_F.open ("F_r_theta.txt");
 myfile_dose_val.open("geant4_dose.txt");
@@ -339,6 +367,16 @@ for (int i=0; i<=400; i++)
  R = double(i)/40; //distance in CM!!!
  myfile_gL << R <<  "     " <<  gL_r[i] <<  "     " <<  Unc_gL[i] << "\n";                     
  myfile_dose_val << R <<  "     " << D_dot[i][90]/D_dot[40][90] <<  "\n";                     
+ myfile_GL_0 << R <<  "     " << GL_norm[i][0] << "     " << Unc_GL_norm[i][0] <<    "\n";                     
+ myfile_GL_10 << R <<  "     " << GL_norm[i][10] << "     " << Unc_GL_norm[i][10] <<    "\n";                     
+ myfile_GL_20 << R <<  "     " << GL_norm[i][20] << "     " << Unc_GL_norm[i][20] <<    "\n";                     
+ myfile_GL_30 << R <<  "     " << GL_norm[i][30] << "     " << Unc_GL_norm[i][30] <<    "\n";                     
+ myfile_GL_40 << R <<  "     " << GL_norm[i][40] << "     " << Unc_GL_norm[i][40] <<    "\n";                     
+ myfile_GL_50 << R <<  "     " << GL_norm[i][50] << "     " << Unc_GL_norm[i][50] <<    "\n";                     
+ myfile_GL_60 << R <<  "     " << GL_norm[i][60] << "     " << Unc_GL_norm[i][60] <<    "\n";                     
+ myfile_GL_70 << R <<  "     " << GL_norm[i][70] << "     " << Unc_GL_norm[i][70] <<    "\n";                     
+ myfile_GL_80 << R <<  "     " << GL_norm[i][80] << "     " << Unc_GL_norm[i][80] <<    "\n";                     
+ myfile_GL_90 << R <<  "     " << GL_norm[i][90] << "     " << Unc_GL_norm[i][90] <<    "\n";                     
  for (int j=0; j<91; j++)
  { 
  if (R>  0.05)
@@ -346,14 +384,22 @@ for (int i=0; i<=400; i++)
     {
     //cout << R << "     " << normDose[i] << endl;  
     myfile_dose << R <<  "     " << j << "     " << D_dot[i][j] <<  "     " << Unc_D_dot[i][j] <<  "\n";                     
-    myfile_GL << R <<  "     " << j << "     " << GL_norm[i][j] << "     " << Unc_GL_norm[i][j] <<    "\n";                     
     myfile_F << R <<  "     " << j << "     " << F_r_theta[i][j] << "     " << Unc_F[i][j] <<     "\n";                     
     }
    }
 }
 
 myfile_dose.close();
-myfile_GL.close();
+myfile_GL_0.close();
+myfile_GL_10.close();
+myfile_GL_20.close();
+myfile_GL_30.close();
+myfile_GL_40.close();
+myfile_GL_50.close();
+myfile_GL_60.close();
+myfile_GL_70.close();
+myfile_GL_80.close();
+myfile_GL_90.close();
 myfile_F.close();
 myfile_gL.close();
 myfile_dose_val.close();
