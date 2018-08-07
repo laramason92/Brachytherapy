@@ -46,7 +46,38 @@ U_F_70 = []
 U_F_80 = []
 U_F_90 = []
 
+ref_file_F_0 = open("Ballester_F_theta_0.txt", "r")
+ref_file_F_10 = open("Ballester_F_theta_10.txt", "r")
+ref_file_F_20 = open("Ballester_F_theta_20.txt", "r")
+ref_file_F_30 = open("Ballester_F_theta_30.txt", "r")
+ref_file_F_40 = open("Ballester_F_theta_40.txt", "r")
+ref_file_F_50 = open("Ballester_F_theta_50.txt", "r")
+ref_file_F_60 = open("Ballester_F_theta_60.txt", "r")
+ref_file_F_70 = open("Ballester_F_theta_70.txt", "r")
+ref_file_F_80 = open("Ballester_F_theta_80.txt", "r")
+ref_file_F_90 = open("Ballester_F_theta_90.txt", "r")
 
+ref_r_F_0 = []
+ref_r_F_10 = []
+ref_r_F_20 = []
+ref_r_F_30 = []
+ref_r_F_40 = []
+ref_r_F_50 = []
+ref_r_F_60 = []
+ref_r_F_70 = []
+ref_r_F_80 = []
+ref_r_F_90 = []
+
+ref_F_0 = []
+ref_F_10 = []
+ref_F_20 = []
+ref_F_30 = []
+ref_F_40 = []
+ref_F_50 = []
+ref_F_60 = []
+ref_F_70 = []
+ref_F_80 = []
+ref_F_90 = []
 
 #************ theta = 0 ******************
 for l in file_F_0:
@@ -79,11 +110,20 @@ for m in range(len(F_rounded_0)):
   F_plot_err_0[m] = F_rounded_err_0[m]/bins_0[m]
   r_0[m] = float(r_0[m])
 
+for l in ref_file_F_0:
+    row = l.split()
+
+    ref_r_F_0.append(float(row[0])) #/10 to get to cm
+    ref_F_0.append(float(row[1]))
+
 #print r_0
 #print F_plot_0
 #print F_plot_err
 
 plt.errorbar(r_0,F_plot_0,yerr=F_plot_err_0, color='red', ls='--', marker='o', capsize=5, capthick=1, ecolor='red')
+plt.plot(ref_r_F_0, ref_F_0,color='black', marker='o', linestyle='dashed')
+#plt.xlim([0.4,10])
+plt.ylim([0,3.5])
 plt.show()
 
 
@@ -115,10 +155,20 @@ for m in range(len(F_rounded_10)):
   F_plot_10[m] = F_rounded_10[m]/bins_10[m]
   F_plot_err_10[m] = F_rounded_err_10[m]/bins_10[m]
   r_10[m] = float(r_10[m])
+ 
+for l in ref_file_F_10:
+    row = l.split()
+
+    ref_r_F_10.append(float(row[0])) #/10 to get to cm
+    ref_F_10.append(float(row[1]))
+
 
 #print F_plot_10
 plt.errorbar(r_10,F_plot_10,yerr=F_plot_err_10, color='red', ls='--', marker='o', capsize=5, capthick=1, ecolor='red')
-#plt.show()
+plt.plot(ref_r_F_10, ref_F_10,color='black', marker='o', linestyle='dashed')
+#plt.xlim([0.4,10])
+plt.ylim([0,3.5])
+plt.show()
 
 
 #************ theta = 20 ******************
@@ -150,9 +200,19 @@ for m in range(len(F_rounded_20)):
   F_plot_err_20[m] = F_rounded_err_20[m]/bins_20[m]
   r_20[m] = float(r_20[m])
 
+for l in ref_file_F_20:
+    row = l.split()
+
+    ref_r_F_20.append(float(row[0])) #/10 to get to cm
+    ref_F_20.append(float(row[1]))
+
+
 #print F_plot_20
 plt.errorbar(r_20,F_plot_20,yerr=F_plot_err_20, color='red', ls='--', marker='o', capsize=5, capthick=1, ecolor='red')
-#plt.show()
+plt.plot(ref_r_F_20, ref_F_20,color='black', marker='o', linestyle='dashed')
+#plt.xlim([0.4,10])
+plt.ylim([0,3.5])
+plt.show()
 
 
 #************ theta = 30 ******************
@@ -184,9 +244,19 @@ for m in range(len(F_rounded_30)):
   F_plot_err_30[m] = F_rounded_err_30[m]/bins_30[m]
   r_30[m] = float(r_30[m])
 
+for l in ref_file_F_30:
+    row = l.split()
+
+    ref_r_F_30.append(float(row[0])) #/10 to get to cm
+    ref_F_30.append(float(row[1]))
+
+
 print F_plot_30
 plt.errorbar(r_30,F_plot_30,yerr=F_plot_err_30, color='red', ls='--', marker='o', capsize=5, capthick=1, ecolor='red')
-#plt.show()
+plt.plot(ref_r_F_30, ref_F_30,color='black', marker='o', linestyle='dashed')
+#plt.xlim([0.4,10])
+plt.ylim([0,3.5])
+plt.show()
 
 
 #************ theta = 40 ******************
@@ -218,9 +288,19 @@ for m in range(len(F_rounded_40)):
   F_plot_err_40[m] = F_rounded_err_40[m]/bins_40[m]
   r_40[m] = float(r_40[m])
 
+for l in ref_file_F_40:
+    row = l.split()
+
+    ref_r_F_40.append(float(row[0])) #/10 to get to cm
+    ref_F_40.append(float(row[1]))
+
+
 print F_plot_40
 plt.errorbar(r_40,F_plot_40,yerr=F_plot_err_40, color='red', ls='--', marker='o', capsize=5, capthick=1, ecolor='red')
-#plt.show()
+plt.plot(ref_r_F_40, ref_F_40,color='black', marker='o', linestyle='dashed')
+#plt.xlim([0.4,10])
+plt.ylim([0,3.5])
+plt.show()
 
 
 
@@ -253,9 +333,19 @@ for m in range(len(F_rounded_50)):
   F_plot_err_50[m] = F_rounded_err_50[m]/bins_50[m]
   r_50[m] = float(r_50[m])
 
+for l in ref_file_F_50:
+    row = l.split()
+
+    ref_r_F_50.append(float(row[0])) #/10 to get to cm
+    ref_F_50.append(float(row[1]))
+
+
 print F_plot_50
 plt.errorbar(r_50,F_plot_50,yerr=F_plot_err_50, color='red', ls='--', marker='o', capsize=5, capthick=1, ecolor='red')
-#plt.show()
+plt.plot(ref_r_F_50, ref_F_50,color='black', marker='o', linestyle='dashed')
+#plt.xlim([0.4,10])
+plt.ylim([0,3.5])
+plt.show()
 
 
 #************ theta = 60 ******************
@@ -287,9 +377,19 @@ for m in range(len(F_rounded_60)):
   F_plot_err_60[m] = F_rounded_err_60[m]/bins_60[m]
   r_60[m] = float(r_60[m])
 
+for l in ref_file_F_60:
+    row = l.split()
+
+    ref_r_F_60.append(float(row[0])) #/10 to get to cm
+    ref_F_60.append(float(row[1]))
+
+
 print F_plot_60
 plt.errorbar(r_60,F_plot_60,yerr=F_plot_err_60, color='red', ls='--', marker='o', capsize=5, capthick=1, ecolor='red')
-#plt.show()
+plt.plot(ref_r_F_60, ref_F_60,color='black', marker='o', linestyle='dashed')
+#plt.xlim([0.4,10])
+plt.ylim([0,3.5])
+plt.show()
 
 
 #************ theta = 70 ******************
@@ -321,9 +421,19 @@ for m in range(len(F_rounded_70)):
   F_plot_err_70[m] = F_rounded_err_70[m]/bins_70[m]
   r_70[m] = float(r_70[m])
 
+for l in ref_file_F_70:
+    row = l.split()
+
+    ref_r_F_70.append(float(row[0])) #/10 to get to cm
+    ref_F_70.append(float(row[1]))
+
+
 print F_plot_70
 plt.errorbar(r_70,F_plot_70,yerr=F_plot_err_70, color='red', ls='--', marker='o', capsize=5, capthick=1, ecolor='red')
-#plt.show()
+plt.plot(ref_r_F_70, ref_F_70,color='black', marker='o', linestyle='dashed')
+#plt.xlim([0.4,10])
+plt.ylim([0,3.5])
+plt.show()
 
 
 #************ theta = 80 ******************
@@ -355,9 +465,19 @@ for m in range(len(F_rounded_80)):
   F_plot_err_80[m] = F_rounded_err_80[m]/bins_80[m]
   r_80[m] = float(r_80[m])
 
+for l in ref_file_F_80:
+    row = l.split()
+
+    ref_r_F_80.append(float(row[0])) #/10 to get to cm
+    ref_F_80.append(float(row[1]))
+
+
 print F_plot_80
 plt.errorbar(r_80,F_plot_80,yerr=F_plot_err_80, color='red', ls='--', marker='o', capsize=5, capthick=1, ecolor='red')
-#plt.show()
+plt.plot(ref_r_F_80, ref_F_80,color='black', marker='o', linestyle='dashed')
+#plt.xlim([0.4,10])
+plt.ylim([0,3.5])
+plt.show()
 
 
 #************ theta = 90 ******************
@@ -389,6 +509,16 @@ for m in range(len(F_rounded_90)):
   F_plot_err_90[m] = F_rounded_err_90[m]/bins_90[m]
   r_90[m] = float(r_90[m])
 
+for l in ref_file_F_90:
+    row = l.split()
+
+    ref_r_F_90.append(float(row[0])) #/10 to get to cm
+    ref_F_90.append(float(row[1]))
+
+
 print F_plot_90
 plt.errorbar(r_90,F_plot_90,yerr=F_plot_err_90, color='red', ls='--', marker='o', capsize=5, capthick=1, ecolor='red')
-#plt.show()
+plt.plot(ref_r_F_90, ref_F_90,color='black', marker='o', linestyle='dashed')
+#plt.xlim([0.4,10])
+plt.ylim([0,3.5])
+plt.show()
