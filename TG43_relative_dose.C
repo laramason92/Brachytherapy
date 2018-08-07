@@ -393,7 +393,7 @@ myfile_F_70.open ("F_r_theta_70.txt");
 myfile_F_80.open ("F_r_theta_80.txt");
 myfile_F_90.open ("F_r_theta_90.txt");
 
-for (int i=0; i<=400; i++)
+for (int i=0; i<=400; i+=4)
 {
  R = double(i)/40; //distance in CM!!!
   if (R > 0.05)
@@ -401,7 +401,6 @@ for (int i=0; i<=400; i++)
 	 myfile_gL << R <<  "     " <<  gL_r[i] <<  "     " <<  Unc_gL[i] << "\n";                     
     }
    myfile_dose_val << R <<  "     " << D_dot[i][90]/D_dot[40][90] <<  "\n";                     
-
    myfile_GL_0 << R <<  "     " << GL_norm[i][0] << "     " << Unc_GL_norm[i][0] <<    "\n";                     
    myfile_GL_10 << R <<  "     " << GL_norm[i][10] << "     " << Unc_GL_norm[i][10] <<    "\n";                     
    myfile_GL_20 << R <<  "     " << GL_norm[i][20] << "     " << Unc_GL_norm[i][20] <<    "\n";                     
@@ -412,7 +411,7 @@ for (int i=0; i<=400; i++)
    myfile_GL_70 << R <<  "     " << GL_norm[i][70] << "     " << Unc_GL_norm[i][70] <<    "\n";                     
    myfile_GL_80 << R <<  "     " << GL_norm[i][80] << "     " << Unc_GL_norm[i][80] <<    "\n";                     
    myfile_GL_90 << R <<  "     " << GL_norm[i][90] << "     " << Unc_GL_norm[i][90] <<    "\n";                     
-
+   
    myfile_F_0 << R <<  "    " << F_r_theta[i][0] << "     " << Unc_F[i][0] <<     "\n";                     
    myfile_F_10 << R <<  "    " << F_r_theta[i][10] << "     " << Unc_F[i][10] <<     "\n";                     
    myfile_F_20 << R <<  "    " << F_r_theta[i][20] << "     " << Unc_F[i][20] <<     "\n";                     
