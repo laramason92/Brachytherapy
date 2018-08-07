@@ -122,8 +122,7 @@ for l in ref_file_F_0:
 
 plt.errorbar(r_0,F_plot_0,yerr=F_plot_err_0, color='red', ls='--', marker='o', capsize=5, capthick=1, ecolor='red')
 plt.plot(ref_r_F_0, ref_F_0,color='black', marker='o', linestyle='dashed')
-#plt.xlim([0.4,10])
-plt.ylim([0,3.5])
+#plt.ylim([0,3.5])
 plt.show()
 
 
@@ -166,8 +165,7 @@ for l in ref_file_F_10:
 #print F_plot_10
 plt.errorbar(r_10,F_plot_10,yerr=F_plot_err_10, color='red', ls='--', marker='o', capsize=5, capthick=1, ecolor='red')
 plt.plot(ref_r_F_10, ref_F_10,color='black', marker='o', linestyle='dashed')
-#plt.xlim([0.4,10])
-plt.ylim([0,3.5])
+#plt.ylim([0,3.5])
 plt.show()
 
 
@@ -211,7 +209,7 @@ for l in ref_file_F_20:
 plt.errorbar(r_20,F_plot_20,yerr=F_plot_err_20, color='red', ls='--', marker='o', capsize=5, capthick=1, ecolor='red')
 plt.plot(ref_r_F_20, ref_F_20,color='black', marker='o', linestyle='dashed')
 #plt.xlim([0.4,10])
-plt.ylim([0,3.5])
+#plt.ylim([0,3.5])
 plt.show()
 
 
@@ -251,11 +249,11 @@ for l in ref_file_F_30:
     ref_F_30.append(float(row[1]))
 
 
-print F_plot_30
+#print F_plot_30
 plt.errorbar(r_30,F_plot_30,yerr=F_plot_err_30, color='red', ls='--', marker='o', capsize=5, capthick=1, ecolor='red')
 plt.plot(ref_r_F_30, ref_F_30,color='black', marker='o', linestyle='dashed')
 #plt.xlim([0.4,10])
-plt.ylim([0,3.5])
+#plt.ylim([0,3.5])
 plt.show()
 
 
@@ -295,11 +293,11 @@ for l in ref_file_F_40:
     ref_F_40.append(float(row[1]))
 
 
-print F_plot_40
+#print F_plot_40
 plt.errorbar(r_40,F_plot_40,yerr=F_plot_err_40, color='red', ls='--', marker='o', capsize=5, capthick=1, ecolor='red')
 plt.plot(ref_r_F_40, ref_F_40,color='black', marker='o', linestyle='dashed')
 #plt.xlim([0.4,10])
-plt.ylim([0,3.5])
+#plt.ylim([0,3.5])
 plt.show()
 
 
@@ -340,11 +338,11 @@ for l in ref_file_F_50:
     ref_F_50.append(float(row[1]))
 
 
-print F_plot_50
+#print F_plot_50
 plt.errorbar(r_50,F_plot_50,yerr=F_plot_err_50, color='red', ls='--', marker='o', capsize=5, capthick=1, ecolor='red')
 plt.plot(ref_r_F_50, ref_F_50,color='black', marker='o', linestyle='dashed')
 #plt.xlim([0.4,10])
-plt.ylim([0,3.5])
+#plt.ylim([0,3.5])
 plt.show()
 
 
@@ -384,11 +382,11 @@ for l in ref_file_F_60:
     ref_F_60.append(float(row[1]))
 
 
-print F_plot_60
+#print F_plot_60
 plt.errorbar(r_60,F_plot_60,yerr=F_plot_err_60, color='red', ls='--', marker='o', capsize=5, capthick=1, ecolor='red')
 plt.plot(ref_r_F_60, ref_F_60,color='black', marker='o', linestyle='dashed')
 #plt.xlim([0.4,10])
-plt.ylim([0,3.5])
+#plt.ylim([0,3.5])
 plt.show()
 
 
@@ -428,11 +426,11 @@ for l in ref_file_F_70:
     ref_F_70.append(float(row[1]))
 
 
-print F_plot_70
+#print F_plot_70
 plt.errorbar(r_70,F_plot_70,yerr=F_plot_err_70, color='red', ls='--', marker='o', capsize=5, capthick=1, ecolor='red')
 plt.plot(ref_r_F_70, ref_F_70,color='black', marker='o', linestyle='dashed')
 #plt.xlim([0.4,10])
-plt.ylim([0,3.5])
+#plt.ylim([0,3.5])
 plt.show()
 
 
@@ -472,11 +470,11 @@ for l in ref_file_F_80:
     ref_F_80.append(float(row[1]))
 
 
-print F_plot_80
+#print F_plot_80
 plt.errorbar(r_80,F_plot_80,yerr=F_plot_err_80, color='red', ls='--', marker='o', capsize=5, capthick=1, ecolor='red')
 plt.plot(ref_r_F_80, ref_F_80,color='black', marker='o', linestyle='dashed')
 #plt.xlim([0.4,10])
-plt.ylim([0,3.5])
+#plt.ylim([0,3.5])
 plt.show()
 
 
@@ -516,9 +514,9 @@ for l in ref_file_F_90:
     ref_F_90.append(float(row[1]))
 
 
-print F_plot_90
+#print F_plot_90
 plt.errorbar(r_90,F_plot_90,yerr=F_plot_err_90, color='red', ls='--', marker='o', capsize=5, capthick=1, ecolor='red')
 plt.plot(ref_r_F_90, ref_F_90,color='black', marker='o', linestyle='dashed')
 #plt.xlim([0.4,10])
-plt.ylim([0,3.5])
+#plt.ylim([0,3.5])
 plt.show()
