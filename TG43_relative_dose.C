@@ -186,33 +186,27 @@ std::cout << "Have you edited the uncertainty params correctly?" << std::endl;
 Double_t EnergyMap[401][91]; //2D map of total energy in "radial distance (mm)" and "angle (degrees)"
 Int_t Voxels[401][91]; //the number of voxels used to provide dose to each element of the energy map 
 Double_t GL[401][91];
-Double_t Mass_water_voxel = 1e-3;// kg   0.00025;// = .25mm^3, 1 = 1cm^3 - which is it??; //grams
-Double_t conv = 1.602e-11 * 325.98 * 60 * 60 * 2.363; //convert keV/g to cGy
+Double_t Mass_water_voxel = 1e-3;// g 
+Double_t conv = 1.602e-11 ; //convert keV/g to cGy
 // 1e3 * 1.6022e-19 * 1e3 * 10 * 3.7e10 * 1 * 2.363 * 100 * 3600;//1.6022e-16 (J/kev) *1e3 (g/kg) * 10 Ci * 3.7e10 (Bq/Ci) * 1 (decay/s)/Bq * 2.363 photons/decay *3600 (s/h) = [Gy/h] * 100 = [cGy/h]
 std::cout << "conv = " << conv << std::endl; 
 
 //************ UNCERTAINTIES***********//
 
 Double_t Unc_D_dot[401][91];
+Double_t Unc_edep[401][91];
 Double_t Unc_GL[401][91];
 Double_t Unc_gL[401];
 Double_t Unc_F[401][91];
 Double_t Unc_GL_norm[401][91];
 
-Double_t RMS_h_geom = 0.01;
+Double_t RMS_h_geom = 0.0037; //brachytherapy0608
 Double_t U_xsec = 0.02;
 Double_t U_I = 0.005;
 Double_t U_geom = 0.02;
 
-Double_t U_D_dot_factor = sqrt( RMS_h_geom*RMS_h_geom + U_xsec*U_xsec + U_I*U_I + U_geom*U_geom );
-Double_t U_Lambda_factor = sqrt(U_D_dot_factor*U_D_dot_factor + U_D_dot_factor*U_D_dot_factor);
-Double_t U_GL_factor = sqrt(RMS_h_geom*RMS_h_geom); //just uncertainty on the point itself
-Double_t U_gL_factor = sqrt( U_D_dot_factor*U_D_dot_factor + U_D_dot_factor*U_D_dot_factor + U_GL_factor*U_GL_factor + U_GL_factor*U_GL_factor);
-Double_t U_F_factor = sqrt( U_D_dot_factor*U_D_dot_factor + U_D_dot_factor*U_D_dot_factor + U_GL_factor*U_GL_factor + U_GL_factor*U_GL_factor);
-Double_t U_GL_norm_factor = sqrt(2*U_D_dot_factor*U_D_dot_factor + 2*U_GL_factor*U_GL_factor);
-
-std::cout << "Sk = " << Sk << " +/- " << U_D_dot_factor << " %" << std::endl;
-std::cout << "Lambda = " << Lambda << " +/- " <<  U_Lambda_factor << " %" << std::endl;
+std::cout << "Sk = " << std::endl;
+std::cout << "Lambda = " << Lambda << std::endl;
 //**************************************//
 
 
@@ -236,7 +230,6 @@ for (int q=0; q< numberOfBins; q++)
    Double_t yy_geom_histo = hgeom.GetYaxis()->GetBinCenter(w);
    Double_t edep_histo    = hgeom.GetBinContent(q,w); //get the energy
    radius = sqrt(zz_geom_histo*zz_geom_histo + yy_geom_histo*yy_geom_histo);
-
    if (radius != 0){
      //radZ = TMath::Nint(4*zz_geom_histo); //get number of voxels
      //radY = TMath::Nint(4*yy_geom_histo);
@@ -247,6 +240,7 @@ for (int q=0; q< numberOfBins; q++)
         {
        if ( (radInt < 400) ) //four voxels per mm, so this is between 0 and 10 cm
         { 
+   	  
           theta = atan( yy_geom_histo/zz_geom_histo ) * 180. / Pi ;
           //theta = atan( yy_geom_histo/zz_geom_histo );// * 180. / Pi ;
           theta_1 = atan( yy_geom_histo/(zz_geom_histo-L/2.) ) * 180. / Pi ; //Geometry function of a linear brachytherapy source King and Anderson
@@ -264,7 +258,9 @@ for (int q=0; q< numberOfBins; q++)
 
           EnergyMap[radInt][thetaInt] += edep_histo; 
           Voxels[radInt][thetaInt] +=1; //how many times did we add to this coordinate - so essentially we are taking the average of this many energy depositions in this little square to get the energy deposition at this point 
-
+          if ( edep_histo > 0){
+           Unc_edep[radInt][thetaInt] += (RMS_h_geom/edep_histo);
+           }
           if (thetaInt == 0){
               GL_val = fabs(1./ ( (radInt/40.)**2-L**2/4.)); //radInt in cm
               //std::cout << "theta is zero and GL*r^2 is   " << GL_val*radInt*radInt << "when r is   " << radInt/40. << std::endl;
@@ -279,7 +275,7 @@ for (int q=0; q< numberOfBins; q++)
                    }
                }
           GL[radInt][thetaInt] += GL_val; // this is = not += because it's not dose - it's just one value
-          Unc_GL[radInt][thetaInt] += GL_val*U_GL_factor; 
+          
         }
      }
   } } 
@@ -289,11 +285,14 @@ for (int q=0; q< numberOfBins; q++)
 Double_t D_r0_theta0 = (EnergyMap[40][90]/(Voxels[40][90] * Mass_water_voxel) )* conv;
 std::cout << "Dose rate at norm pt   " << D_r0_theta0 << std::endl; 
 
+Double_t U_D_r0_theta0 = (EnergyMap[40][90]/(Voxels[40][90] * Mass_water_voxel) )* conv * sqrt( (Unc_edep[40][90]/Voxels[40][90])**2 + 0.02**2 + 0.005**2 );
+
 Lambda = D_r0_theta0/Sk;
 std::cout << "Lambda is " << Lambda << " cGy/(hU)" << std::endl;
 
 Double_t GL_r0_theta0 = GL[40][90]/Voxels[40][90];
-std::cout << "GL at norm pt   " << GL_r0_theta0 << std::endl; //keV / g
+Double_t U_GL_r0_theta0 = GL[40][90]/Voxels[40][90]* sqrt( (Unc_edep[40][90]/Voxels[40][90])**2 + 0.02**2 + 0.005**2 );
+std::cout << "GL at norm pt   " << GL_r0_theta0 << " +- " << U_GL_r0_theta0*GL_r0_theta0 << std::endl; //keV / g
 
 Double_t D_dot[401][91];
 Double_t GL_norm[401][91];
@@ -307,10 +306,15 @@ for (int i=0; i<401; i++)
  for (int j=0; j<91; j++)
 {
  if (Voxels[i][j] > 0){
+
   D_dot[i][j] = (EnergyMap[i][j]/(Voxels[i][j] * Mass_water_voxel) )* conv;
-  Unc_D_dot[i][j] = (EnergyMap[i][j]/(Voxels[i][j] * Mass_water_voxel) )* conv *U_D_dot_factor;
+  Unc_D_dot[i][j] = sqrt( (Unc_edep[i][j]/Voxels[i][j])**2 + 0.02**2 + 0.005**2 )*D_dot[i][j] ; //s.d. as a decimal summed to the square with x-sec uncertainty and pem uncertainty
+
+
   GL_norm[i][j] = i/40.*i/40.*(GL[i][j]/Voxels[i][j]) / GL_r0_theta0 ; //for plotting comparisons (Determination of the geometry function.pdf) 
-  Unc_GL_norm[i][j] = (i/40.*i/40.*(GL[i][j]/Voxels[i][j])  / GL_r0_theta0)*U_GL_norm_factor;
+  Unc_GL[i][j] = sqrt( (Unc_edep[i][j]/Voxels[i][j])**2 + 0.02**2 + 0.005**2 )*(GL[i][j]/Voxels[i][j]) ;
+  Unc_GL_norm[i][j] =  sqrt( (Unc_edep[i][j]/Voxels[i][j])**2 + 0.02**2 + 0.005**2 )*GL_norm[i][j];// sqrt( (Unc_GL[i][j])**2 + (U_GL_r0_theta0)**2 );
+  
   }
  else {
   D_dot[i][j] = 0;
@@ -326,12 +330,12 @@ for (int i=0; i<400; i++)
 {
  //std::cout << i << std::endl;
  gL_r[i] = ( D_dot[i][90] * GL[40][90]/Voxels[40][90])/(D_dot[40][90]*(GL[i][90]/Voxels[i][90]));
- Unc_gL[i] = ( D_dot[i][90]/D_dot[40][90])*( GL[40][90] / GL[i][90])*U_gL_factor;
+ Unc_gL[i] = sqrt( (Unc_D_dot[i][90])**2 + (Unc_GL[40][90])**2 + (Unc_D_dot[40][90])**2 + (Unc_GL[i][90])**2 );
  for (int j=0; j<91; j++)
  {
  if ( (D_dot[i][90] >0) && ( GL[i][j] >0 )){ 
  F_r_theta[i][j] = ( D_dot[i][j] / D_dot[i][90] ) * ( (GL[i][90]/Voxels[i][90]) / (GL[i][j]/Voxels[i][j]) );
- Unc_F[i][j] = (( D_dot[i][j] / D_dot[i][90] ) * ( GL[i][90] / GL[i][j] )) * U_F_factor;
+ Unc_F[i][j] = sqrt( (Unc_D_dot[i][j])**2 + (Unc_D_dot[i][90])**2 + (Unc_GL[i][90])**2 + (Unc_GL[i][j])**2 ) ;
  }
  else{
  F_r_theta[i][j] = 0;

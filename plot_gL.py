@@ -121,10 +121,16 @@ gL_plot_rounded = [0.]*14
 for m in range(len(gL_plot)):
   gL_plot_rounded[m] = gL_plot[m]/bins[m]
 
-plt.errorbar(r_plot,gL_plot_rounded, yerr=unc_plot, color='blue', ls='--', marker='o', capsize=5, capthick=1, ecolor='blue')
+print gL_plot_rounded
 
-plt.plot(ref1_r_gL, ref1_gL,color='red', marker='o', linestyle='dashed')
-plt.plot(ref2_r_gL, ref2_gL,color='black', marker='o', linestyle='dashed')
-#plt.plot(r_gL, gL,'ro')
+plt.errorbar(r_plot,gL_plot_rounded, yerr=unc_plot,label='Geant4', color='blue', ls='--', marker='o', capsize=5, capthick=1, ecolor='blue')
+
+plt.plot(ref1_r_gL, ref1_gL,color='red',label='Lopez et al', marker='o', linestyle='dashed')
+plt.plot(ref2_r_gL, ref2_gL,color='black',label='Estro 8', marker='o', linestyle='dashed')
+plt.xlabel('r(cm)',family='sans-serif', fontsize=16)
+plt.ylabel(r'$g(r)$',family='sans-serif', fontsize=18, fontweight='heavy')
+
+plt.legend()
+plt.savefig('gL_plot.eps')
 plt.show()
 

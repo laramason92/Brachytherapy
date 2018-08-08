@@ -120,9 +120,14 @@ for l in ref_file_F_0:
 #print F_plot_0
 #print F_plot_err
 
-plt.errorbar(r_0,F_plot_0,yerr=F_plot_err_0, color='red', ls='--', marker='o', capsize=5, capthick=1, ecolor='red')
-plt.plot(ref_r_F_0, ref_F_0,color='black', marker='o', linestyle='dashed')
-#plt.ylim([0,3.5])
+plt.errorbar(r_0,F_plot_0,yerr=F_plot_err_0, label='Geant4',color='red', ls='--', marker='o', capsize=5, capthick=1, ecolor='red')
+plt.plot(ref_r_F_0, ref_F_0,color='black', marker='o', label='Ref. Data',linestyle='dashed')
+plt.legend()
+plt.ylim([0,3.5])
+plt.xlabel('r(cm)',family='sans-serif', fontsize=16)
+plt.ylabel(r'$F(r,\theta)$',family='sans-serif', fontsize=18, fontweight='heavy')
+plt.text(1, 3, r'$\theta = 0$', family='sans-serif', fontsize=18, fontweight='heavy')
+plt.savefig('F_theta_0_plot.eps')
 plt.show()
 
 
@@ -151,8 +156,12 @@ F_plot_err_10 = [0.]*11
 
 r_10 = [i for i in range(len(F_rounded_10))]
 for m in range(len(F_rounded_10)):
+ if bins_10[m]>0:
   F_plot_10[m] = F_rounded_10[m]/bins_10[m]
   F_plot_err_10[m] = F_rounded_err_10[m]/bins_10[m]
+ else:
+  F_plot_10[m] = 0
+  F_plot_err_10[m] = 0
   r_10[m] = float(r_10[m])
  
 for l in ref_file_F_10:
@@ -163,9 +172,14 @@ for l in ref_file_F_10:
 
 
 #print F_plot_10
-plt.errorbar(r_10,F_plot_10,yerr=F_plot_err_10, color='red', ls='--', marker='o', capsize=5, capthick=1, ecolor='red')
-plt.plot(ref_r_F_10, ref_F_10,color='black', marker='o', linestyle='dashed')
-#plt.ylim([0,3.5])
+plt.errorbar(r_10,F_plot_10,yerr=F_plot_err_10, label='Geant4',color='red', ls='--', marker='o', capsize=5, capthick=1, ecolor='red')
+plt.plot(ref_r_F_10, ref_F_10,color='black',label='Ref. Data', marker='o', linestyle='dashed')
+plt.legend()
+plt.xlabel('r(cm)',family='sans-serif', fontsize=16)
+plt.ylabel(r'$F(r,\theta)$',family='sans-serif', fontsize=18, fontweight='heavy')
+plt.ylim([0,3.5])
+plt.text(1, 3, r'$\theta = 10$', family='sans-serif', fontsize=18, fontweight='heavy')
+plt.savefig('F_theta_10_plot.eps')
 plt.show()
 
 
@@ -206,10 +220,15 @@ for l in ref_file_F_20:
 
 
 #print F_plot_20
-plt.errorbar(r_20,F_plot_20,yerr=F_plot_err_20, color='red', ls='--', marker='o', capsize=5, capthick=1, ecolor='red')
-plt.plot(ref_r_F_20, ref_F_20,color='black', marker='o', linestyle='dashed')
+plt.errorbar(r_20,F_plot_20,yerr=F_plot_err_20, color='red',label='Geant4', ls='--', marker='o', capsize=5, capthick=1, ecolor='red')
+plt.plot(ref_r_F_20, ref_F_20,color='black',label='Ref. Data', marker='o', linestyle='dashed')
 #plt.xlim([0.4,10])
-#plt.ylim([0,3.5])
+plt.ylim([0,3.5])
+plt.xlabel('r(cm)',family='sans-serif', fontsize=16)
+plt.ylabel(r'$F(r,\theta)$',family='sans-serif', fontsize=18, fontweight='heavy')
+plt.legend()
+plt.text(1, 3, r'$\theta = 20$', family='sans-serif', fontsize=18, fontweight='heavy')
+plt.savefig('F_theta_20_plot.eps')
 plt.show()
 
 
@@ -250,10 +269,15 @@ for l in ref_file_F_30:
 
 
 #print F_plot_30
-plt.errorbar(r_30,F_plot_30,yerr=F_plot_err_30, color='red', ls='--', marker='o', capsize=5, capthick=1, ecolor='red')
-plt.plot(ref_r_F_30, ref_F_30,color='black', marker='o', linestyle='dashed')
+plt.errorbar(r_30,F_plot_30,yerr=F_plot_err_30, color='red',label='Geant4', ls='--', marker='o', capsize=5, capthick=1, ecolor='red')
+plt.plot(ref_r_F_30, ref_F_30,color='black',label='Ref. Data', marker='o', linestyle='dashed')
 #plt.xlim([0.4,10])
-#plt.ylim([0,3.5])
+plt.ylim([0,3.5])
+plt.xlabel('r(cm)',family='sans-serif', fontsize=16)
+plt.ylabel(r'$F(r,\theta)$',family='sans-serif', fontsize=18, fontweight='heavy')
+plt.legend()
+plt.text(1, 3, r'$\theta = 30$', family='sans-serif', fontsize=18, fontweight='heavy')
+plt.savefig('F_theta_30_plot.eps')
 plt.show()
 
 
@@ -294,10 +318,15 @@ for l in ref_file_F_40:
 
 
 #print F_plot_40
-plt.errorbar(r_40,F_plot_40,yerr=F_plot_err_40, color='red', ls='--', marker='o', capsize=5, capthick=1, ecolor='red')
-plt.plot(ref_r_F_40, ref_F_40,color='black', marker='o', linestyle='dashed')
+plt.errorbar(r_40,F_plot_40,yerr=F_plot_err_40, color='red',label='Geant4', ls='--', marker='o', capsize=5, capthick=1, ecolor='red')
+plt.plot(ref_r_F_40, ref_F_40,color='black',label='Ref. Data', marker='o', linestyle='dashed')
 #plt.xlim([0.4,10])
-#plt.ylim([0,3.5])
+plt.legend()
+plt.ylim([0,3.5])
+plt.xlabel('r(cm)',family='sans-serif', fontsize=16)
+plt.ylabel(r'$F(r,\theta)$',family='sans-serif', fontsize=18, fontweight='heavy')
+plt.text(1, 3, r'$\theta = 40$', family='sans-serif', fontsize=18, fontweight='heavy')
+plt.savefig('F_theta_40_plot.eps')
 plt.show()
 
 
@@ -339,10 +368,15 @@ for l in ref_file_F_50:
 
 
 #print F_plot_50
-plt.errorbar(r_50,F_plot_50,yerr=F_plot_err_50, color='red', ls='--', marker='o', capsize=5, capthick=1, ecolor='red')
-plt.plot(ref_r_F_50, ref_F_50,color='black', marker='o', linestyle='dashed')
+plt.errorbar(r_50,F_plot_50,yerr=F_plot_err_50, color='red',label='Geant4', ls='--', marker='o', capsize=5, capthick=1, ecolor='red')
+plt.plot(ref_r_F_50, ref_F_50,color='black',label='Ref. Data', marker='o', linestyle='dashed')
 #plt.xlim([0.4,10])
-#plt.ylim([0,3.5])
+plt.ylim([0,3.5])
+plt.xlabel('r(cm)',family='sans-serif', fontsize=16)
+plt.ylabel(r'$F(r,\theta)$',family='sans-serif', fontsize=18, fontweight='heavy')
+plt.legend()
+plt.text(1, 3, r'$\theta = 50$', family='sans-serif', fontsize=18, fontweight='heavy')
+plt.savefig('F_theta_50_plot.eps')
 plt.show()
 
 
@@ -383,10 +417,15 @@ for l in ref_file_F_60:
 
 
 #print F_plot_60
-plt.errorbar(r_60,F_plot_60,yerr=F_plot_err_60, color='red', ls='--', marker='o', capsize=5, capthick=1, ecolor='red')
-plt.plot(ref_r_F_60, ref_F_60,color='black', marker='o', linestyle='dashed')
+plt.errorbar(r_60,F_plot_60,yerr=F_plot_err_60, color='red',label='Geant4', ls='--', marker='o', capsize=5, capthick=1, ecolor='red')
+plt.plot(ref_r_F_60, ref_F_60,color='black',label='Ref. Data', marker='o', linestyle='dashed')
 #plt.xlim([0.4,10])
-#plt.ylim([0,3.5])
+plt.ylim([0,3.5])
+plt.xlabel('r(cm)',family='sans-serif', fontsize=16)
+plt.ylabel(r'$F(r,\theta)$',family='sans-serif', fontsize=18, fontweight='heavy')
+plt.legend()
+plt.text(1, 3, r'$\theta = 60$', family='sans-serif', fontsize=18, fontweight='heavy')
+plt.savefig('F_theta_60_plot.eps')
 plt.show()
 
 
@@ -427,10 +466,15 @@ for l in ref_file_F_70:
 
 
 #print F_plot_70
-plt.errorbar(r_70,F_plot_70,yerr=F_plot_err_70, color='red', ls='--', marker='o', capsize=5, capthick=1, ecolor='red')
-plt.plot(ref_r_F_70, ref_F_70,color='black', marker='o', linestyle='dashed')
+plt.errorbar(r_70,F_plot_70,yerr=F_plot_err_70, color='red',label='Geant4', ls='--', marker='o', capsize=5, capthick=1, ecolor='red')
+plt.plot(ref_r_F_70, ref_F_70,color='black',label='Ref. Data', marker='o', linestyle='dashed')
 #plt.xlim([0.4,10])
-#plt.ylim([0,3.5])
+plt.ylim([0,3.5])
+plt.legend()
+plt.xlabel('r(cm)',family='sans-serif', fontsize=16)
+plt.ylabel(r'$F(r,\theta)$',family='sans-serif', fontsize=18, fontweight='heavy')
+plt.text(1, 3, r'$\theta = 70$', family='sans-serif', fontsize=18, fontweight='heavy')
+plt.savefig('F_theta_70_plot.eps')
 plt.show()
 
 
@@ -459,8 +503,12 @@ F_plot_err_80 = [0.]*11
 
 r_80 = [i for i in range(len(F_rounded_80))]
 for m in range(len(F_rounded_80)):
+ if bins_80[m]>0:
   F_plot_80[m] = F_rounded_80[m]/bins_80[m]
   F_plot_err_80[m] = F_rounded_err_80[m]/bins_80[m]
+ else:
+  F_plot_80[m] = 0
+  F_plot_err_80[m] = 0
   r_80[m] = float(r_80[m])
 
 for l in ref_file_F_80:
@@ -471,10 +519,15 @@ for l in ref_file_F_80:
 
 
 #print F_plot_80
-plt.errorbar(r_80,F_plot_80,yerr=F_plot_err_80, color='red', ls='--', marker='o', capsize=5, capthick=1, ecolor='red')
-plt.plot(ref_r_F_80, ref_F_80,color='black', marker='o', linestyle='dashed')
+plt.errorbar(r_80,F_plot_80,yerr=F_plot_err_80, color='red', label='Geant4',ls='--', marker='o', capsize=5, capthick=1, ecolor='red')
+plt.plot(ref_r_F_80, ref_F_80,color='black',label='Ref. Data', marker='o', linestyle='dashed')
 #plt.xlim([0.4,10])
-#plt.ylim([0,3.5])
+plt.ylim([0,3.5])
+plt.xlabel('r(cm)',family='sans-serif', fontsize=16)
+plt.ylabel(r'$F(r,\theta)$',family='sans-serif', fontsize=18, fontweight='heavy')
+plt.legend()
+plt.text(1, 3, r'$\theta = 80$', family='sans-serif', fontsize=18, fontweight='heavy')
+plt.savefig('F_theta_80_plot.eps')
 plt.show()
 
 
@@ -515,8 +568,13 @@ for l in ref_file_F_90:
 
 
 #print F_plot_90
-plt.errorbar(r_90,F_plot_90,yerr=F_plot_err_90, color='red', ls='--', marker='o', capsize=5, capthick=1, ecolor='red')
-plt.plot(ref_r_F_90, ref_F_90,color='black', marker='o', linestyle='dashed')
+plt.errorbar(r_90,F_plot_90,yerr=F_plot_err_90, color='red',label='Geant4', ls='--', marker='o', capsize=5, capthick=1, ecolor='red')
+plt.plot(ref_r_F_90, ref_F_90,color='black',label='Ref. Data', marker='o', linestyle='dashed')
 #plt.xlim([0.4,10])
-#plt.ylim([0,3.5])
+plt.ylim([0,3.5])
+plt.xlabel('r(cm)',family='sans-serif', fontsize=16)
+plt.ylabel(r'$F(r,\theta)$',family='sans-serif', fontsize=18, fontweight='heavy')
+plt.legend()
+plt.text(1, 3, r'$\theta = 90$', family='sans-serif', fontsize=18, fontweight='heavy')
+plt.savefig('F_theta_90_plot.eps')
 plt.show()
