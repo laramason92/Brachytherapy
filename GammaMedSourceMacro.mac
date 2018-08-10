@@ -19,20 +19,25 @@
 #/score/mesh/boxSize 10.0125 10.0125 10.0125 cm
 #/score/mesh/nBin 801 801 801
 #FOR YZ PLANE
-/score/mesh/boxSize 0.0125 10.0125 10.0125 cm
-/score/mesh/nBin 1 801 801
-/score/quantity/energyDeposit eDep
-
+#/score/mesh/boxSize 0.0125 10.0125 10.0125 cm
+#/score/mesh/nBin 1 801 801
+#/score/quantity/energyDeposit eDep
 #/score/quantity/doseDeposit doseDep
 
+#for kerma
+/score/mesh/boxSize 5 5 5 cm
+/score/mesh/nBin 1 1 1
+/score/quantity/energyDeposit eDep
+/score/mesh/translate/xyz 0 100 0 cm
 #
 /score/close
 #
 /score/list                                             
-#/run/beamOn 100000000000
-/run/beamOn 1000000000
-/run/beamOn 1000000000
-/run/beamOn 1000000000
+/run/beamOn 500000000
+
+#/run/beamOn 1000000000
+#/run/beamOn 1000000000
+#/run/beamOn 1000000000
 #
 # Dump scores to a file
 #

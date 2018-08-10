@@ -4581,6 +4581,8 @@ G4Tubs.hh
 /Users/laramason/Downloads/Geant4/geant4.10.03.p03/examples/advanced/brachytherapy/src/G4Tubs.hh
 G4Cons.hh
 /Users/laramason/Downloads/Geant4/geant4.10.03.p03/examples/advanced/brachytherapy/src/G4Cons.hh
+G4Box.hh
+/Users/laramason/Downloads/Geant4/geant4.10.03.p03/examples/advanced/brachytherapy/src/G4Box.hh
 G4Torus.hh
 /Users/laramason/Downloads/Geant4/geant4.10.03.p03/examples/advanced/brachytherapy/src/G4Torus.hh
 G4Sphere.hh

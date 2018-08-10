@@ -5,8 +5,8 @@
 //#include <math.h>
 
 gROOT -> Reset();
-//TFile f("brachytherapy.root");
-TFile f(" brachytherapy0608.root");
+TFile f("brachytherapy.root");
+//TFile f(" brachytherapy0608.root");
 
 //******************** DEFINITIONS ******************************// 					     
 Double_t L = 0.35; //seed length in cm
@@ -39,9 +39,8 @@ Int_t radY;
 Int_t radIntKERMA; //nearest integer of radius (mm)
 
 Int_t numberOfBins=801;
-Int_t numberOfBinsKERMA=8001;
 
-Double_t Sk = 36519.0; // [U] from Lopez Donaire and Alcalde
+Double_t Sk = 5.1e4; // [U] from Lopez Donaire and Alcalde
 Double_t Lambda;
 
 std::cout << "Have you edited the uncertainty params correctly?" << std::endl;
@@ -113,72 +112,29 @@ std::cout << "Have you edited the uncertainty params correctly?" << std::endl;
 //
 
 
-//******************** GET KERMA ALONE ******************************// 
+//******************** GET KERMA AT REFERENCE DISTANCE ******************************// 
+Int_t Kerma_numberOfBins = 400;
+Double_t Kerma_val = 0.;
 
-//Double_t EnergyMap[401]; //2D map of total energy in "radial distance (mm)" and "angle (5 degrees)"
-//Int_t Voxels[401]; //the number of voxels used to provide dose to each element of the energy map
+//// Get total kerma in critical volume at a reference distance
 
-//for (int i=0; i <401; i++)
-// {
-// EnergyMap[i]=0.;
-// Voxels[i]=0.;
-//}
+for (int k=0; k< Kerma_numberOfBins; k++)
+ {
+   for (int m=0; m< Kerma_numberOfBins; m++) 
+ {
+   Double_t xx_histo_Kerma = h30.GetXaxis()->GetBinCenter(k);
+   Double_t yy_histo_Kerma = h30.GetYaxis()->GetBinCenter(m);
 
-////Build Energy Deposition Map
-//for (int k=0; k< numberOfBins; k++)
-// {
-//   for (int m=0; m< numberOfBins; m++) 
-// {
-//   Double_t xx_histo = h20.GetXaxis()->GetBinCenter(k);
-//   cout << "k  " << k << "xx_histo  "<< xx_histo << endl;
-//   Double_t yy_histo = h20.GetYaxis()->GetBinCenter(m);
-//   Double_t edep_histo=h20.GetBinContent(k, m);
-//   radius = sqrt(xx_histo*xx_histo+yy_histo*yy_histo); 
+   Double_t Kerma_histo=h30.GetBinContent(k, m);
+   Double_t u = 30./Kerma_histo;
+   Double_t Kerma_mGy = Kerma_histo *  1.602e-10; // Convert keV/g to mGy 
+   std::cout << u << std::endl; 
+   Kerma_val += Kerma_mGy; 
+}}
 
-//   if (radius != 0){
-//		      radInt = TMath::Nint(4*radius);
-//		      if ((radInt>0)&&(radInt<=400))
-//			{
-//			 EnergyMap[radInt]+= edep_histo;
-//			 Voxels[radInt]+= 1; //store the number of voxels 
-//				}
-//			}
-//}}
-//
-//std::cout << "Energy Map Complete" << std::endl;
 
-//Create Normalised Dose Map
-//std::cout << "The energy deposition at the reference point is " << EnergyMap[40] << std::endl;
-//Double_t tempNormValue = EnergyMap[40]/Voxels[40]; //this must be the dose in water keV/g
-//std::cout << "dose rate at normalisation pt" << tempNormValue << std::endl; 
-//Double_t EnergyDepNorm = EnergyMap[40] * 1.60218e-16 * 10 * 3.7e10 * 2.363 * 100 * 3600;
-//Double_t MassNorm = Voxels[40] * 0.001 *1000 ;
-//Double_t DoseRateNorm = EnergyDepNorm/MassNorm;
-//std::cout << "dose rate at normalisation pt in correct units" << DoseRateNorm << std::endl; 
-////value at 1cm, 90 degrees, the normalisation point
-//std::cout << "Dose rate ditribution (distances in cm)" << std::endl;
-
-//ofstream myfile;
-
-//myfile.open ("Kerma.txt");
-//
-//for (int i=0; i<=400; i++)
-//{
-// R = double(i)/40; //distance in CM!!!
-// if (Voxels[i]>0) normDose[i] = EnergyMap[i]/Voxels[i];///tempNormValue;
- //   else normDose[i] = 0;
-//
-
-            
-// if (R>  0.05)
-// if (R>  2)
-//    {
-//    //cout << R << "     " << normDose[i] << endl;  
-//    myfile << R <<  "     " << normDose[i] << "\n";                     
-//    }
-//}
-
-//myfile.close();
+std::cout << "Kerma Complete" << std::endl;
+std::cout << Kerma_val << std::endl;
 
 
 //******************** DOSE RATE AND GEOMETRY FUNCTION GL ******************************// 
@@ -187,7 +143,10 @@ Double_t EnergyMap[401][91]; //2D map of total energy in "radial distance (mm)" 
 Int_t Voxels[401][91]; //the number of voxels used to provide dose to each element of the energy map 
 Double_t GL[401][91];
 Double_t Mass_water_voxel = 1e-3;// g 
-Double_t conv = 1.602e-11 ; //convert keV/g to cGy
+//Double_t conv = 1.602e-11 ; //convert keV/g to cGy
+//Double_t conv = 1e-3 * 2.301*2.13e3 ; //Medich and Munro
+//Double_t conv = 1.602e-11 *2.2970; //onvert keV/g to cGy and then "rate" is per decay Casado, Garcia-Pareja, Cenizo ..
+Double_t conv = 1.602e-11; //onvert keV/g to cGy
 // 1e3 * 1.6022e-19 * 1e3 * 10 * 3.7e10 * 1 * 2.363 * 100 * 3600;//1.6022e-16 (J/kev) *1e3 (g/kg) * 10 Ci * 3.7e10 (Bq/Ci) * 1 (decay/s)/Bq * 2.363 photons/decay *3600 (s/h) = [Gy/h] * 100 = [cGy/h]
 std::cout << "conv = " << conv << std::endl; 
 
@@ -201,7 +160,7 @@ Double_t Unc_F[401][91];
 Double_t Unc_GL_norm[401][91];
 
 Double_t RMS_h_geom = 0.0037; //brachytherapy0608
-Double_t U_xsec = 0.02;
+Double_t U_xsec = 0.0068;
 Double_t U_I = 0.005;
 Double_t U_geom = 0.02;
 
@@ -404,7 +363,7 @@ for (int i=0; i<=400; i+=4)
     {
 	 myfile_gL << R <<  "     " <<  gL_r[i] <<  "     " <<  Unc_gL[i] << "\n";                     
     }
-   myfile_dose_val << R <<  "     " << D_dot[i][90]/D_dot[40][90] <<  "\n";                     
+   myfile_dose_val << R <<  "     " << D_dot[i][90] <<  "\n";                     
    myfile_GL_0 << R <<  "     " << GL_norm[i][0] << "     " << Unc_GL_norm[i][0] <<    "\n";                     
    myfile_GL_10 << R <<  "     " << GL_norm[i][10] << "     " << Unc_GL_norm[i][10] <<    "\n";                     
    myfile_GL_20 << R <<  "     " << GL_norm[i][20] << "     " << Unc_GL_norm[i][20] <<    "\n";                     
