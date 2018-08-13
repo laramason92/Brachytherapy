@@ -5,8 +5,8 @@
 //#include <math.h>
 
 gROOT -> Reset();
-TFile f("brachytherapy.root");
-//TFile f(" brachytherapy0608.root");
+//TFile f("brachytherapy.root");
+TFile f(" brachytherapy_1e9_kerma_1308.root");
 
 //******************** DEFINITIONS ******************************// 					     
 Double_t L = 0.35; //seed length in cm
@@ -219,6 +219,9 @@ for (int q=0; q< numberOfBins; q++)
           Voxels[radInt][thetaInt] +=1; //how many times did we add to this coordinate - so essentially we are taking the average of this many energy depositions in this little square to get the energy deposition at this point 
           if ( edep_histo > 0){
            Unc_edep[radInt][thetaInt] += (RMS_h_geom/edep_histo);
+           Double_t u_check = RMS_h_geom/edep_histo;
+           std::cout << u_check << std::endl;
+
            }
           if (thetaInt == 0){
               GL_val = fabs(1./ ( (radInt/40.)**2-L**2/4.)); //radInt in cm
