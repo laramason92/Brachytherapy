@@ -6,7 +6,8 @@
 
 gROOT -> Reset();
 //TFile f("brachytherapy.root");
-TFile f(" brachytherapy_1e9_kerma_1308.root");
+//TFile f(" brachytherapy_1e9_kerma_1308.root");
+TFile f("brachytherapy0608.root");
 
 //******************** DEFINITIONS ******************************// 					     
 Double_t L = 0.35; //seed length in cm
@@ -128,7 +129,7 @@ for (int k=0; k< Kerma_numberOfBins; k++)
    Double_t Kerma_histo=h30.GetBinContent(k, m);
    Double_t u = 30./Kerma_histo;
    Double_t Kerma_mGy = Kerma_histo *  1.602e-10; // Convert keV/g to mGy 
-   std::cout << u << std::endl; 
+   //std::cout << u << std::endl; 
    Kerma_val += Kerma_mGy; 
 }}
 
@@ -178,7 +179,7 @@ for (int i=0; i <401; i++)
    GL[i][j]=0.;
 }}
 
-std::cout << Voxels[200][450] <<std::endl;
+//std::cout << Voxels[200][450] <<std::endl;
 
 for (int q=0; q< numberOfBins; q++)
  {
@@ -220,7 +221,7 @@ for (int q=0; q< numberOfBins; q++)
           if ( edep_histo > 0){
            Unc_edep[radInt][thetaInt] += (RMS_h_geom/edep_histo);
            Double_t u_check = RMS_h_geom/edep_histo;
-           std::cout << u_check << std::endl;
+           //std::cout << u_check << std::endl;
 
            }
           if (thetaInt == 0){

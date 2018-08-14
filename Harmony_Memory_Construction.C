@@ -11,7 +11,7 @@ srand ( time(NULL) );
 //First code randomly initialises HMS vectors of length n and outputs the macros. it should also output a text file detailing the harmony memory vectors
 
 //Then run geant4 on each macro and rename the output accordingly
-// mv brachytherapy.root brach
+// mv brachytherapy.root brachytherapy_HM_1...
 
 //Second code  makes a new vector called "new" and adds it as "new and pending" to the memory text file, and outputs the macro
 
