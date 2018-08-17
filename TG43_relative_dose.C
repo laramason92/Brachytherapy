@@ -5,9 +5,9 @@
 //#include <math.h>
 
 gROOT -> Reset();
-//TFile f("brachytherapy.root");
+TFile f("brachytherapy.root");
 //TFile f(" brachytherapy_2e9_kerma_1408.root");
-TFile f("brachytherapy0608.root");
+//TFile f("brachytherapy0608.root");
 
 //******************** DEFINITIONS ******************************// 					     
 Double_t L = 0.35; //seed length in cm
@@ -162,7 +162,8 @@ Double_t Unc_gL[401];
 Double_t Unc_F[401][91];
 Double_t Unc_GL_norm[401][91];
 
-Double_t RMS_h_geom = 0.0037; //brachytherapy0608
+Double_t RMS_h_geom = 3.7; //brachytherapy0608
+//Double_t RMS_h_geom = 0.0037; //brachytherapy0608
 Double_t U_xsec = 0.0068;
 Double_t U_I = 0.005;
 Double_t U_geom = 0.02;
