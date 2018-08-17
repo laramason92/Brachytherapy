@@ -6,7 +6,7 @@
 
 gROOT -> Reset();
 //TFile f("brachytherapy.root");
-//TFile f(" brachytherapy_1e9_kerma_1308.root");
+//TFile f(" brachytherapy_2e9_kerma_1408.root");
 TFile f("brachytherapy0608.root");
 
 //******************** DEFINITIONS ******************************// 					     
@@ -41,7 +41,7 @@ Int_t radIntKERMA; //nearest integer of radius (mm)
 
 Int_t numberOfBins=801;
 
-Double_t Sk = 5.1e4; // [U] from Lopez Donaire and Alcalde
+Double_t Sk = 40716;
 Double_t Lambda;
 
 std::cout << "Have you edited the uncertainty params correctly?" << std::endl;
@@ -117,6 +117,9 @@ std::cout << "Have you edited the uncertainty params correctly?" << std::endl;
 Int_t Kerma_numberOfBins = 400;
 Double_t Kerma_val = 0.;
 
+TH2F* hist = (TH2F*)f.Get("h30");
+//hist.Draw();
+
 //// Get total kerma in critical volume at a reference distance
 
 for (int k=0; k< Kerma_numberOfBins; k++)
@@ -143,11 +146,10 @@ std::cout << Kerma_val << std::endl;
 Double_t EnergyMap[401][91]; //2D map of total energy in "radial distance (mm)" and "angle (degrees)"
 Int_t Voxels[401][91]; //the number of voxels used to provide dose to each element of the energy map 
 Double_t GL[401][91];
-Double_t Mass_water_voxel = 1e-3;// g 
+Double_t Mass_water_voxel = 1e-3;//1e-3*0.005;//0.00025;//1e-6;// g 
 //Double_t conv = 1.602e-11 ; //convert keV/g to cGy
-//Double_t conv = 1e-3 * 2.301*2.13e3 ; //Medich and Munro
-//Double_t conv = 1.602e-11 *2.2970; //onvert keV/g to cGy and then "rate" is per decay Casado, Garcia-Pareja, Cenizo ..
-Double_t conv = 1.602e-11; //onvert keV/g to cGy
+Double_t conv = 1.602e-11 * 1667902.9; //convert keV/g to cGy and then multiply by conversion from events to hours (THIS IS FOR 2e9 EVENTS)
+//Double_t conv = 1.602e-11 * 1111935.27; //cGy/h for 3e9 events
 // 1e3 * 1.6022e-19 * 1e3 * 10 * 3.7e10 * 1 * 2.363 * 100 * 3600;//1.6022e-16 (J/kev) *1e3 (g/kg) * 10 Ci * 3.7e10 (Bq/Ci) * 1 (decay/s)/Bq * 2.363 photons/decay *3600 (s/h) = [Gy/h] * 100 = [cGy/h]
 std::cout << "conv = " << conv << std::endl; 
 
@@ -307,8 +309,14 @@ for (int i=0; i<400; i++)
  }
 }
 
+Double_t TG43_norm_pt_dose = Sk*Lambda*GL[40][90]/GL_r0_theta0*F_r_theta[40][90]*gL_r[40];
+std::cout << "TG43_norm_pt_dose" << TG43_norm_pt_dose << std::endl;
+
 ofstream myfile_dose;
 ofstream myfile_dose_val;
+
+ofstream myfile_TG43;
+ofstream myfile_TG43_rad_dose;
 
 ofstream myfile_GL_0;
 ofstream myfile_GL_10;
@@ -336,6 +344,9 @@ ofstream myfile_F_90;
 
 myfile_dose.open ("geant4_dose_with_theta.txt");
 myfile_dose_val.open("geant4_dose.txt");
+
+myfile_TG43.open("TG43_dose_calc.txt");
+myfile_TG43_rad_dose.open("TG43_rad_dose.txt");
 
 myfile_GL_0.open ("GL_r_theta_0.txt");
 myfile_GL_10.open ("GL_r_theta_10.txt");
@@ -366,8 +377,10 @@ for (int i=0; i<=400; i+=4)
   if (R > 0.05)
     {
 	 myfile_gL << R <<  "     " <<  gL_r[i] <<  "     " <<  Unc_gL[i] << "\n";                     
+         myfile_TG43_rad_dose << R <<  "     "  << Sk*Lambda*(GL[i][90]/GL_r0_theta0)*F_r_theta[i][90]*gL_r[i]<< "\n";      ///TG43_norm_pt_dose << "\n";   
     }
    myfile_dose_val << R <<  "     " << D_dot[i][90] <<  "\n";                     
+   //if (R > 0.05)
    myfile_GL_0 << R <<  "     " << GL_norm[i][0] << "     " << Unc_GL_norm[i][0] <<    "\n";                     
    myfile_GL_10 << R <<  "     " << GL_norm[i][10] << "     " << Unc_GL_norm[i][10] <<    "\n";                     
    myfile_GL_20 << R <<  "     " << GL_norm[i][20] << "     " << Unc_GL_norm[i][20] <<    "\n";                     
@@ -390,11 +403,13 @@ for (int i=0; i<=400; i+=4)
    myfile_F_80 << R <<  "    " << F_r_theta[i][80] << "     " << Unc_F[i][80] <<     "\n";                     
    myfile_F_90 << R <<  "    " << F_r_theta[i][90] << "     " << Unc_F[i][90] <<     "\n";                     
 
+
    for (int j=0; j<91; j++)
    { 
    if (R>  0.05)
       {
       myfile_dose << R <<  "     " << j << "     " << D_dot[i][j] <<  "     " << Unc_D_dot[i][j] <<  "\n";                     
+      myfile_TG43 << R <<  "     " << j << "     " << Sk*Lambda*GL[i][j]/GL_r0_theta0*F_r_theta[i][j]*gL_r[i] << "\n"; 
       }
      } 
 }
@@ -424,4 +439,8 @@ myfile_F_90.close();
 
 myfile_gL.close();
 myfile_dose_val.close();
+
+myfile_TG43.close();
+
+
 } 

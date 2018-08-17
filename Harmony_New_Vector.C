@@ -49,7 +49,7 @@ std::vector<int>  new_candidate;
 
 for (int m=0; m<vec_length; m++){ //construct a new vector
   if (r1 < HMCR){
-   Int_t new_val = data[r2][m];       
+   int new_val = data[r2][m];       
    if (r1 < PAR){
 
    if (plusminus ==0){
@@ -60,6 +60,9 @@ for (int m=0; m<vec_length; m++){ //construct a new vector
     }
 
     } 
+   else{
+   int cand_val = new_val;
+   }
    }
   else {
    int cand_val = (double) rand()/((double)RAND_MAX+1)*DT_max*secs_to_events;
