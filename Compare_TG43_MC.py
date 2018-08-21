@@ -2,7 +2,7 @@ from scipy.optimize import curve_fit
 import matplotlib.pyplot as plt
 
 Sk = 40716
-Lambda = 1.117
+Lambda = 1.02507#1.117
 
 file_GL_0 = open("GL_r_theta_0.txt", "r")
 file_GL_10 = open("GL_r_theta_10.txt", "r")
@@ -165,6 +165,7 @@ for l in file_GL_0:
 		    r_0.append(float(row[0])) #/10 to get to cm
 		    GL_0.append(float(row[1]))
 
+print "read gL, GL"
 #************ theta = 10 ******************
 for l in file_GL_10:
     row = l.split()
@@ -359,6 +360,16 @@ for i in range(len(r_90)):
   dose_TG43 = Sk * Lambda * (GL_90[i]/(r_90[i]*r_90[i])) * gL[i] * FL_90[i]
   dose_TG43_90.append(dose_TG43)
 
+print r_90
+print dose_TG43_0
+print dose_TG43_10
+print dose_TG43_20
+print dose_TG43_30
+print dose_TG43_40
+print dose_TG43_50
+print dose_TG43_60
+print dose_TG43_70
+print dose_TG43_80
 print dose_TG43_90
 
 

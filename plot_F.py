@@ -79,36 +79,10 @@ ref_F_70 = []
 ref_F_80 = []
 ref_F_90 = []
 
+
+r_plot = [0.4,0.5,0.7,1,1.5,2,3,4,5,6,7,8,9]
 #************ theta = 0 ******************
-for l in file_F_0:
-    row = l.split()
-
-    #print float(row[0]), " & " , float(row[1]), " & ", float(row[2]), " & " , float(row[3]), " \\ "
-
-    r_F_0.append(float(row[0])) #/10 to get to cm
-    F_0.append(float(row[1]))
-    U_F_0.append(float(row[2]))
-
-F_rounded_0 = [0.]*11
-F_rounded_err_0 = [0.]*11
-bins_0 = [0.]*11
-
-for s in range(len(r_F_0)):
-
-  nint = int(round(r_F_0[s]))
-  if F_0[s]>0:
-    F_rounded_0[nint] += float(F_0[s])
-    F_rounded_err_0[nint] += float(U_F_0[s])
-    bins_0[nint] += float(1)
-
-F_plot_0 = [0.]*11
-F_plot_err_0 = [0.]*11
-
-r_0 = [i for i in range(len(F_rounded_0))]
-for m in range(len(F_rounded_0)):
-  F_plot_0[m] = F_rounded_0[m]/bins_0[m]
-  F_plot_err_0[m] = F_rounded_err_0[m]/bins_0[m]
-  r_0[m] = float(r_0[m])
+r_0_plot = [0.4,0.5,0.7,1,1.5,2,3,4,5,6]
 
 for l in ref_file_F_0:
     row = l.split()
@@ -116,22 +90,83 @@ for l in ref_file_F_0:
     ref_r_F_0.append(float(row[0])) #/10 to get to cm
     ref_F_0.append(float(row[1]))
 
-#print r_0
-#print F_plot_0
-#print F_plot_err
+for l in file_F_0:
+    row = l.split()
 
-plt.errorbar(r_0,F_plot_0,yerr=F_plot_err_0, label='Geant4',color='red', ls='--', marker='o', capsize=5, capthick=1, ecolor='red')
+    r_F_0.append(float(row[0])) #/10 to get to cm
+    F_0.append(float(row[1]))
+    U_F_0.append(float(row[2]))
+
+F_plot_0 = [0.]*10
+F_plot_err_0 = [0.]*10
+
+for l in range(len(F_0)):
+
+ if r_F_0[l]==0.4: #if r_F_0[l]>=0 and r_F[l]<0.375: #0.45
+    F_plot_0[0] += F_0[l]
+    F_plot_err_0[0] += U_F_0[l]
+
+ if r_F_0[l]==0.5:   #if r_F_0[l]>=0.375 and r_F[l]<0.625: #0.5
+    F_plot_0[1] += F_0[l]
+    F_plot_err_0[1] += U_F_0[l]
+
+ if r_F_0[l]==0.7:     #if r_F_0[l]>=0.625 and r_F[l]<0.775: #0.75
+    F_plot_0[2] += F_0[l]
+    F_plot_err_0[2] += U_F_0[l]
+
+ if r_F_0[l]==0.9: #if r_F_0[l]>=0.775 and r_F[l]<1.25: #1
+    F_plot_0[3] += F_0[l]
+    F_plot_err_0[3] += U_F_0[l]
+
+ if r_F_0[l]==1.4: #if r_F_0[l]>=1.25 and r_F[l]<1.75: #1.5
+    F_plot_0[4] += F_0[l]
+    F_plot_err_0[4] += U_F_0[l]
+
+ if r_F_0[l]==2: #if r_F_0[l]>=1.75 and r_F[l]<2.5: #2
+    F_plot_0[5] += F_0[l]
+    F_plot_err_0[5] += U_F_0[l]
+
+ if r_F_0[l]==2.9: #if r_F_0[l]>=2.5 and r_F[l]<3.5: #3
+    F_plot_0[6] += F_0[l]
+    F_plot_err_0[6] += U_F_0[l]
+
+ if r_F_0[l]==4.2: #if r_F_0[l]>=3.5 and r_F[l]<4.5: #4
+    F_plot_0[7] += F_0[l]
+    F_plot_err_0[7] += U_F_0[l]
+
+
+ if r_F_0[l]==5: #if r_F_0[l]>=4.5 and r_F[l]<5.5: #5
+    F_plot_0[8] += F_0[l]
+    F_plot_err_0[8] += U_F_0[l]
+
+ if r_F_0[l]==5.9: #if r_F_0[l]>=5.5 and r_F[l]<6.5: #6
+    F_plot_0[9] += F_0[l]
+    F_plot_err_0[9] += U_F_0[l]
+
+print r_plot
+print F_plot_0
+print F_plot_err_0
+
+plt.errorbar(r_0_plot,F_plot_0,yerr=F_plot_err_0, label='Geant4',color='red', ls='--', marker='o', capsize=5, capthick=1, ecolor='red')
 plt.plot(ref_r_F_0, ref_F_0,color='black', marker='o', label='Ref. Data',linestyle='dashed')
 plt.legend()
-plt.ylim([0,3.5])
+plt.ylim([0,2])
+plt.xlim([0,7])
 plt.xlabel('r(cm)',family='sans-serif', fontsize=16)
 plt.ylabel(r'$F(r,\theta)$',family='sans-serif', fontsize=18, fontweight='heavy')
-plt.text(1, 3, r'$\theta = 0$', family='sans-serif', fontsize=18, fontweight='heavy')
+plt.text(1, 1.75, r'$\theta = 0$', family='sans-serif', fontsize=18, fontweight='heavy')
 plt.savefig('F_theta_0_plot.eps')
 plt.show()
 
 
-#************ theta = 10 ******************
+#************ theta = 0 ******************
+r_10_plot = [1.2,1.5,2,2.5,3,4,5,6]
+for l in ref_file_F_10:
+    row = l.split()
+
+    ref_r_F_10.append(float(row[0])) #/10 to get to cm
+    ref_F_10.append(float(row[1]))
+
 for l in file_F_10:
     row = l.split()
 
@@ -139,78 +174,62 @@ for l in file_F_10:
     F_10.append(float(row[1]))
     U_F_10.append(float(row[2]))
 
-F_rounded_10 = [0.]*11
-F_rounded_err_10 = [0.]*11
-bins_10 = [0.]*11
+F_plot_10 = [0.]*8
+F_plot_err_10 = [0.]*8
 
-for s in range(len(r_F_10)):
+for l in range(len(F_10)):
 
-  nint = int(round(r_F_10[s]))
-  if F_10[s]>0:
-    F_rounded_10[nint] += float(F_10[s])
-    F_rounded_err_10[nint] += float(U_F_10[s])
-    bins_10[nint] += float(1)
+ if r_F_10[l]==1.2: #if r_F_10[l]>=0 and r_F[l]<0.375: #0.45
+    F_plot_10[0] += F_10[l]
+    F_plot_err_10[0] += U_F_10[l]
 
-F_plot_10 = [0.]*11
-F_plot_err_10 = [0.]*11
+ if r_F_10[l]==1.5:   #if r_F_10[l]>=0.375 and r_F[l]<0.625: #0.5
+    F_plot_10[1] += F_10[l]
+    F_plot_err_10[1] += U_F_10[l]
 
-r_10 = [i for i in range(len(F_rounded_10))]
-for m in range(len(F_rounded_10)):
- if bins_10[m]>0:
-  F_plot_10[m] = F_rounded_10[m]/bins_10[m]
-  F_plot_err_10[m] = F_rounded_err_10[m]/bins_10[m]
- else:
-  F_plot_10[m] = 0
-  F_plot_err_10[m] = 0
-  r_10[m] = float(r_10[m])
- 
-for l in ref_file_F_10:
-    row = l.split()
+ if r_F_10[l]==2.0:     #if r_F_10[l]>=0.625 and r_F[l]<0.775: #0.75
+    F_plot_10[2] += F_10[l]
+    F_plot_err_10[2] += U_F_10[l]
 
-    ref_r_F_10.append(float(row[0])) #/10 to get to cm
-    ref_F_10.append(float(row[1]))
+ if r_F_10[l]==2.3: #if r_F_10[l]>=0.875 and r_F[l]<1.25: #1
+    F_plot_10[3] += F_10[l]
+    F_plot_err_10[3] += U_F_10[l]
+
+ if r_F_10[l]==2.7: #if r_F_10[l]>=1.25 and r_F[l]<1.75: #1.5
+    F_plot_10[4] += F_10[l]
+    F_plot_err_10[4] += U_F_10[l]
+
+ if r_F_10[l]==3.8: #if r_F_10[l]>=1.75 and r_F[l]<2.5: #2
+    F_plot_10[5] += F_10[l]
+    F_plot_err_10[5] += U_F_10[l]
+
+ if r_F_10[l]==5: #if r_F_10[l]>=2.5 and r_F[l]<3.5: #3
+    F_plot_10[6] += F_10[l]
+    F_plot_err_10[6] += U_F_10[l]
+
+ if r_F_10[l]==5.9: #if r_F_10[l]>=3.5 and r_F[l]<4.5: #4
+    F_plot_10[7] += F_10[l]
+    F_plot_err_10[7] += U_F_10[l]
 
 
-#print F_plot_10
-plt.errorbar(r_10,F_plot_10,yerr=F_plot_err_10, label='Geant4',color='red', ls='--', marker='o', capsize=5, capthick=1, ecolor='red')
-plt.plot(ref_r_F_10, ref_F_10,color='black',label='Ref. Data', marker='o', linestyle='dashed')
+print r_plot
+print F_plot_10
+print F_plot_err_10
+
+plt.errorbar(r_10_plot,F_plot_10,yerr=F_plot_err_10, label='Geant4',color='red', ls='--', marker='o', capsize=5, capthick=1, ecolor='red')
+plt.plot(ref_r_F_10, ref_F_10,color='black', marker='o', label='Ref. Data',linestyle='dashed')
 plt.legend()
+plt.xlim([0,7])
+plt.ylim([0,2])
 plt.xlabel('r(cm)',family='sans-serif', fontsize=16)
 plt.ylabel(r'$F(r,\theta)$',family='sans-serif', fontsize=18, fontweight='heavy')
-plt.ylim([0,3.5])
-plt.text(1, 3, r'$\theta = 10$', family='sans-serif', fontsize=18, fontweight='heavy')
+plt.text(1, 1.75, r'$\theta = 10$', family='sans-serif', fontsize=18, fontweight='heavy')
 plt.savefig('F_theta_10_plot.eps')
 plt.show()
 
 
 #************ theta = 20 ******************
-for l in file_F_20:
-    row = l.split()
-
-    r_F_20.append(float(row[0])) #/10 to get to cm
-    F_20.append(float(row[1]))
-    U_F_20.append(float(row[2]))
-
-F_rounded_20 = [0.]*11
-F_rounded_err_20 = [0.]*11
-bins_20 = [0.]*11
-
-for s in range(len(r_F_20)):
-
-  nint = int(round(r_F_20[s]))
-  if F_20[s]>0:
-    F_rounded_20[nint] += float(F_20[s])
-    F_rounded_err_20[nint] += float(U_F_20[s])
-    bins_20[nint] += float(1)
-
-F_plot_20 = [0.]*11
-F_plot_err_20 = [0.]*11
-
-r_20 = [i for i in range(len(F_rounded_20))]
-for m in range(len(F_rounded_20)):
-  F_plot_20[m] = F_rounded_20[m]/bins_20[m]
-  F_plot_err_20[m] = F_rounded_err_20[m]/bins_20[m]
-  r_20[m] = float(r_20[m])
+r_20_plot = [0.3,0.8,1,2,4.1,5,6]
 
 for l in ref_file_F_20:
     row = l.split()
@@ -218,21 +237,71 @@ for l in ref_file_F_20:
     ref_r_F_20.append(float(row[0])) #/10 to get to cm
     ref_F_20.append(float(row[1]))
 
+for l in file_F_20:
+    row = l.split()
 
-#print F_plot_20
-plt.errorbar(r_20,F_plot_20,yerr=F_plot_err_20, color='red',label='Geant4', ls='--', marker='o', capsize=5, capthick=1, ecolor='red')
-plt.plot(ref_r_F_20, ref_F_20,color='black',label='Ref. Data', marker='o', linestyle='dashed')
-#plt.xlim([0.4,10])
-plt.ylim([0,3.5])
+    r_F_20.append(float(row[0])) #/10 to get to cm
+    F_20.append(float(row[1]))
+    U_F_20.append(float(row[2]))
+
+F_plot_20 = [0.]*7
+F_plot_err_20 = [0.]*7
+
+for l in range(len(F_20)):
+
+ if r_F_20[l]==0.3: #if r_F_20[l]>=0 and r_F[l]<0.375: #0.45
+    F_plot_20[0] += F_20[l]
+    F_plot_err_20[0] += U_F_20[l]
+
+ if r_F_20[l]==0.8:   #if r_F_20[l]>=0.375 and r_F[l]<0.625: #0.5
+    F_plot_20[1] += F_20[l]
+    F_plot_err_20[1] += U_F_20[l]
+
+ if r_F_20[l]==1.2:     #if r_F_20[l]>=0.625 and r_F[l]<0.875: #0.75
+    F_plot_20[2] += F_20[l]
+    F_plot_err_20[2] += U_F_20[l]
+
+ if r_F_20[l]==2: #if r_F_20[l]>=0.875 and r_F[l]<1.25: #1
+    F_plot_20[3] += F_20[l]
+    F_plot_err_20[3] += U_F_20[l]
+
+ if r_F_20[l]==4.1: #if r_F_20[l]>=1.25 and r_F[l]<1.75: #1.5
+    F_plot_20[4] += F_20[l]
+    F_plot_err_20[4] += U_F_20[l]
+
+ if r_F_20[l]==5.1: #if r_F_20[l]>=1.75 and r_F[l]<2.5: #2
+    F_plot_20[5] += F_20[l]
+    F_plot_err_20[5] += U_F_20[l]
+
+ if r_F_20[l]==6: #if r_F_20[l]>=2.5 and r_F[l]<3.5: #3
+    F_plot_20[6] += F_20[l]
+    F_plot_err_20[6] += U_F_20[l]
+
+
+print r_plot
+print F_plot_20
+print F_plot_err_20
+
+plt.errorbar(r_20_plot,F_plot_20,yerr=F_plot_err_20, label='Geant4',color='red', ls='--', marker='o', capsize=5, capthick=1, ecolor='red')
+plt.plot(ref_r_F_20, ref_F_20,color='black', marker='o', label='Ref. Data',linestyle='dashed')
+plt.legend()
+plt.xlim([0,7])
+plt.ylim([0,2])
 plt.xlabel('r(cm)',family='sans-serif', fontsize=16)
 plt.ylabel(r'$F(r,\theta)$',family='sans-serif', fontsize=18, fontweight='heavy')
-plt.legend()
-plt.text(1, 3, r'$\theta = 20$', family='sans-serif', fontsize=18, fontweight='heavy')
+plt.text(1, 1.75, r'$\theta = 20$', family='sans-serif', fontsize=18, fontweight='heavy')
 plt.savefig('F_theta_20_plot.eps')
 plt.show()
 
 
 #************ theta = 30 ******************
+r_30_plot = [0.2,0.6,0.8,2,3,4,5]
+for l in ref_file_F_30:
+    row = l.split()
+
+    ref_r_F_30.append(float(row[0])) #/10 to get to cm
+    ref_F_30.append(float(row[1]))
+
 for l in file_F_30:
     row = l.split()
 
@@ -240,48 +309,63 @@ for l in file_F_30:
     F_30.append(float(row[1]))
     U_F_30.append(float(row[2]))
 
-F_rounded_30 = [0.]*11
-F_rounded_err_30 = [0.]*11
-bins_30 = [0.]*11
+F_plot_30 = [0.]*7
+F_plot_err_30 = [0.]*7
 
-for s in range(len(r_F_30)):
+for l in range(len(F_30)):
 
-  nint = int(round(r_F_30[s]))
-  if F_30[s]>0:
-    F_rounded_30[nint] += float(F_30[s])
-    F_rounded_err_30[nint] += float(U_F_30[s])
-    bins_30[nint] += float(1)
+ if r_F_30[l]==0.2: #if r_F_30[l]>=0 and r_F[l]<0.375: #0.45
+    F_plot_30[0] += F_30[l]
+    F_plot_err_30[0] += U_F_30[l]
 
-F_plot_30 = [0.]*11
-F_plot_err_30 = [0.]*11
+ if r_F_30[l]==0.6:   #if r_F_30[l]>=0.375 and r_F[l]<0.625: #0.5
+    F_plot_30[1] += F_30[l]
+    F_plot_err_30[1] += U_F_30[l]
 
-r_30 = [i for i in range(len(F_rounded_30))]
-for m in range(len(F_rounded_30)):
-  F_plot_30[m] = F_rounded_30[m]/bins_30[m]
-  F_plot_err_30[m] = F_rounded_err_30[m]/bins_30[m]
-  r_30[m] = float(r_30[m])
+ if r_F_30[l]==0.8:     #if r_F_30[l]>=0.625 and r_F[l]<0.875: #0.75
+    F_plot_30[2] += F_30[l]
+    F_plot_err_30[2] += U_F_30[l]
 
-for l in ref_file_F_30:
-    row = l.split()
+ if r_F_30[l]==2.1: #if r_F_30[l]>=0.875 and r_F[l]<1.25: #1
+    F_plot_30[3] += F_30[l]
+    F_plot_err_30[3] += U_F_30[l]
 
-    ref_r_F_30.append(float(row[0])) #/10 to get to cm
-    ref_F_30.append(float(row[1]))
+ if r_F_30[l]==3: #if r_F_30[l]>=1.25 and r_F[l]<1.75: #1.5
+    F_plot_30[4] += F_30[l]
+    F_plot_err_30[4] += U_F_30[l]
 
+ if r_F_30[l]==4.1: #if r_F_30[l]>=1.75 and r_F[l]<2.5: #2
+    F_plot_30[5] += F_30[l]
+    F_plot_err_30[5] += U_F_30[l]
 
-#print F_plot_30
-plt.errorbar(r_30,F_plot_30,yerr=F_plot_err_30, color='red',label='Geant4', ls='--', marker='o', capsize=5, capthick=1, ecolor='red')
-plt.plot(ref_r_F_30, ref_F_30,color='black',label='Ref. Data', marker='o', linestyle='dashed')
-#plt.xlim([0.4,10])
-plt.ylim([0,3.5])
-plt.xlabel('r(cm)',family='sans-serif', fontsize=16)
-plt.ylabel(r'$F(r,\theta)$',family='sans-serif', fontsize=18, fontweight='heavy')
+ if r_F_30[l]==5.9: #if r_F_30[l]>=2.5 and r_F[l]<3.5: #3
+    F_plot_30[6] += F_30[l]
+    F_plot_err_30[6] += U_F_30[l]
+
+print r_plot
+print F_plot_30
+print F_plot_err_30
+
+plt.errorbar(r_30_plot,F_plot_30,yerr=F_plot_err_30, label='Geant4',color='red', ls='--', marker='o', capsize=5, capthick=1, ecolor='red')
+plt.plot(ref_r_F_30, ref_F_30,color='black', marker='o', label='Ref. Data',linestyle='dashed')
 plt.legend()
-plt.text(1, 3, r'$\theta = 30$', family='sans-serif', fontsize=18, fontweight='heavy')
+plt.ylim([0,2])
+plt.xlabel('r(cm)',family='sans-serif', fontsize=16)
+plt.xlim([0,7])
+plt.ylabel(r'$F(r,\theta)$',family='sans-serif', fontsize=18, fontweight='heavy')
+plt.text(1, 1.75, r'$\theta = 30$', family='sans-serif', fontsize=18, fontweight='heavy')
 plt.savefig('F_theta_30_plot.eps')
 plt.show()
 
 
-#************ theta = 40 ******************
+#************ theta = 0 ******************
+r_40_plot = [0.4,1,1.2,1.6,2.7,3.9,5.8]
+for l in ref_file_F_40:
+    row = l.split()
+
+    ref_r_F_40.append(float(row[0])) #/10 to get to cm
+    ref_F_40.append(float(row[1]))
+
 for l in file_F_40:
     row = l.split()
 
@@ -289,49 +373,63 @@ for l in file_F_40:
     F_40.append(float(row[1]))
     U_F_40.append(float(row[2]))
 
-F_rounded_40 = [0.]*11
-F_rounded_err_40 = [0.]*11
-bins_40 = [0.]*11
+F_plot_40 = [0.]*7
+F_plot_err_40 = [0.]*7
 
-for s in range(len(r_F_40)):
+for l in range(len(F_40)):
 
-  nint = int(round(r_F_40[s]))
-  if F_40[s]>0:
-    F_rounded_40[nint] += float(F_40[s])
-    F_rounded_err_40[nint] += float(U_F_40[s])
-    bins_40[nint] += float(1)
+ if r_F_40[l]==0.4: #if r_F_40[l]>=0 and r_F[l]<0.375: #0.45
+    F_plot_40[0] += F_40[l]
+    F_plot_err_40[0] += U_F_40[l]
 
-F_plot_40 = [0.]*11
-F_plot_err_40 = [0.]*11
+ if r_F_40[l]==1:   #if r_F_40[l]>=0.375 and r_F[l]<0.625: #0.5
+    F_plot_40[1] += F_40[l]
+    F_plot_err_40[1] += U_F_40[l]
 
-r_40 = [i for i in range(len(F_rounded_40))]
-for m in range(len(F_rounded_40)):
-  F_plot_40[m] = F_rounded_40[m]/bins_40[m]
-  F_plot_err_40[m] = F_rounded_err_40[m]/bins_40[m]
-  r_40[m] = float(r_40[m])
+ if r_F_40[l]==1.2:     #if r_F_40[l]>=0.625 and r_F[l]<0.875: #0.75
+    F_plot_40[2] += F_40[l]
+    F_plot_err_40[2] += U_F_40[l]
 
-for l in ref_file_F_40:
-    row = l.split()
+ if r_F_40[l]==1.6: #if r_F_40[l]>=0.875 and r_F[l]<1.25: #1
+    F_plot_40[3] += F_40[l]
+    F_plot_err_40[3] += U_F_40[l]
 
-    ref_r_F_40.append(float(row[0])) #/10 to get to cm
-    ref_F_40.append(float(row[1]))
+ if r_F_40[l]==2.7: #if r_F_40[l]>=1.25 and r_F[l]<1.75: #1.5
+    F_plot_40[4] += F_40[l]
+    F_plot_err_40[4] += U_F_40[l]
 
+ if r_F_40[l]==3.9: #if r_F_40[l]>=1.75 and r_F[l]<2.5: #2
+    F_plot_40[5] += F_40[l]
+    F_plot_err_40[5] += U_F_40[l]
 
-#print F_plot_40
-plt.errorbar(r_40,F_plot_40,yerr=F_plot_err_40, color='red',label='Geant4', ls='--', marker='o', capsize=5, capthick=1, ecolor='red')
-plt.plot(ref_r_F_40, ref_F_40,color='black',label='Ref. Data', marker='o', linestyle='dashed')
-#plt.xlim([0.4,10])
+ if r_F_40[l]==5.8: #if r_F_40[l]>=2.5 and r_F[l]<3.5: #3
+    F_plot_40[6] += F_40[l]
+    F_plot_err_40[6] += U_F_40[l]
+
+print r_plot
+print F_plot_40
+print F_plot_err_40
+
+plt.errorbar(r_40_plot,F_plot_40,yerr=F_plot_err_40, label='Geant4',color='red', ls='--', marker='o', capsize=5, capthick=1, ecolor='red')
+plt.plot(ref_r_F_40, ref_F_40,color='black', marker='o', label='Ref. Data',linestyle='dashed')
 plt.legend()
-plt.ylim([0,3.5])
+plt.ylim([0,2])
 plt.xlabel('r(cm)',family='sans-serif', fontsize=16)
 plt.ylabel(r'$F(r,\theta)$',family='sans-serif', fontsize=18, fontweight='heavy')
-plt.text(1, 3, r'$\theta = 40$', family='sans-serif', fontsize=18, fontweight='heavy')
+plt.xlim([0,7])
+plt.text(1, 1.75, r'$\theta = 40$', family='sans-serif', fontsize=18, fontweight='heavy')
 plt.savefig('F_theta_40_plot.eps')
 plt.show()
 
 
+#************ theta = 0 ******************
+r_50_plot = [0.2,1,2.6,3.1,3.7,5,6.1]
+for l in ref_file_F_50:
+    row = l.split()
 
-#************ theta = 50 ******************
+    ref_r_F_50.append(float(row[0])) #/10 to get to cm
+    ref_F_50.append(float(row[1]))
+
 for l in file_F_50:
     row = l.split()
 
@@ -339,48 +437,64 @@ for l in file_F_50:
     F_50.append(float(row[1]))
     U_F_50.append(float(row[2]))
 
-F_rounded_50 = [0.]*11
-F_rounded_err_50 = [0.]*11
-bins_50 = [0.]*11
+F_plot_50 = [0.]*7
+F_plot_err_50 = [0.]*7
 
-for s in range(len(r_F_50)):
+for l in range(len(F_50)):
 
-  nint = int(round(r_F_50[s]))
-  if F_50[s]>0:
-    F_rounded_50[nint] += float(F_50[s])
-    F_rounded_err_50[nint] += float(U_F_50[s])
-    bins_50[nint] += float(1)
+ if r_F_50[l]==0.2: #if r_F_50[l]>=0 and r_F[l]<0.375: #0.45
+    F_plot_50[0] += F_50[l]
+    F_plot_err_50[0] += U_F_50[l]
 
-F_plot_50 = [0.]*11
-F_plot_err_50 = [0.]*11
+ if r_F_50[l]==1:   #if r_F_50[l]>=0.375 and r_F[l]<0.625: #0.5
+    F_plot_50[1] += F_50[l]
+    F_plot_err_50[1] += U_F_50[l]
 
-r_50 = [i for i in range(len(F_rounded_50))]
-for m in range(len(F_rounded_50)):
-  F_plot_50[m] = F_rounded_50[m]/bins_50[m]
-  F_plot_err_50[m] = F_rounded_err_50[m]/bins_50[m]
-  r_50[m] = float(r_50[m])
+ if r_F_50[l]==2.6:     #if r_F_50[l]>=0.625 and r_F[l]<0.875: #0.75
+    F_plot_50[2] += F_50[l]
+    F_plot_err_50[2] += U_F_50[l]
 
-for l in ref_file_F_50:
-    row = l.split()
+ if r_F_50[l]==3.1: #if r_F_50[l]>=0.875 and r_F[l]<1.25: #1
+    F_plot_50[3] += F_50[l]
+    F_plot_err_50[3] += U_F_50[l]
 
-    ref_r_F_50.append(float(row[0])) #/10 to get to cm
-    ref_F_50.append(float(row[1]))
+ if r_F_50[l]==3.7: #if r_F_50[l]>=1.25 and r_F[l]<1.75: #1.5
+    F_plot_50[4] += F_50[l]
+    F_plot_err_50[4] += U_F_50[l]
+
+ if r_F_50[l]==5: #if r_F_50[l]>=1.75 and r_F[l]<2.5: #2
+    F_plot_50[5] += F_50[l]
+    F_plot_err_50[5] += U_F_50[l]
+
+ if r_F_50[l]==6.1: #if r_F_50[l]>=2.5 and r_F[l]<3.5: #3
+    F_plot_50[6] += F_50[l]
+    F_plot_err_50[6] += U_F_50[l]
 
 
-#print F_plot_50
-plt.errorbar(r_50,F_plot_50,yerr=F_plot_err_50, color='red',label='Geant4', ls='--', marker='o', capsize=5, capthick=1, ecolor='red')
-plt.plot(ref_r_F_50, ref_F_50,color='black',label='Ref. Data', marker='o', linestyle='dashed')
-#plt.xlim([0.4,10])
-plt.ylim([0,3.5])
+print r_plot
+print F_plot_50
+print F_plot_err_50
+
+plt.errorbar(r_50_plot,F_plot_50,yerr=F_plot_err_50, label='Geant4',color='red', ls='--', marker='o', capsize=5, capthick=1, ecolor='red')
+plt.plot(ref_r_F_50, ref_F_50,color='black', marker='o', label='Ref. Data',linestyle='dashed')
+plt.legend()
+plt.ylim([0,2])
+plt.xlim([0,7])
 plt.xlabel('r(cm)',family='sans-serif', fontsize=16)
 plt.ylabel(r'$F(r,\theta)$',family='sans-serif', fontsize=18, fontweight='heavy')
-plt.legend()
-plt.text(1, 3, r'$\theta = 50$', family='sans-serif', fontsize=18, fontweight='heavy')
+plt.text(1, 1.75, r'$\theta = 50$', family='sans-serif', fontsize=18, fontweight='heavy')
 plt.savefig('F_theta_50_plot.eps')
 plt.show()
 
 
-#************ theta = 60 ******************
+#************ theta = 0 ******************
+r_60_plot = [0.2,0.9,1.7,2.7,3.4,4,5]
+for l in ref_file_F_60:
+    row = l.split()
+
+    ref_r_F_60.append(float(row[0])) #/10 to get to cm
+    ref_F_60.append(float(row[1]))
+
 for l in file_F_60:
     row = l.split()
 
@@ -388,48 +502,62 @@ for l in file_F_60:
     F_60.append(float(row[1]))
     U_F_60.append(float(row[2]))
 
-F_rounded_60 = [0.]*11
-F_rounded_err_60 = [0.]*11
-bins_60 = [0.]*11
+F_plot_60 = [0.]*7
+F_plot_err_60 = [0.]*7
 
-for s in range(len(r_F_60)):
+for l in range(len(F_60)):
 
-  nint = int(round(r_F_60[s]))
-  if F_60[s]>0:
-    F_rounded_60[nint] += float(F_60[s])
-    F_rounded_err_60[nint] += float(U_F_60[s])
-    bins_60[nint] += float(1)
+ if r_F_60[l]==0.2: #if r_F_60[l]>=0 and r_F[l]<0.375: #0.45
+    F_plot_60[0] += F_60[l]
+    F_plot_err_60[0] += U_F_60[l]
 
-F_plot_60 = [0.]*11
-F_plot_err_60 = [0.]*11
+ if r_F_60[l]==0.9:   #if r_F_60[l]>=0.375 and r_F[l]<0.625: #0.5
+    F_plot_60[1] += F_60[l]
+    F_plot_err_60[1] += U_F_60[l]
 
-r_60 = [i for i in range(len(F_rounded_60))]
-for m in range(len(F_rounded_60)):
-  F_plot_60[m] = F_rounded_60[m]/bins_60[m]
-  F_plot_err_60[m] = F_rounded_err_60[m]/bins_60[m]
-  r_60[m] = float(r_60[m])
+ if r_F_60[l]==1.7:     #if r_F_60[l]>=0.625 and r_F[l]<0.875: #0.75
+    F_plot_60[2] += F_60[l]
+    F_plot_err_60[2] += U_F_60[l]
 
-for l in ref_file_F_60:
-    row = l.split()
+ if r_F_60[l]==2.7: #if r_F_60[l]>=0.875 and r_F[l]<1.25: #1
+    F_plot_60[3] += F_60[l]
+    F_plot_err_60[3] += U_F_60[l]
 
-    ref_r_F_60.append(float(row[0])) #/10 to get to cm
-    ref_F_60.append(float(row[1]))
+ if r_F_60[l]==3.4: #if r_F_60[l]>=1.25 and r_F[l]<1.75: #1.5
+    F_plot_60[4] += F_60[l]
+    F_plot_err_60[4] += U_F_60[l]
 
+ if r_F_60[l]==4: #if r_F_60[l]>=1.75 and r_F[l]<2.5: #2
+    F_plot_60[5] += F_60[l]
+    F_plot_err_60[5] += U_F_60[l]
 
-#print F_plot_60
-plt.errorbar(r_60,F_plot_60,yerr=F_plot_err_60, color='red',label='Geant4', ls='--', marker='o', capsize=5, capthick=1, ecolor='red')
-plt.plot(ref_r_F_60, ref_F_60,color='black',label='Ref. Data', marker='o', linestyle='dashed')
-#plt.xlim([0.4,10])
-plt.ylim([0,3.5])
+ if r_F_60[l]==5: #if r_F_60[l]>=2.5 and r_F[l]<3.5: #3
+    F_plot_60[6] += F_60[l]
+    F_plot_err_60[6] += U_F_60[l]
+print r_plot
+print F_plot_60
+print F_plot_err_60
+
+plt.errorbar(r_60_plot,F_plot_60,yerr=F_plot_err_60, label='Geant4',color='red', ls='--', marker='o', capsize=5, capthick=1, ecolor='red')
+plt.plot(ref_r_F_60, ref_F_60,color='black', marker='o', label='Ref. Data',linestyle='dashed')
+plt.legend()
+plt.ylim([0,2])
+plt.xlim([0,7])
 plt.xlabel('r(cm)',family='sans-serif', fontsize=16)
 plt.ylabel(r'$F(r,\theta)$',family='sans-serif', fontsize=18, fontweight='heavy')
-plt.legend()
-plt.text(1, 3, r'$\theta = 60$', family='sans-serif', fontsize=18, fontweight='heavy')
+plt.text(1, 1.75, r'$\theta = 60$', family='sans-serif', fontsize=18, fontweight='heavy')
 plt.savefig('F_theta_60_plot.eps')
 plt.show()
 
 
-#************ theta = 70 ******************
+#************ theta = 0 ******************
+r_70_plot = [0.8,1.1,1.4,2.2,3.9,4.1,5]
+for l in ref_file_F_70:
+    row = l.split()
+
+    ref_r_F_70.append(float(row[0])) #/10 to get to cm
+    ref_F_70.append(float(row[1]))
+
 for l in file_F_70:
     row = l.split()
 
@@ -437,79 +565,57 @@ for l in file_F_70:
     F_70.append(float(row[1]))
     U_F_70.append(float(row[2]))
 
-F_rounded_70 = [0.]*11
-F_rounded_err_70 = [0.]*11
-bins_70 = [0.]*11
+F_plot_70 = [0.]*7
+F_plot_err_70 = [0.]*7
 
-for s in range(len(r_F_70)):
+for l in range(len(F_70)):
 
-  nint = int(round(r_F_70[s]))
-  if F_70[s]>0:
-    F_rounded_70[nint] += float(F_70[s])
-    F_rounded_err_70[nint] += float(U_F_70[s])
-    bins_70[nint] += float(1)
+ if r_F_70[l]==0.8: #if r_F_70[l]>=0 and r_F[l]<0.375: #0.45
+    F_plot_70[0] += F_70[l]
+    F_plot_err_70[0] += U_F_70[l]
 
-F_plot_70 = [0.]*11
-F_plot_err_70 = [0.]*11
+ if r_F_70[l]==1.1:   #if r_F_70[l]>=0.375 and r_F[l]<0.625: #0.5
+    F_plot_70[1] += F_70[l]
+    F_plot_err_70[1] += U_F_70[l]
 
-r_70 = [i for i in range(len(F_rounded_70))]
-for m in range(len(F_rounded_70)):
-  F_plot_70[m] = F_rounded_70[m]/bins_70[m]
-  F_plot_err_70[m] = F_rounded_err_70[m]/bins_70[m]
-  r_70[m] = float(r_70[m])
+ if r_F_70[l]==1.4:     #if r_F_70[l]>=0.625 and r_F[l]<0.875: #0.75
+    F_plot_70[2] += F_70[l]
+    F_plot_err_70[2] += U_F_70[l]
 
-for l in ref_file_F_70:
-    row = l.split()
+ if r_F_70[l]==2.2: #if r_F_70[l]>=0.875 and r_F[l]<1.25: #1
+    F_plot_70[3] += F_70[l]
+    F_plot_err_70[3] += U_F_70[l]
 
-    ref_r_F_70.append(float(row[0])) #/10 to get to cm
-    ref_F_70.append(float(row[1]))
+ if r_F_70[l]==3.9: #if r_F_70[l]>=1.25 and r_F[l]<1.75: #1.5
+    F_plot_70[4] += F_70[l]
+    F_plot_err_70[4] += U_F_70[l]
 
+ if r_F_70[l]==4.1: #if r_F_70[l]>=1.75 and r_F[l]<2.5: #2
+    F_plot_70[5] += F_70[l]
+    F_plot_err_70[5] += U_F_70[l]
 
-#print F_plot_70
-plt.errorbar(r_70,F_plot_70,yerr=F_plot_err_70, color='red',label='Geant4', ls='--', marker='o', capsize=5, capthick=1, ecolor='red')
-plt.plot(ref_r_F_70, ref_F_70,color='black',label='Ref. Data', marker='o', linestyle='dashed')
-#plt.xlim([0.4,10])
-plt.ylim([0,3.5])
+ if r_F_70[l]==5: #if r_F_70[l]>=2.5 and r_F[l]<3.5: #3
+    F_plot_70[6] += F_70[l]
+    F_plot_err_70[6] += U_F_70[l]
+
+print r_plot
+print F_plot_70
+print F_plot_err_70
+
+plt.errorbar(r_70_plot,F_plot_70,yerr=F_plot_err_70, label='Geant4',color='red', ls='--', marker='o', capsize=5, capthick=1, ecolor='red')
+plt.plot(ref_r_F_70, ref_F_70,color='black', marker='o', label='Ref. Data',linestyle='dashed')
 plt.legend()
+plt.ylim([0,2])
 plt.xlabel('r(cm)',family='sans-serif', fontsize=16)
 plt.ylabel(r'$F(r,\theta)$',family='sans-serif', fontsize=18, fontweight='heavy')
-plt.text(1, 3, r'$\theta = 70$', family='sans-serif', fontsize=18, fontweight='heavy')
+plt.xlim([0,7])
+plt.text(1, 1.75, r'$\theta = 70$', family='sans-serif', fontsize=18, fontweight='heavy')
 plt.savefig('F_theta_70_plot.eps')
 plt.show()
 
 
-#************ theta = 80 ******************
-for l in file_F_80:
-    row = l.split()
-
-    r_F_80.append(float(row[0])) #/10 to get to cm
-    F_80.append(float(row[1]))
-    U_F_80.append(float(row[2]))
-
-F_rounded_80 = [0.]*11
-F_rounded_err_80 = [0.]*11
-bins_80 = [0.]*11
-
-for s in range(len(r_F_80)):
-
-  nint = int(round(r_F_80[s]))
-  if F_80[s]>0:
-    F_rounded_80[nint] += float(F_80[s])
-    F_rounded_err_80[nint] += float(U_F_80[s])
-    bins_80[nint] += float(1)
-
-F_plot_80 = [0.]*11
-F_plot_err_80 = [0.]*11
-
-r_80 = [i for i in range(len(F_rounded_80))]
-for m in range(len(F_rounded_80)):
- if bins_80[m]>0:
-  F_plot_80[m] = F_rounded_80[m]/bins_80[m]
-  F_plot_err_80[m] = F_rounded_err_80[m]/bins_80[m]
- else:
-  F_plot_80[m] = 0
-  F_plot_err_80[m] = 0
-  r_80[m] = float(r_80[m])
+#************ theta = 0 ******************
+r_80_plot = [0.7,1,1.2,1.8,2.2,2.5,3.3,4.1,5.1,6]
 
 for l in ref_file_F_80:
     row = l.split()
@@ -517,21 +623,83 @@ for l in ref_file_F_80:
     ref_r_F_80.append(float(row[0])) #/10 to get to cm
     ref_F_80.append(float(row[1]))
 
+for l in file_F_80:
+    row = l.split()
 
-#print F_plot_80
-plt.errorbar(r_80,F_plot_80,yerr=F_plot_err_80, color='red', label='Geant4',ls='--', marker='o', capsize=5, capthick=1, ecolor='red')
-plt.plot(ref_r_F_80, ref_F_80,color='black',label='Ref. Data', marker='o', linestyle='dashed')
-#plt.xlim([0.4,10])
-plt.ylim([0,3.5])
-plt.xlabel('r(cm)',family='sans-serif', fontsize=16)
-plt.ylabel(r'$F(r,\theta)$',family='sans-serif', fontsize=18, fontweight='heavy')
+    r_F_80.append(float(row[0])) #/10 to get to cm
+    F_80.append(float(row[1]))
+    U_F_80.append(float(row[2]))
+
+F_plot_80 = [0.]*10
+F_plot_err_80 = [0.]*10
+
+for l in range(len(F_80)):
+
+ if r_F_80[l]==0.7: #if r_F_80[l]>=0 and r_F[l]<0.375: #0.45
+    F_plot_80[0] += F_80[l]
+    F_plot_err_80[0] += U_F_80[l]
+
+ if r_F_80[l]==1:   #if r_F_80[l]>=0.375 and r_F[l]<0.625: #0.5
+    F_plot_80[1] += F_80[l]
+    F_plot_err_80[1] += U_F_80[l]
+
+ if r_F_80[l]==1.2:     #if r_F_80[l]>=0.625 and r_F[l]<0.875: #0.75
+    F_plot_80[2] += F_80[l]
+    F_plot_err_80[2] += U_F_80[l]
+
+ if r_F_80[l]==1.8: #if r_F_80[l]>=0.875 and r_F[l]<1.25: #1
+    F_plot_80[3] += F_80[l]
+    F_plot_err_80[3] += U_F_80[l]
+
+ if r_F_80[l]==2.2: #if r_F_80[l]>=1.25 and r_F[l]<1.75: #1.5
+    F_plot_80[4] += F_80[l]
+    F_plot_err_80[4] += U_F_80[l]
+
+ if r_F_80[l]==2.5: #if r_F_80[l]>=1.75 and r_F[l]<2.5: #2
+    F_plot_80[5] += F_80[l]
+    F_plot_err_80[5] += U_F_80[l]
+
+ if r_F_80[l]==3.3: #if r_F_80[l]>=2.5 and r_F[l]<3.5: #3
+    F_plot_80[6] += F_80[l]
+    F_plot_err_80[6] += U_F_80[l]
+
+ if r_F_80[l]==4.1: #if r_F_80[l]>=3.5 and r_F[l]<4.5: #4
+    F_plot_80[7] += F_80[l]
+    F_plot_err_80[7] += U_F_80[l]
+
+
+ if r_F_80[l]==5.1: #if r_F_80[l]>=4.5 and r_F[l]<5.5: #5
+    F_plot_80[8] += F_80[l]
+    F_plot_err_80[8] += U_F_80[l]
+
+ if r_F_80[l]==6: #if r_F_80[l]>=5.5 and r_F[l]<6.5: #6
+    F_plot_80[9] += F_80[l]
+    F_plot_err_80[9] += U_F_80[l]
+
+print r_plot
+print F_plot_80
+print F_plot_err_80
+
+plt.errorbar(r_80_plot,F_plot_80,yerr=F_plot_err_80, label='Geant4',color='red', ls='--', marker='o', capsize=5, capthick=1, ecolor='red')
+plt.plot(ref_r_F_80, ref_F_80,color='black', marker='o', label='Ref. Data',linestyle='dashed')
 plt.legend()
-plt.text(1, 3, r'$\theta = 80$', family='sans-serif', fontsize=18, fontweight='heavy')
+plt.ylim([0,2])
+plt.xlabel('r(cm)',family='sans-serif', fontsize=16)
+plt.xlim([0,7])
+plt.ylabel(r'$F(r,\theta)$',family='sans-serif', fontsize=18, fontweight='heavy')
+plt.text(1, 1.75, r'$\theta = 80$', family='sans-serif', fontsize=18, fontweight='heavy')
 plt.savefig('F_theta_80_plot.eps')
 plt.show()
 
 
 #************ theta = 90 ******************
+r_90_plot = [0.4,0.5,0.7,1,1.5,2,3,4,5,6]
+for l in ref_file_F_90:
+    row = l.split()
+
+    ref_r_F_90.append(float(row[0])) #/10 to get to cm
+    ref_F_90.append(float(row[1]))
+
 for l in file_F_90:
     row = l.split()
 
@@ -539,42 +707,64 @@ for l in file_F_90:
     F_90.append(float(row[1]))
     U_F_90.append(float(row[2]))
 
-F_rounded_90 = [0.]*11
-F_rounded_err_90 = [0.]*11
-bins_90 = [0.]*11
+F_plot_90 = [0.]*10
+F_plot_err_90 = [0.]*10
 
-for s in range(len(r_F_90)):
+for l in range(len(F_90)):
 
-  nint = int(round(r_F_90[s]))
-  if F_90[s]>0:
-    F_rounded_90[nint] += float(F_90[s])
-    F_rounded_err_90[nint] += float(U_F_90[s])
-    bins_90[nint] += float(1)
+ if r_F_90[l]==0.4: #if r_F_90[l]>=0 and r_F[l]<0.375: #0.45
+    F_plot_90[0] += F_90[l]
+    F_plot_err_90[0] += U_F_90[l]
 
-F_plot_90 = [0.]*11
-F_plot_err_90 = [0.]*11
+ if r_F_90[l]==0.5:   #if r_F_90[l]>=0.375 and r_F[l]<0.625: #0.5
+    F_plot_90[1] += F_90[l]
+    F_plot_err_90[1] += U_F_90[l]
 
-r_90 = [i for i in range(len(F_rounded_90))]
-for m in range(len(F_rounded_90)):
-  F_plot_90[m] = F_rounded_90[m]/bins_90[m]
-  F_plot_err_90[m] = F_rounded_err_90[m]/bins_90[m]
-  r_90[m] = float(r_90[m])
+ if r_F_90[l]==0.7:     #if r_F_90[l]>=0.625 and r_F[l]<0.875: #0.75
+    F_plot_90[2] += F_90[l]
+    F_plot_err_90[2] += U_F_90[l]
 
-for l in ref_file_F_90:
-    row = l.split()
+ if r_F_90[l]==1: #if r_F_90[l]>=0.875 and r_F[l]<1.25: #1
+    F_plot_90[3] += F_90[l]
+    F_plot_err_90[3] += U_F_90[l]
 
-    ref_r_F_90.append(float(row[0])) #/10 to get to cm
-    ref_F_90.append(float(row[1]))
+ if r_F_90[l]==1.5: #if r_F_90[l]>=1.25 and r_F[l]<1.75: #1.5
+    F_plot_90[4] += F_90[l]
+    F_plot_err_90[4] += U_F_90[l]
+
+ if r_F_90[l]==2: #if r_F_90[l]>=1.75 and r_F[l]<2.5: #2
+    F_plot_90[5] += F_90[l]
+    F_plot_err_90[5] += U_F_90[l]
+
+ if r_F_90[l]==3: #if r_F_90[l]>=2.5 and r_F[l]<3.5: #3
+    F_plot_90[6] += F_90[l]
+    F_plot_err_90[6] += U_F_90[l]
+
+ if r_F_90[l]==4.1: #if r_F_90[l]>=3.5 and r_F[l]<4.5: #4
+    F_plot_90[7] += F_90[l]
+    F_plot_err_90[7] += U_F_90[l]
 
 
-#print F_plot_90
-plt.errorbar(r_90,F_plot_90,yerr=F_plot_err_90, color='red',label='Geant4', ls='--', marker='o', capsize=5, capthick=1, ecolor='red')
-plt.plot(ref_r_F_90, ref_F_90,color='black',label='Ref. Data', marker='o', linestyle='dashed')
-#plt.xlim([0.4,10])
-plt.ylim([0,3.5])
+ if r_F_90[l]==5: #if r_F_90[l]>=4.5 and r_F[l]<5.5: #5
+    F_plot_90[8] += F_90[l]
+    F_plot_err_90[8] += U_F_90[l]
+
+ if r_F_90[l]==6.1: #if r_F_90[l]>=5.5 and r_F[l]<6.5: #6
+    F_plot_90[9] += F_90[l]
+    F_plot_err_90[9] += U_F_90[l]
+
+print len(r_90_plot)
+print len(F_plot_90)
+print len(F_plot_err_90)
+
+plt.errorbar(r_90_plot,F_plot_90,yerr=F_plot_err_90, label='Geant4',color='red', ls='--', marker='o', capsize=5, capthick=1, ecolor='red')
+plt.plot(ref_r_F_90, ref_F_90,color='black', marker='o', label='Ref. Data',linestyle='dashed')
+plt.legend()
+plt.xlim([0,7])
+plt.ylim([0,2])
 plt.xlabel('r(cm)',family='sans-serif', fontsize=16)
 plt.ylabel(r'$F(r,\theta)$',family='sans-serif', fontsize=18, fontweight='heavy')
-plt.legend()
-plt.text(1, 3, r'$\theta = 90$', family='sans-serif', fontsize=18, fontweight='heavy')
+plt.text(1, 1.75, r'$\theta = 90$', family='sans-serif', fontsize=18, fontweight='heavy')
 plt.savefig('F_theta_90_plot.eps')
 plt.show()
+
