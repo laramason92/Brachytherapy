@@ -4,6 +4,7 @@
 /event/verbose 0
 #### Define the geometry of the GammaMed source
 /source/switch GammaMed
+
 ###### Generation of primary field
 #### Generate gamma deriving from radioactive decay
 /control/execute iridium_source_primary.mac
@@ -21,14 +22,28 @@
 /score/list                                             
 
 # 0 position
-/run/beamOn 5
+/run/beamOn 2
 
-#next
-/gammamed/detector/SourceTranslationX 1. mm
-/gammamed/detector/SourceTranslationY 1. mm
-/gammamed/detector/SourceTranslationZ 1. mm
+# at the end of the run you have to delete the geometry you intend to move and then re-initialise it
 
-/run/beamOn 5
+
+#/gammamed/detector/SourceTranslationX 1. mm
+#/gammamed/detector/SourceTranslationY 1. mm
+/gammamed/detector/SourceTranslationZ 2. #mm
+
+/run/beamOn 2
+#
+/gammamed/detector/SourceTranslationZ 5. #mm
+
+/run/beamOn 2
+#
+/gammamed/detector/SourceTranslationZ 7. #mm
+
+/run/beamOn 2
+#
+/gammamed/detector/SourceTranslationZ 9. #mm
+
+/run/beamOn 2
 #
 # Dump scores to a file
 #
