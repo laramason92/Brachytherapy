@@ -1,7 +1,3 @@
-/Users/laramason/Downloads/Geant4/build-brachy-proj/CMakeFiles/install/local.dir
-/Users/laramason/Downloads/Geant4/build-brachy-proj/CMakeFiles/install/strip.dir
-/Users/laramason/Downloads/Geant4/build-brachy-proj/CMakeFiles/install.dir
-/Users/laramason/Downloads/Geant4/build-brachy-proj/CMakeFiles/Brachy.dir
-/Users/laramason/Downloads/Geant4/build-brachy-proj/CMakeFiles/list_install_components.dir
-/Users/laramason/Downloads/Geant4/build-brachy-proj/CMakeFiles/rebuild_cache.dir
-/Users/laramason/Downloads/Geant4/build-brachy-proj/CMakeFiles/edit_cache.dir
+version https://git-lfs.github.com/spec/v1
+oid sha256:602a1b82607c809026d3210f3477477b00581774a6d54fda91fcedf92a06fe23
+size 561

@@ -11,9 +11,37 @@
 /score/mesh/translate/xyz 0 100 0 cm
 /score/close
 /score/list
-/run/beamOn 4664
-/run/beamOn 6794
-/run/beamOn 3247
-/run/beamOn 731
-/run/beamOn 919
+/gammamed/detector/SourceTranslationZ 1.
+/control/execute source_HM_1.mac
+/run/beamOn 62
+/gammamed/detector/SourceTranslationZ 2.
+/control/execute source_HM_2.mac
+/run/beamOn 5827
+/gammamed/detector/SourceTranslationZ 3.
+/control/execute source_HM_3.mac
+/run/beamOn 9906
+/gammamed/detector/SourceTranslationZ 4.
+/control/execute source_HM_4.mac
+/run/beamOn 4662
+/gammamed/detector/SourceTranslationZ 5.
+/control/execute source_HM_5.mac
+/run/beamOn 6091
+/gammamed/detector/SourceTranslationZ 6.
+/control/execute source_HM_6.mac
+/run/beamOn 4673
+/gammamed/detector/SourceTranslationZ 7.
+/control/execute source_HM_7.mac
+/run/beamOn 4132
+/gammamed/detector/SourceTranslationZ 8.
+/control/execute source_HM_8.mac
+/run/beamOn 9178
+/gammamed/detector/SourceTranslationZ 9.
+/control/execute source_HM_9.mac
+/run/beamOn 3410
+/gammamed/detector/SourceTranslationZ 10.
+/control/execute source_HM_10.mac
+/run/beamOn 7851
+/gammamed/detector/SourceTranslationZ 11.
+/control/execute source_HM_11.mac
+/run/beamOn 3389
 /score/dumpQuantityToFile boxMesh_4 eDep EnergyDeposition_GammaMed.out

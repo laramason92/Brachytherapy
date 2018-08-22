@@ -39,12 +39,12 @@
 
 /run/beamOn 2
 #
-/gammamed/detector/SourceTranslationZ 7. #mm
+/gammamed/detector/SourceTranslationZ 17. #mm
 /control/execute iridium_source_primary7.mac
 
 /run/beamOn 2
 #
-/gammamed/detector/SourceTranslationZ 9. #mm
+/gammamed/detector/SourceTranslationZ 19. #mm
 /control/execute iridium_source_primary9.mac
 
 /run/beamOn 2

@@ -123,7 +123,5 @@
 /gps/pos/shape Cylinder
 /gps/pos/radius 0.30 mm
 /gps/pos/halfz 1.75 mm
-/gps/pos/centre 13.8564 0. 17. mm
+/gps/pos/centre 3.8564 0. 47.32 mm
 /gps/ang/type iso
-
-
