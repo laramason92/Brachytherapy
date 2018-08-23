@@ -3,45 +3,45 @@
 /run/verbose 0
 /event/verbose 0
 /source/switch GammaMed
-/control/execute iridium_source_primary.mac:
-/score/create/boxMesh boxMesh_4:
-/score/mesh/boxSize 5 5 5 cm
-/score/mesh/nBin 1 1 1
+/control/execute iridium_source_primary.mac
+/score/create/boxMesh boxMesh_4
+/score/mesh/boxSize 10.0125 10.0125 0.0125 cm
+/score/mesh/nBin 801 801 1
 /score/quantity/energyDeposit eDep
 /score/mesh/translate/xyz 0 100 0 cm
 /score/close
 /score/list
 /gammamed/detector/SourceTranslationZ 1.
 /control/execute source_HM_1.mac
-/run/beamOn 448
+/run/beamOn 5830
 /gammamed/detector/SourceTranslationZ 2.
 /control/execute source_HM_2.mac
-/run/beamOn 5095
+/run/beamOn 244
 /gammamed/detector/SourceTranslationZ 3.
 /control/execute source_HM_3.mac
-/run/beamOn 4665
+/run/beamOn 5461
 /gammamed/detector/SourceTranslationZ 4.
 /control/execute source_HM_4.mac
-/run/beamOn 1326
+/run/beamOn 5734
 /gammamed/detector/SourceTranslationZ 5.
 /control/execute source_HM_5.mac
-/run/beamOn 7652
+/run/beamOn 6832
 /gammamed/detector/SourceTranslationZ 6.
 /control/execute source_HM_6.mac
-/run/beamOn 8506
+/run/beamOn 467
 /gammamed/detector/SourceTranslationZ 7.
 /control/execute source_HM_7.mac
-/run/beamOn 1863
+/run/beamOn 4304
 /gammamed/detector/SourceTranslationZ 8.
 /control/execute source_HM_8.mac
-/run/beamOn 2181
+/run/beamOn 3562
 /gammamed/detector/SourceTranslationZ 9.
 /control/execute source_HM_9.mac
-/run/beamOn 1788
+/run/beamOn 9571
 /gammamed/detector/SourceTranslationZ 10.
 /control/execute source_HM_10.mac
-/run/beamOn 2967
+/run/beamOn 1633
 /gammamed/detector/SourceTranslationZ 11.
 /control/execute source_HM_11.mac
-/run/beamOn 1156
+/run/beamOn 175
 /score/dumpQuantityToFile boxMesh_4 eDep EnergyDeposition_GammaMed.out

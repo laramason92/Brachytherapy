@@ -13,7 +13,7 @@ srand ( time(NULL) );
 Double_t HMCR = 0.9;
 Double_t PAR = 0.3;
 Double_t BW = 100; //what should this be
-Int_t vec_length = 5;
+Int_t vec_length = 11;
 Double_t DT_max = 10.0; // max dwell time - how long to set this to make sure code doesnt take forever?
 Double_t secs_to_events = 1000; //to be filled in after calibration
 Int_t HMS = 5;
@@ -92,8 +92,8 @@ Macro_HM_new << "/tracking/verbose 0" << "\n";
 Macro_HM_new << "/run/verbose 0" << "\n";
 Macro_HM_new << "/event/verbose 0" << "\n";
 Macro_HM_new << "/source/switch GammaMed" << "\n";
-Macro_HM_new << "/control/execute iridium_source_primary.mac:" << "\n";
-Macro_HM_new << "/score/create/boxMesh boxMesh_4:" << "\n";
+Macro_HM_new << "/control/execute iridium_source_primary.mac" << "\n";
+Macro_HM_new << "/score/create/boxMesh boxMesh_4" << "\n";
 Macro_HM_new << "/score/mesh/boxSize 5 5 5 cm" << "\n";
 Macro_HM_new << "/score/mesh/nBin 1 1 1" << "\n";
 Macro_HM_new << "/score/quantity/energyDeposit eDep" << "\n";
@@ -102,10 +102,54 @@ Macro_HM_new << "/score/close" << "\n";
 Macro_HM_new << "/score/list" << "\n";
 
 for (int j=0; j<HMS+1;j++){
-for (int i=0; i<vec_length; i++){
-  HarmonyMemory_New << data[j][i] << "  " ;
+for (int m=1; m<vec_length+1; m++){
+  HarmonyMemory_New << data[j][m] << "  " ;
   if (j==5){
-  Macro_HM_new << "/run/beamOn " << data[5][i] << "\n";
+   if (m==1){ //if 0 no need to move source
+   Macro_HM_new << "/gammamed/detector/SourceTranslationZ 1." <<"\n";
+   Macro_HM_new << "/control/execute source_HM_1.mac"  <<"\n";
+   }
+   if (m==2){
+   Macro_HM_new << "/gammamed/detector/SourceTranslationZ 2." <<"\n";
+   Macro_HM_new << "/control/execute source_HM_2.mac"  <<"\n";
+   }
+   if (m==3){
+   Macro_HM_new << "/gammamed/detector/SourceTranslationZ 3." <<"\n";
+   Macro_HM_new << "/control/execute source_HM_3.mac"  <<"\n";
+   }
+   if (m==4){
+   Macro_HM_new << "/gammamed/detector/SourceTranslationZ 4." <<"\n";
+   Macro_HM_new << "/control/execute source_HM_4.mac"  <<"\n";
+   }
+   if (m==5){
+   Macro_HM_new << "/gammamed/detector/SourceTranslationZ 5." <<"\n";
+   Macro_HM_new << "/control/execute source_HM_5.mac"  <<"\n";
+   }
+   if (m==6){
+   Macro_HM_new << "/gammamed/detector/SourceTranslationZ 6." <<"\n";
+   Macro_HM_new << "/control/execute source_HM_6.mac"  <<"\n";
+   }
+   if (m==7){
+   Macro_HM_new << "/gammamed/detector/SourceTranslationZ 7." <<"\n";
+   Macro_HM_new << "/control/execute source_HM_7.mac"  <<"\n";
+   }
+   if (m==8){
+   Macro_HM_new << "/gammamed/detector/SourceTranslationZ 8." <<"\n";
+   Macro_HM_new << "/control/execute source_HM_8.mac"  <<"\n";
+   }
+   if (m==9){
+   Macro_HM_new << "/gammamed/detector/SourceTranslationZ 9." <<"\n";
+   Macro_HM_new << "/control/execute source_HM_9.mac"  <<"\n";
+   }
+   if (m==10){
+   Macro_HM_new << "/gammamed/detector/SourceTranslationZ 10." <<"\n";
+   Macro_HM_new << "/control/execute source_HM_10.mac"  <<"\n";
+   }
+   if (m==11){
+   Macro_HM_new << "/gammamed/detector/SourceTranslationZ 11." <<"\n";
+   Macro_HM_new << "/control/execute source_HM_11.mac"  <<"\n";
+   }
+  Macro_HM_new << "/run/beamOn " << data[5][m] << "\n";
   }
  }
  HarmonyMemory_New << "\n";
