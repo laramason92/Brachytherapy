@@ -30,8 +30,8 @@ srand ( time(NULL) );
 
 Int_t HMS = 5;
 Int_t vec_length = 11; // == position! 0, 10, 20, 30, 40, 50, 60, 55, 45, 35, 25, 15, 5
-Double_t DT_max = 10.0; // max dwell time - how long to set this to make sure code doesnt take forever?
-Double_t secs_to_events = 1000; //to be filled in after calibration
+Double_t DT_max = 100; // max dwell time - how long to set this to make sure code doesnt take forever?
+Double_t secs_to_events = 10000; //to be filled in after calibration
 
 Double_t HM[HMS][vec_length];
 
@@ -90,12 +90,21 @@ Macro_HM_1 << "/run/verbose 0" << "\n";
 Macro_HM_1 << "/event/verbose 0" << "\n";
 Macro_HM_1 << "/source/switch GammaMed" << "\n";
 Macro_HM_1 << "/control/execute iridium_source_primary.mac" << "\n";
+
 Macro_HM_1 << "/score/create/boxMesh boxMesh_4" << "\n";
-Macro_HM_1 << "/score/mesh/boxSize 10.0125 10.0125 0.0125 cm" << "\n";
-Macro_HM_1 << "/score/mesh/nBin 801 801 1" << "\n";
-Macro_HM_1 << "/score/quantity/energyDeposit eDep" << "\n";
-Macro_HM_1 << "/score/mesh/translate/xyz 0 100 0 cm" << "\n";
+Macro_HM_1 << "/score/mesh/boxSize 0.5 0.0125 0.5 cm" << "\n";
+Macro_HM_1 << "/score/mesh/nBin 1 1 1" << "\n";
+Macro_HM_1 << "/score/quantity/doseDeposit doseDep" << "\n";
+Macro_HM_1 << "/score/mesh/translate/xyz 0 -3. 0. cm" << "\n";
 Macro_HM_1 << "/score/close" << "\n";
+
+Macro_HM_1 << "/score/create/boxMesh boxMesh_5" << "\n";
+Macro_HM_1 << "/score/mesh/boxSize 0.5 0.0125 0.5 cm" << "\n";
+Macro_HM_1 << "/score/mesh/nBin 1 1 1" << "\n";
+Macro_HM_1 << "/score/quantity/doseDeposit doseDep" << "\n";
+Macro_HM_1 << "/score/mesh/translate/xyz 0 2. 2. cm" << "\n";
+Macro_HM_1 << "/score/close" << "\n";
+
 Macro_HM_1 << "/score/list" << "\n";
 
 Macro_HM_2 << "/control/verbose 1" << "\n";
@@ -104,12 +113,21 @@ Macro_HM_2 << "/run/verbose 0" << "\n";
 Macro_HM_2 << "/event/verbose 0" << "\n";
 Macro_HM_2 << "/source/switch GammaMed" << "\n";
 Macro_HM_2 << "/control/execute iridium_source_primary.mac" << "\n";
+
 Macro_HM_2 << "/score/create/boxMesh boxMesh_4" << "\n";
-Macro_HM_2 << "/score/mesh/boxSize 10.0125 10.0125 0.0125 cm" << "\n";
-Macro_HM_2 << "/score/mesh/nBin 801 801 1" << "\n";
-Macro_HM_2 << "/score/quantity/energyDeposit eDep" << "\n";
-Macro_HM_2 << "/score/mesh/translate/xyz 0 100 0 cm" << "\n";
+Macro_HM_2 << "/score/mesh/boxSize 0.5 0.0125 0.5 cm" << "\n";
+Macro_HM_2 << "/score/mesh/nBin 1 1 1" << "\n";
+Macro_HM_2 << "/score/quantity/doseDeposit doseDep" << "\n";
+Macro_HM_2 << "/score/mesh/translate/xyz 0 -3. 0. cm" << "\n";
 Macro_HM_2 << "/score/close" << "\n";
+
+Macro_HM_2 << "/score/create/boxMesh boxMesh_5" << "\n";
+Macro_HM_2 << "/score/mesh/boxSize 0.5 0.0125 0.5 cm" << "\n";
+Macro_HM_2 << "/score/mesh/nBin 1 1 1" << "\n";
+Macro_HM_2 << "/score/quantity/doseDeposit doseDep" << "\n";
+Macro_HM_2 << "/score/mesh/translate/xyz 0 2. 2. cm" << "\n";
+Macro_HM_2 << "/score/close" << "\n";
+
 Macro_HM_2 << "/score/list" << "\n";
 
 Macro_HM_3 << "/control/verbose 1" << "\n";
@@ -118,12 +136,21 @@ Macro_HM_3 << "/run/verbose 0" << "\n";
 Macro_HM_3 << "/event/verbose 0" << "\n";
 Macro_HM_3 << "/source/switch GammaMed" << "\n";
 Macro_HM_3 << "/control/execute iridium_source_primary.mac" << "\n";
+
 Macro_HM_3 << "/score/create/boxMesh boxMesh_4" << "\n";
-Macro_HM_3 << "/score/mesh/boxSize 10.0125 10.0125 0.0125 cm" << "\n";
-Macro_HM_3 << "/score/mesh/nBin 801 801 1" << "\n";
-Macro_HM_3 << "/score/quantity/energyDeposit eDep" << "\n";
-Macro_HM_3 << "/score/mesh/translate/xyz 0 100 0 cm" << "\n";
+Macro_HM_3 << "/score/mesh/boxSize 0.5 0.0125 0.5 cm" << "\n";
+Macro_HM_3 << "/score/mesh/nBin 1 1 1" << "\n";
+Macro_HM_3 << "/score/quantity/doseDeposit doseDep" << "\n";
+Macro_HM_3 << "/score/mesh/translate/xyz 0 -3. 0. cm" << "\n";
 Macro_HM_3 << "/score/close" << "\n";
+
+Macro_HM_3 << "/score/create/boxMesh boxMesh_5" << "\n";
+Macro_HM_3 << "/score/mesh/boxSize 0.5 0.0125 0.5 cm" << "\n";
+Macro_HM_3 << "/score/mesh/nBin 1 1 1" << "\n";
+Macro_HM_3 << "/score/quantity/doseDeposit doseDep" << "\n";
+Macro_HM_3 << "/score/mesh/translate/xyz 0 2. 2. cm" << "\n";
+Macro_HM_3 << "/score/close" << "\n";
+
 Macro_HM_3 << "/score/list" << "\n";
 
 Macro_HM_4 << "/control/verbose 1" << "\n";
@@ -132,12 +159,21 @@ Macro_HM_4 << "/run/verbose 0" << "\n";
 Macro_HM_4 << "/event/verbose 0" << "\n";
 Macro_HM_4 << "/source/switch GammaMed" << "\n";
 Macro_HM_4 << "/control/execute iridium_source_primary.mac" << "\n";
+
 Macro_HM_4 << "/score/create/boxMesh boxMesh_4" << "\n";
-Macro_HM_4 << "/score/mesh/boxSize 10.0125 10.0125 0.0125 cm" << "\n";
-Macro_HM_4 << "/score/mesh/nBin 801 801 1" << "\n";
-Macro_HM_4 << "/score/quantity/energyDeposit eDep" << "\n";
-Macro_HM_4 << "/score/mesh/translate/xyz 0 100 0 cm" << "\n";
+Macro_HM_4 << "/score/mesh/boxSize 0.5 0.0125 0.5 cm" << "\n";
+Macro_HM_4 << "/score/mesh/nBin 1 1 1" << "\n";
+Macro_HM_4 << "/score/quantity/doseDeposit doseDep" << "\n";
+Macro_HM_4 << "/score/mesh/translate/xyz 0 -3. 0. cm" << "\n";
 Macro_HM_4 << "/score/close" << "\n";
+
+Macro_HM_4 << "/score/create/boxMesh boxMesh_5" << "\n";
+Macro_HM_4 << "/score/mesh/boxSize 0.5 0.0125 0.5 cm" << "\n";
+Macro_HM_4 << "/score/mesh/nBin 1 1 1" << "\n";
+Macro_HM_4 << "/score/quantity/doseDeposit doseDep" << "\n";
+Macro_HM_4 << "/score/mesh/translate/xyz 0 2. 2. cm" << "\n";
+Macro_HM_4 << "/score/close" << "\n";
+
 Macro_HM_4 << "/score/list" << "\n";
 
 Macro_HM_5 << "/control/verbose 1" << "\n";
@@ -146,12 +182,21 @@ Macro_HM_5 << "/run/verbose 0" << "\n";
 Macro_HM_5 << "/event/verbose 0" << "\n";
 Macro_HM_5 << "/source/switch GammaMed" << "\n";
 Macro_HM_5 << "/control/execute iridium_source_primary.mac" << "\n";
+
 Macro_HM_5 << "/score/create/boxMesh boxMesh_4" << "\n";
-Macro_HM_5 << "/score/mesh/boxSize 10.0125 10.0125 0.0125 cm" << "\n";
-Macro_HM_5 << "/score/mesh/nBin 801 801 1" << "\n";
-Macro_HM_5 << "/score/quantity/energyDeposit eDep" << "\n";
-Macro_HM_5 << "/score/mesh/translate/xyz 0 100 0 cm" << "\n";
+Macro_HM_5 << "/score/mesh/boxSize 0.5 0.0125 0.5 cm" << "\n";
+Macro_HM_5 << "/score/mesh/nBin 1 1 1" << "\n";
+Macro_HM_5 << "/score/quantity/doseDeposit doseDep" << "\n";
+Macro_HM_5 << "/score/mesh/translate/xyz 0 -3. 0. cm" << "\n";
 Macro_HM_5 << "/score/close" << "\n";
+
+Macro_HM_5 << "/score/create/boxMesh boxMesh_5" << "\n";
+Macro_HM_5 << "/score/mesh/boxSize 0.5 0.0125 0.5 cm" << "\n";
+Macro_HM_5 << "/score/mesh/nBin 1 1 1" << "\n";
+Macro_HM_5 << "/score/quantity/doseDeposit doseDep" << "\n";
+Macro_HM_5 << "/score/mesh/translate/xyz 0 2. 2. cm" << "\n";
+Macro_HM_5 << "/score/close" << "\n";
+
 Macro_HM_5 << "/score/list" << "\n";
 
 source_HM_1 << "/gps/ene/type Arb" << "\n";
@@ -1811,11 +1856,17 @@ for (int s=0; s<HMS; s++)
  HarmonyMemory << "\n";
 }
 
-Macro_HM_1 << "/score/dumpQuantityToFile boxMesh_4 eDep EnergyDeposition_GammaMed.out" << "\n";
-Macro_HM_2 << "/score/dumpQuantityToFile boxMesh_4 eDep EnergyDeposition_GammaMed.out" << "\n";
-Macro_HM_3 << "/score/dumpQuantityToFile boxMesh_4 eDep EnergyDeposition_GammaMed.out" << "\n";
-Macro_HM_4 << "/score/dumpQuantityToFile boxMesh_4 eDep EnergyDeposition_GammaMed.out" << "\n";
-Macro_HM_5 << "/score/dumpQuantityToFile boxMesh_4 eDep EnergyDeposition_GammaMed.out" << "\n";
+Macro_HM_1 << "/score/dumpQuantityToFile boxMesh_5 doseDep EnergyDeposition_HM_1_ptA.out" << "\n";
+Macro_HM_2 << "/score/dumpQuantityToFile boxMesh_5 doseDep EnergyDeposition_HM_2_ptA.out" << "\n";
+Macro_HM_3 << "/score/dumpQuantityToFile boxMesh_5 doseDep EnergyDeposition_HM_3_ptA.out" << "\n";
+Macro_HM_4 << "/score/dumpQuantityToFile boxMesh_5 doseDep EnergyDeposition_HM_4_ptA.out" << "\n";
+Macro_HM_5 << "/score/dumpQuantityToFile boxMesh_5 doseDep EnergyDeposition_HM_5_ptA.out" << "\n";
+
+Macro_HM_1 << "/score/dumpQuantityToFile boxMesh_4 doseDep EnergyDeposition_HM_1_OAR.out" << "\n";
+Macro_HM_2 << "/score/dumpQuantityToFile boxMesh_4 doseDep EnergyDeposition_HM_2_OAR.out" << "\n";
+Macro_HM_3 << "/score/dumpQuantityToFile boxMesh_4 doseDep EnergyDeposition_HM_3_OAR.out" << "\n";
+Macro_HM_4 << "/score/dumpQuantityToFile boxMesh_4 doseDep EnergyDeposition_HM_4_OAR.out" << "\n";
+Macro_HM_5 << "/score/dumpQuantityToFile boxMesh_4 doseDep EnergyDeposition_HM_5_OAR.out" << "\n";
 
 HarmonyMemory.close();
 Macro_HM_1.close();

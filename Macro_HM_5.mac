@@ -5,43 +5,50 @@
 /source/switch GammaMed
 /control/execute iridium_source_primary.mac
 /score/create/boxMesh boxMesh_4
-/score/mesh/boxSize 10.0125 10.0125 0.0125 cm
-/score/mesh/nBin 801 801 1
-/score/quantity/energyDeposit eDep
-/score/mesh/translate/xyz 0 100 0 cm
+/score/mesh/boxSize 0.5 0.0125 0.5 cm
+/score/mesh/nBin 1 1 1
+/score/quantity/doseDeposit doseDep
+/score/mesh/translate/xyz 0 -3. 0. cm
+/score/close
+/score/create/boxMesh boxMesh_5
+/score/mesh/boxSize 0.5 0.0125 0.5 cm
+/score/mesh/nBin 1 1 1
+/score/quantity/doseDeposit doseDep
+/score/mesh/translate/xyz 0 2. 2. cm
 /score/close
 /score/list
 /gammamed/detector/SourceTranslationZ 1.
 /control/execute source_HM_1.mac
-/run/beamOn 6448
+/run/beamOn 141395
 /gammamed/detector/SourceTranslationZ 2.
 /control/execute source_HM_2.mac
-/run/beamOn 6990
+/run/beamOn 419690
 /gammamed/detector/SourceTranslationZ 3.
 /control/execute source_HM_3.mac
-/run/beamOn 6889
+/run/beamOn 723836
 /gammamed/detector/SourceTranslationZ 4.
 /control/execute source_HM_4.mac
-/run/beamOn 9848
+/run/beamOn 519931
 /gammamed/detector/SourceTranslationZ 5.
 /control/execute source_HM_5.mac
-/run/beamOn 4443
+/run/beamOn 487689
 /gammamed/detector/SourceTranslationZ 6.
 /control/execute source_HM_6.mac
-/run/beamOn 6370
+/run/beamOn 587424
 /gammamed/detector/SourceTranslationZ 7.
 /control/execute source_HM_7.mac
-/run/beamOn 2283
+/run/beamOn 833526
 /gammamed/detector/SourceTranslationZ 8.
 /control/execute source_HM_8.mac
-/run/beamOn 6477
+/run/beamOn 64670
 /gammamed/detector/SourceTranslationZ 9.
 /control/execute source_HM_9.mac
-/run/beamOn 4247
+/run/beamOn 914149
 /gammamed/detector/SourceTranslationZ 10.
 /control/execute source_HM_10.mac
-/run/beamOn 1226
+/run/beamOn 106818
 /gammamed/detector/SourceTranslationZ 11.
 /control/execute source_HM_11.mac
 /run/beamOn 0
-/score/dumpQuantityToFile boxMesh_4 eDep EnergyDeposition_GammaMed.out
+/score/dumpQuantityToFile boxMesh_5 doseDep EnergyDeposition_HM_5_ptA.out
+/score/dumpQuantityToFile boxMesh_4 doseDep EnergyDeposition_HM_5_OAR.out

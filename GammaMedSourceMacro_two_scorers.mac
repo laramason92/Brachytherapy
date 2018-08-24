@@ -12,19 +12,19 @@
 /score/create/boxMesh boxMesh_4
 #
 # the voxels are 0.25 mm wide.
-/score/mesh/boxSize 0.0125 0.0125 0.0125 cm
+/score/mesh/boxSize 0.5 0.5 0.0125 cm
 /score/mesh/nBin 1 1 1
-/score/quantity/energyDeposit eDep
+/score/quantity/doseDeposit doseDep
 #
 /score/close
 
 /score/create/boxMesh boxMesh_5
 #
 # the voxels are 0.25 mm wide.
-/score/mesh/boxSize 0.0125 0.0125 0.0125 cm
+/score/mesh/boxSize 0.5 0.0125 0.5 cm
 /score/mesh/nBin 1 1 1
-/score/quantity/energyDeposit eDep
-/score/mesh/translate/xyz 0 0 0.05 cm
+/score/quantity/doseDeposit doseDep
+/score/mesh/translate/xyz 0 2. 0. cm
 #
 /score/close
 
@@ -34,6 +34,6 @@
 #
 # Dump scores to a file
 #
-/score/dumpQuantityToFile boxMesh_4 eDep EnergyDeposition_GammaMed.out
-/score/dumpQuantityToFile boxMesh_5 eDep EnergyDeposition_test_GammaMed.out
+/score/dumpQuantityToFile boxMesh_4 doseDep EnergyDeposition_GammaMed.out
+/score/dumpQuantityToFile boxMesh_5 doseDep EnergyDeposition_test_GammaMed.out
 #

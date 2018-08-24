@@ -5,43 +5,50 @@
 /source/switch GammaMed
 /control/execute iridium_source_primary.mac
 /score/create/boxMesh boxMesh_4
-/score/mesh/boxSize 10.0125 10.0125 0.0125 cm
-/score/mesh/nBin 801 801 1
-/score/quantity/energyDeposit eDep
-/score/mesh/translate/xyz 0 100 0 cm
+/score/mesh/boxSize 0.5 0.0125 0.5 cm
+/score/mesh/nBin 1 1 1
+/score/quantity/doseDeposit doseDep
+/score/mesh/translate/xyz 0 -3. 0. cm
+/score/close
+/score/create/boxMesh boxMesh_5
+/score/mesh/boxSize 0.5 0.0125 0.5 cm
+/score/mesh/nBin 1 1 1
+/score/quantity/doseDeposit doseDep
+/score/mesh/translate/xyz 0 2. 2. cm
 /score/close
 /score/list
 /gammamed/detector/SourceTranslationZ 1.
 /control/execute source_HM_1.mac
-/run/beamOn 1589
+/run/beamOn 174991
 /gammamed/detector/SourceTranslationZ 2.
 /control/execute source_HM_2.mac
-/run/beamOn 8609
+/run/beamOn 73433
 /gammamed/detector/SourceTranslationZ 3.
 /control/execute source_HM_3.mac
-/run/beamOn 7442
+/run/beamOn 184599
 /gammamed/detector/SourceTranslationZ 4.
 /control/execute source_HM_4.mac
-/run/beamOn 4695
+/run/beamOn 552319
 /gammamed/detector/SourceTranslationZ 5.
 /control/execute source_HM_5.mac
-/run/beamOn 280
+/run/beamOn 828349
 /gammamed/detector/SourceTranslationZ 6.
 /control/execute source_HM_6.mac
-/run/beamOn 9683
+/run/beamOn 59808
 /gammamed/detector/SourceTranslationZ 7.
 /control/execute source_HM_7.mac
-/run/beamOn 6832
+/run/beamOn 187132
 /gammamed/detector/SourceTranslationZ 8.
 /control/execute source_HM_8.mac
-/run/beamOn 791
+/run/beamOn 123377
 /gammamed/detector/SourceTranslationZ 9.
 /control/execute source_HM_9.mac
-/run/beamOn 5230
+/run/beamOn 603149
 /gammamed/detector/SourceTranslationZ 10.
 /control/execute source_HM_10.mac
-/run/beamOn 5846
+/run/beamOn 117963
 /gammamed/detector/SourceTranslationZ 11.
 /control/execute source_HM_11.mac
-/run/beamOn 6033
-/score/dumpQuantityToFile boxMesh_4 eDep EnergyDeposition_GammaMed.out
+/run/beamOn 602071
+/score/dumpQuantityToFile boxMesh_5 doseDep EnergyDeposition_HM_1_ptA.out
+/score/dumpQuantityToFile boxMesh_4 doseDep EnergyDeposition_HM_1_OAR.out
