@@ -31,7 +31,7 @@ srand ( time(NULL) );
 Int_t HMS = 5;
 Int_t vec_length = 11; // == position! 0, 10, 20, 30, 40, 50, 60, 55, 45, 35, 25, 15, 5
 Double_t DT_max = 100; // max dwell time - how long to set this to make sure code doesnt take forever?
-Double_t secs_to_events = 10000; //to be filled in after calibration
+Double_t secs_to_events = 100000; //to be filled in after calibration
 
 Double_t HM[HMS][vec_length];
 
@@ -40,8 +40,9 @@ for (int s=0; s<HMS; s++)
   for (int m=0; m<vec_length; m++)
   {
     Double_t r = (double) rand()/((double)RAND_MAX+1);//random numbers 0 to 1
+    //std::cout << r << std::endl;
     Double_t dwell_time = DT_max*r;
-
+    //std::cout << "vec = " << s << " and pos = " << m << " -- " << dwell_time << std::endl;
     HM[s][m] = dwell_time;
   }
  }
@@ -95,14 +96,14 @@ Macro_HM_1 << "/score/create/boxMesh boxMesh_4" << "\n";
 Macro_HM_1 << "/score/mesh/boxSize 0.5 0.0125 0.5 cm" << "\n";
 Macro_HM_1 << "/score/mesh/nBin 1 1 1" << "\n";
 Macro_HM_1 << "/score/quantity/doseDeposit doseDep" << "\n";
-Macro_HM_1 << "/score/mesh/translate/xyz 0 -3. 0. cm" << "\n";
+Macro_HM_1 << "/score/mesh/translate/xyz -1 -3. 0. cm" << "\n";
 Macro_HM_1 << "/score/close" << "\n";
 
 Macro_HM_1 << "/score/create/boxMesh boxMesh_5" << "\n";
 Macro_HM_1 << "/score/mesh/boxSize 0.5 0.0125 0.5 cm" << "\n";
 Macro_HM_1 << "/score/mesh/nBin 1 1 1" << "\n";
 Macro_HM_1 << "/score/quantity/doseDeposit doseDep" << "\n";
-Macro_HM_1 << "/score/mesh/translate/xyz 0 2. 2. cm" << "\n";
+Macro_HM_1 << "/score/mesh/translate/xyz 0 2. 2.3 cm" << "\n";
 Macro_HM_1 << "/score/close" << "\n";
 
 Macro_HM_1 << "/score/list" << "\n";
@@ -118,14 +119,14 @@ Macro_HM_2 << "/score/create/boxMesh boxMesh_4" << "\n";
 Macro_HM_2 << "/score/mesh/boxSize 0.5 0.0125 0.5 cm" << "\n";
 Macro_HM_2 << "/score/mesh/nBin 1 1 1" << "\n";
 Macro_HM_2 << "/score/quantity/doseDeposit doseDep" << "\n";
-Macro_HM_2 << "/score/mesh/translate/xyz 0 -3. 0. cm" << "\n";
+Macro_HM_2 << "/score/mesh/translate/xyz -1 -3. 0. cm" << "\n";
 Macro_HM_2 << "/score/close" << "\n";
 
 Macro_HM_2 << "/score/create/boxMesh boxMesh_5" << "\n";
 Macro_HM_2 << "/score/mesh/boxSize 0.5 0.0125 0.5 cm" << "\n";
 Macro_HM_2 << "/score/mesh/nBin 1 1 1" << "\n";
 Macro_HM_2 << "/score/quantity/doseDeposit doseDep" << "\n";
-Macro_HM_2 << "/score/mesh/translate/xyz 0 2. 2. cm" << "\n";
+Macro_HM_2 << "/score/mesh/translate/xyz 0 2. 2.3 cm" << "\n";
 Macro_HM_2 << "/score/close" << "\n";
 
 Macro_HM_2 << "/score/list" << "\n";
@@ -141,14 +142,14 @@ Macro_HM_3 << "/score/create/boxMesh boxMesh_4" << "\n";
 Macro_HM_3 << "/score/mesh/boxSize 0.5 0.0125 0.5 cm" << "\n";
 Macro_HM_3 << "/score/mesh/nBin 1 1 1" << "\n";
 Macro_HM_3 << "/score/quantity/doseDeposit doseDep" << "\n";
-Macro_HM_3 << "/score/mesh/translate/xyz 0 -3. 0. cm" << "\n";
+Macro_HM_3 << "/score/mesh/translate/xyz -1 -3. 0. cm" << "\n";
 Macro_HM_3 << "/score/close" << "\n";
 
 Macro_HM_3 << "/score/create/boxMesh boxMesh_5" << "\n";
 Macro_HM_3 << "/score/mesh/boxSize 0.5 0.0125 0.5 cm" << "\n";
 Macro_HM_3 << "/score/mesh/nBin 1 1 1" << "\n";
 Macro_HM_3 << "/score/quantity/doseDeposit doseDep" << "\n";
-Macro_HM_3 << "/score/mesh/translate/xyz 0 2. 2. cm" << "\n";
+Macro_HM_3 << "/score/mesh/translate/xyz 0 2. 2.3 cm" << "\n";
 Macro_HM_3 << "/score/close" << "\n";
 
 Macro_HM_3 << "/score/list" << "\n";
@@ -164,14 +165,14 @@ Macro_HM_4 << "/score/create/boxMesh boxMesh_4" << "\n";
 Macro_HM_4 << "/score/mesh/boxSize 0.5 0.0125 0.5 cm" << "\n";
 Macro_HM_4 << "/score/mesh/nBin 1 1 1" << "\n";
 Macro_HM_4 << "/score/quantity/doseDeposit doseDep" << "\n";
-Macro_HM_4 << "/score/mesh/translate/xyz 0 -3. 0. cm" << "\n";
+Macro_HM_4 << "/score/mesh/translate/xyz -1 -3. 0. cm" << "\n";
 Macro_HM_4 << "/score/close" << "\n";
 
 Macro_HM_4 << "/score/create/boxMesh boxMesh_5" << "\n";
 Macro_HM_4 << "/score/mesh/boxSize 0.5 0.0125 0.5 cm" << "\n";
 Macro_HM_4 << "/score/mesh/nBin 1 1 1" << "\n";
 Macro_HM_4 << "/score/quantity/doseDeposit doseDep" << "\n";
-Macro_HM_4 << "/score/mesh/translate/xyz 0 2. 2. cm" << "\n";
+Macro_HM_4 << "/score/mesh/translate/xyz 0 2. 2.3 cm" << "\n";
 Macro_HM_4 << "/score/close" << "\n";
 
 Macro_HM_4 << "/score/list" << "\n";
@@ -187,14 +188,14 @@ Macro_HM_5 << "/score/create/boxMesh boxMesh_4" << "\n";
 Macro_HM_5 << "/score/mesh/boxSize 0.5 0.0125 0.5 cm" << "\n";
 Macro_HM_5 << "/score/mesh/nBin 1 1 1" << "\n";
 Macro_HM_5 << "/score/quantity/doseDeposit doseDep" << "\n";
-Macro_HM_5 << "/score/mesh/translate/xyz 0 -3. 0. cm" << "\n";
+Macro_HM_5 << "/score/mesh/translate/xyz -1 -3. 0. cm" << "\n";
 Macro_HM_5 << "/score/close" << "\n";
 
 Macro_HM_5 << "/score/create/boxMesh boxMesh_5" << "\n";
 Macro_HM_5 << "/score/mesh/boxSize 0.5 0.0125 0.5 cm" << "\n";
 Macro_HM_5 << "/score/mesh/nBin 1 1 1" << "\n";
 Macro_HM_5 << "/score/quantity/doseDeposit doseDep" << "\n";
-Macro_HM_5 << "/score/mesh/translate/xyz 0 2. 2. cm" << "\n";
+Macro_HM_5 << "/score/mesh/translate/xyz 0 2. 2.3 cm" << "\n";
 Macro_HM_5 << "/score/close" << "\n";
 
 Macro_HM_5 << "/score/list" << "\n";
@@ -1609,51 +1610,51 @@ source_HM_11 << "/gps/ang/type iso" << "\n";
 
 for (int s=0; s<HMS; s++)
  {
-  for (int m=1; m<vec_length+1; m++)
+  for (int m=0; m<vec_length; m++)
   {
   HarmonyMemory << TMath::Nint(HM[s][m]*secs_to_events) << "  " ;
   if (s==0){
-   if (m==1){ //if 0 no need to move source
+   if (m==0){ //if 0 no need to move source
    Macro_HM_1 << "/gammamed/detector/SourceTranslationZ 1." <<"\n"; 
    Macro_HM_1 << "/control/execute source_HM_1.mac"  <<"\n"; 
    }
-   if (m==2){
+   if (m==1){
    Macro_HM_1 << "/gammamed/detector/SourceTranslationZ 2." <<"\n"; 
    Macro_HM_1 << "/control/execute source_HM_2.mac"  <<"\n"; 
    }
-   if (m==3){
+   if (m==2){
    Macro_HM_1 << "/gammamed/detector/SourceTranslationZ 3." <<"\n"; 
    Macro_HM_1 << "/control/execute source_HM_3.mac"  <<"\n"; 
    }
-   if (m==4){
+   if (m==3){
    Macro_HM_1 << "/gammamed/detector/SourceTranslationZ 4." <<"\n"; 
    Macro_HM_1 << "/control/execute source_HM_4.mac"  <<"\n"; 
    }
-   if (m==5){
+   if (m==4){
    Macro_HM_1 << "/gammamed/detector/SourceTranslationZ 5." <<"\n"; 
    Macro_HM_1 << "/control/execute source_HM_5.mac"  <<"\n"; 
    }
-   if (m==6){
+   if (m==5){
    Macro_HM_1 << "/gammamed/detector/SourceTranslationZ 6." <<"\n"; 
    Macro_HM_1 << "/control/execute source_HM_6.mac"  <<"\n"; 
    }
-   if (m==7){
+   if (m==6){
    Macro_HM_1 << "/gammamed/detector/SourceTranslationZ 7." <<"\n"; 
    Macro_HM_1 << "/control/execute source_HM_7.mac"  <<"\n"; 
    }
-   if (m==8){
+   if (m==7){
    Macro_HM_1 << "/gammamed/detector/SourceTranslationZ 8." <<"\n"; 
    Macro_HM_1 << "/control/execute source_HM_8.mac"  <<"\n"; 
    }
-   if (m==9){
+   if (m==8){
    Macro_HM_1 << "/gammamed/detector/SourceTranslationZ 9." <<"\n"; 
    Macro_HM_1 << "/control/execute source_HM_9.mac"  <<"\n"; 
    }
-   if (m==10){
+   if (m==9){
    Macro_HM_1 << "/gammamed/detector/SourceTranslationZ 10." <<"\n"; 
    Macro_HM_1 << "/control/execute source_HM_10.mac"  <<"\n"; 
    }
-   if (m==11){
+   if (m==10){
    Macro_HM_1 << "/gammamed/detector/SourceTranslationZ 11." <<"\n"; 
    Macro_HM_1 << "/control/execute source_HM_11.mac"  <<"\n"; 
    }
@@ -1661,47 +1662,47 @@ for (int s=0; s<HMS; s++)
    }
 // *****************************************************************************//
   if (s==1){
-   if (m==1){ //if 0 no need to move source
+   if (m==0){ //if 0 no need to move source
    Macro_HM_2 << "/gammamed/detector/SourceTranslationZ 1." <<"\n"; 
    Macro_HM_2 << "/control/execute source_HM_1.mac"  <<"\n"; 
    }
-   if (m==2){
+   if (m==1){
    Macro_HM_2 << "/gammamed/detector/SourceTranslationZ 2." <<"\n"; 
    Macro_HM_2 << "/control/execute source_HM_2.mac"  <<"\n"; 
    }
-   if (m==3){
+   if (m==2){
    Macro_HM_2 << "/gammamed/detector/SourceTranslationZ 3." <<"\n"; 
    Macro_HM_2 << "/control/execute source_HM_3.mac"  <<"\n"; 
    }
-   if (m==4){
+   if (m==3){
    Macro_HM_2 << "/gammamed/detector/SourceTranslationZ 4." <<"\n"; 
    Macro_HM_2 << "/control/execute source_HM_4.mac"  <<"\n"; 
    }
-   if (m==5){
+   if (m==4){
    Macro_HM_2 << "/gammamed/detector/SourceTranslationZ 5." <<"\n"; 
    Macro_HM_2 << "/control/execute source_HM_5.mac"  <<"\n"; 
    }
-   if (m==6){
+   if (m==5){
    Macro_HM_2 << "/gammamed/detector/SourceTranslationZ 6." <<"\n"; 
    Macro_HM_2 << "/control/execute source_HM_6.mac"  <<"\n"; 
    }
-   if (m==7){
+   if (m==6){
    Macro_HM_2 << "/gammamed/detector/SourceTranslationZ 7." <<"\n"; 
    Macro_HM_2 << "/control/execute source_HM_7.mac"  <<"\n"; 
    }
-   if (m==8){
+   if (m==7){
    Macro_HM_2 << "/gammamed/detector/SourceTranslationZ 8." <<"\n"; 
    Macro_HM_2 << "/control/execute source_HM_8.mac"  <<"\n"; 
    }
-   if (m==9){
+   if (m==8){
    Macro_HM_2 << "/gammamed/detector/SourceTranslationZ 9." <<"\n"; 
    Macro_HM_2 << "/control/execute source_HM_9.mac"  <<"\n"; 
    }
-   if (m==10){
+   if (m==9){
    Macro_HM_2 << "/gammamed/detector/SourceTranslationZ 10." <<"\n"; 
    Macro_HM_2 << "/control/execute source_HM_10.mac"  <<"\n"; 
    }
-   if (m==11){
+   if (m==10){
    Macro_HM_2 << "/gammamed/detector/SourceTranslationZ 11." <<"\n"; 
    Macro_HM_2 << "/control/execute source_HM_11.mac"  <<"\n"; 
    }
@@ -1709,47 +1710,47 @@ for (int s=0; s<HMS; s++)
    }
 // *****************************************************************************//
   if (s==2){
-   if (m==1){ //if 0 no need to move source
+   if (m==0){ //if 0 no need to move source
    Macro_HM_3 << "/gammamed/detector/SourceTranslationZ 1." <<"\n"; 
    Macro_HM_3 << "/control/execute source_HM_1.mac"  <<"\n"; 
    }
-   if (m==2){
+   if (m==1){
    Macro_HM_3 << "/gammamed/detector/SourceTranslationZ 2." <<"\n"; 
    Macro_HM_3 << "/control/execute source_HM_2.mac"  <<"\n"; 
    }
-   if (m==3){
+   if (m==2){
    Macro_HM_3 << "/gammamed/detector/SourceTranslationZ 3." <<"\n"; 
    Macro_HM_3 << "/control/execute source_HM_3.mac"  <<"\n"; 
    }
-   if (m==4){
+   if (m==3){
    Macro_HM_3 << "/gammamed/detector/SourceTranslationZ 4." <<"\n"; 
    Macro_HM_3 << "/control/execute source_HM_4.mac"  <<"\n"; 
    }
-   if (m==5){
+   if (m==4){
    Macro_HM_3 << "/gammamed/detector/SourceTranslationZ 5." <<"\n"; 
    Macro_HM_3 << "/control/execute source_HM_5.mac"  <<"\n"; 
    }
-   if (m==6){
+   if (m==5){
    Macro_HM_3 << "/gammamed/detector/SourceTranslationZ 6." <<"\n"; 
    Macro_HM_3 << "/control/execute source_HM_6.mac"  <<"\n"; 
    }
-   if (m==7){
+   if (m==6){
    Macro_HM_3 << "/gammamed/detector/SourceTranslationZ 7." <<"\n"; 
    Macro_HM_3 << "/control/execute source_HM_7.mac"  <<"\n"; 
    }
-   if (m==8){
+   if (m==7){
    Macro_HM_3 << "/gammamed/detector/SourceTranslationZ 8." <<"\n"; 
    Macro_HM_3 << "/control/execute source_HM_8.mac"  <<"\n"; 
    }
-   if (m==9){
+   if (m==8){
    Macro_HM_3 << "/gammamed/detector/SourceTranslationZ 9." <<"\n"; 
    Macro_HM_3 << "/control/execute source_HM_9.mac"  <<"\n"; 
    }
-   if (m==10){
+   if (m==9){
    Macro_HM_3 << "/gammamed/detector/SourceTranslationZ 10." <<"\n"; 
    Macro_HM_3 << "/control/execute source_HM_10.mac"  <<"\n"; 
    }
-   if (m==11){
+   if (m==10){
    Macro_HM_3 << "/gammamed/detector/SourceTranslationZ 11." <<"\n"; 
    Macro_HM_3 << "/control/execute source_HM_11.mac"  <<"\n"; 
    }
@@ -1757,47 +1758,47 @@ for (int s=0; s<HMS; s++)
    }
 // *****************************************************************************//
   if (s==3){
-   if (m==1){ //if 0 no need to move source
+   if (m==0){ //if 0 no need to move source
    Macro_HM_4 << "/gammamed/detector/SourceTranslationZ 1." <<"\n"; 
    Macro_HM_4 << "/control/execute source_HM_1.mac"  <<"\n"; 
    }
-   if (m==2){
+   if (m==1){
    Macro_HM_4 << "/gammamed/detector/SourceTranslationZ 2." <<"\n"; 
    Macro_HM_4 << "/control/execute source_HM_2.mac"  <<"\n"; 
    }
-   if (m==3){
+   if (m==2){
    Macro_HM_4 << "/gammamed/detector/SourceTranslationZ 3." <<"\n"; 
    Macro_HM_4 << "/control/execute source_HM_3.mac"  <<"\n"; 
    }
-   if (m==4){
+   if (m==3){
    Macro_HM_4 << "/gammamed/detector/SourceTranslationZ 4." <<"\n"; 
    Macro_HM_4 << "/control/execute source_HM_4.mac"  <<"\n"; 
    }
-   if (m==5){
+   if (m==4){
    Macro_HM_4 << "/gammamed/detector/SourceTranslationZ 5." <<"\n"; 
    Macro_HM_4 << "/control/execute source_HM_5.mac"  <<"\n"; 
    }
-   if (m==6){
+   if (m==5){
    Macro_HM_4 << "/gammamed/detector/SourceTranslationZ 6." <<"\n"; 
    Macro_HM_4 << "/control/execute source_HM_6.mac"  <<"\n"; 
    }
-   if (m==7){
+   if (m==6){
    Macro_HM_4 << "/gammamed/detector/SourceTranslationZ 7." <<"\n"; 
    Macro_HM_4 << "/control/execute source_HM_7.mac"  <<"\n"; 
    }
-   if (m==8){
+   if (m==7){
    Macro_HM_4 << "/gammamed/detector/SourceTranslationZ 8." <<"\n"; 
    Macro_HM_4 << "/control/execute source_HM_8.mac"  <<"\n"; 
    }
-   if (m==9){
+   if (m==8){
    Macro_HM_4 << "/gammamed/detector/SourceTranslationZ 9." <<"\n"; 
    Macro_HM_4 << "/control/execute source_HM_9.mac"  <<"\n"; 
    }
-   if (m==10){
+   if (m==9){
    Macro_HM_4 << "/gammamed/detector/SourceTranslationZ 10." <<"\n"; 
    Macro_HM_4 << "/control/execute source_HM_10.mac"  <<"\n"; 
    }
-   if (m==11){
+   if (m==10){
    Macro_HM_4 << "/gammamed/detector/SourceTranslationZ 11." <<"\n"; 
    Macro_HM_4 << "/control/execute source_HM_11.mac"  <<"\n"; 
    }
@@ -1805,47 +1806,47 @@ for (int s=0; s<HMS; s++)
    }
 // *****************************************************************************//
   if (s==4){
-   if (m==1){ //if 0 no need to move source
+   if (m==0){ //if 0 no need to move source
    Macro_HM_5 << "/gammamed/detector/SourceTranslationZ 1." <<"\n"; 
    Macro_HM_5 << "/control/execute source_HM_1.mac"  <<"\n"; 
    }
-   if (m==2){
+   if (m==1){
    Macro_HM_5 << "/gammamed/detector/SourceTranslationZ 2." <<"\n"; 
    Macro_HM_5 << "/control/execute source_HM_2.mac"  <<"\n"; 
    }
-   if (m==3){
+   if (m==2){
    Macro_HM_5 << "/gammamed/detector/SourceTranslationZ 3." <<"\n"; 
    Macro_HM_5 << "/control/execute source_HM_3.mac"  <<"\n"; 
    }
-   if (m==4){
+   if (m==3){
    Macro_HM_5 << "/gammamed/detector/SourceTranslationZ 4." <<"\n"; 
    Macro_HM_5 << "/control/execute source_HM_4.mac"  <<"\n"; 
    }
-   if (m==5){
+   if (m==4){
    Macro_HM_5 << "/gammamed/detector/SourceTranslationZ 5." <<"\n"; 
    Macro_HM_5 << "/control/execute source_HM_5.mac"  <<"\n"; 
    }
-   if (m==6){
+   if (m==5){
    Macro_HM_5 << "/gammamed/detector/SourceTranslationZ 6." <<"\n"; 
    Macro_HM_5 << "/control/execute source_HM_6.mac"  <<"\n"; 
    }
-   if (m==7){
+   if (m==6){
    Macro_HM_5 << "/gammamed/detector/SourceTranslationZ 7." <<"\n"; 
    Macro_HM_5 << "/control/execute source_HM_7.mac"  <<"\n"; 
    }
-   if (m==8){
+   if (m==7){
    Macro_HM_5 << "/gammamed/detector/SourceTranslationZ 8." <<"\n"; 
    Macro_HM_5 << "/control/execute source_HM_8.mac"  <<"\n"; 
    }
-   if (m==9){
+   if (m==8){
    Macro_HM_5 << "/gammamed/detector/SourceTranslationZ 9." <<"\n"; 
    Macro_HM_5 << "/control/execute source_HM_9.mac"  <<"\n"; 
    }
-   if (m==10){
+   if (m==9){
    Macro_HM_5 << "/gammamed/detector/SourceTranslationZ 10." <<"\n"; 
    Macro_HM_5 << "/control/execute source_HM_10.mac"  <<"\n"; 
    }
-   if (m==11){
+   if (m==10){
    Macro_HM_5 << "/gammamed/detector/SourceTranslationZ 11." <<"\n"; 
    Macro_HM_5 << "/control/execute source_HM_11.mac"  <<"\n"; 
    }
