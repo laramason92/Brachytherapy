@@ -15,6 +15,8 @@ ifstream HM5_ptA;
 HM5_ptA.open("EnergyDeposition_HM_5_ptA.out");
 ifstream HMnew_ptA;
 HMnew_ptA.open("EnergyDeposition_HM_new_ptA.out");
+ifstream HMall_100_ptA;
+HMall_100_ptA.open("EnergyDeposition_HM_all_100_ptA.out");
 
 ifstream HM1_OAR;
 HM1_OAR.open("EnergyDeposition_HM_1_OAR.out");
@@ -28,6 +30,8 @@ ifstream HM5_OAR;
 HM5_OAR.open("EnergyDeposition_HM_5_OAR.out");
 ifstream HMnew_OAR;
 HMnew_OAR.open("EnergyDeposition_HM_new_OAR.out");
+ifstream HMall_100_OAR;
+HMall_100_OAR.open("EnergyDeposition_HM_all_100_OAR.out");
 
 std::string line1_ptA;
 while (std::getline(HM1_ptA,line1_ptA)) //reads the harmony memory into a new vector
@@ -45,8 +49,8 @@ while (std::getline(HM1_ptA,line1_ptA)) //reads the harmony memory into a new ve
  }
  }
 }
-double HM1_ptA_dose = lineData_double_HM1_ptA[3]*1e18;
-std::cout << HM1_ptA_dose << std::endl;
+double HM1_ptA_dose = lineData_double_HM1_ptA[3]*1e17;
+std::cout << "HM1_ptA_dose" << HM1_ptA_dose << std::endl;
 //
 //
 std::string line1_OAR;
@@ -64,8 +68,8 @@ while (std::getline(HM1_OAR,line1_OAR)) //reads the harmony memory into a new ve
  }
  }
 }
-double HM1_OAR_dose = lineData_double_HM1_OAR[3]*1e18;
-std::cout << HM1_OAR_dose << std::endl;
+double HM1_OAR_dose = lineData_double_HM1_OAR[3]*1e17;
+std::cout << "HM1_OAR_dose" << HM1_OAR_dose << std::endl;
 //
 //
 std::string line2_ptA;
@@ -83,8 +87,8 @@ while (std::getline(HM2_ptA,line2_ptA)) //reads the harmony memory into a new ve
  }
  }
 }
-double HM2_ptA_dose =  lineData_double_HM2_ptA[3]*1e18;
-std::cout << HM2_ptA_dose << std::endl;
+double HM2_ptA_dose =  lineData_double_HM2_ptA[3]*1e17;
+std::cout << "HM2_ptA_dose" << HM2_ptA_dose << std::endl;
 
 std::string line2_OAR;
 while (std::getline(HM2_OAR,line2_OAR)) //reads the harmony memory into a new vector
@@ -101,8 +105,8 @@ while (std::getline(HM2_OAR,line2_OAR)) //reads the harmony memory into a new ve
  }
  }
 }
-double HM2_OAR_dose = lineData_double_HM2_OAR[3]*1e18;
-std::cout << HM2_OAR_dose << std::endl;
+double HM2_OAR_dose = lineData_double_HM2_OAR[3]*1e17;
+std::cout << "HM2_OAR_dose" << HM2_OAR_dose << std::endl;
 
 
 std::string line3_ptA;
@@ -120,8 +124,8 @@ while (std::getline(HM3_ptA,line3_ptA)) //reads the harmony memory into a new ve
  }
  }
 }
-double HM3_ptA_dose =  lineData_double_HM3_ptA[3]*1e18;
-std::cout << HM3_ptA_dose << std::endl;
+double HM3_ptA_dose =  lineData_double_HM3_ptA[3]*1e17;
+std::cout << "HM3_ptA_dose" << HM3_ptA_dose << std::endl;
 
 std::string line3_OAR;
 while (std::getline(HM3_OAR,line3_OAR)) //reads the harmony memory into a new vector
@@ -138,8 +142,8 @@ while (std::getline(HM3_OAR,line3_OAR)) //reads the harmony memory into a new ve
  }
  }
 }
-double HM3_OAR_dose =  lineData_double_HM3_OAR[3]*1e18;
-std::cout << HM3_OAR_dose << std::endl;
+double HM3_OAR_dose =  lineData_double_HM3_OAR[3]*1e17;
+std::cout << "HM3_OAR_dose" << HM3_OAR_dose << std::endl;
 
 std::string line4_ptA;
 while (std::getline(HM4_ptA,line4_ptA)) //reads the harmony memory into a new vector
@@ -156,8 +160,8 @@ while (std::getline(HM4_ptA,line4_ptA)) //reads the harmony memory into a new ve
  }
  }
 }
-double HM4_ptA_dose =  lineData_double_HM4_ptA[3]*1e18;
-std::cout << HM4_ptA_dose << std::endl;
+double HM4_ptA_dose =  lineData_double_HM4_ptA[3]*1e17;
+std::cout << "HM4_ptA_dose" << HM4_ptA_dose << std::endl;
 
 std::string line4_OAR;
 while (std::getline(HM4_OAR,line4_OAR)) //reads the harmony memory into a new vector
@@ -174,8 +178,8 @@ while (std::getline(HM4_OAR,line4_OAR)) //reads the harmony memory into a new ve
  }
  }
 }
-double HM4_OAR_dose =  lineData_double_HM4_OAR[3]*1e18;
-std::cout << HM4_OAR_dose << std::endl;
+double HM4_OAR_dose =  lineData_double_HM4_OAR[3]*1e17;
+std::cout << "HM4_OAR_dose" << HM4_OAR_dose << std::endl;
 
 
 std::string line5_ptA;
@@ -192,8 +196,8 @@ while (std::getline(HM5_ptA,line5_ptA)) //reads the harmony memory into a new ve
  }
  }
 }
-double HM5_ptA_dose =  lineData_double_HM5_ptA[3]*1e18;
-std::cout << HM5_ptA_dose << std::endl;
+double HM5_ptA_dose =  lineData_double_HM5_ptA[3]*1e17;
+std::cout << "HM5_ptA_dose" << HM5_ptA_dose << std::endl;
 
 std::string line5_OAR;
 while (std::getline(HM5_OAR,line5_OAR)) //reads the harmony memory into a new vector
@@ -210,8 +214,8 @@ while (std::getline(HM5_OAR,line5_OAR)) //reads the harmony memory into a new ve
  }
  }
 }
-double HM5_OAR_dose = lineData_double_HM5_OAR[3]*1e18;
-std::cout << HM5_OAR_dose << std::endl;
+double HM5_OAR_dose = lineData_double_HM5_OAR[3]*1e17;
+std::cout << "HM5_OAR_dose" << HM5_OAR_dose << std::endl;
 
 std::string linenew_ptA;
 while (std::getline(HMnew_ptA,linenew_ptA)) //reads the harmony memory into a new vector
@@ -228,8 +232,8 @@ while (std::getline(HMnew_ptA,linenew_ptA)) //reads the harmony memory into a ne
  }
  }
 }
-double HMnew_ptA_dose =  lineData_double_HMnew_ptA[3]*1e18;
-std::cout << HMnew_ptA_dose << std::endl;
+double HMnew_ptA_dose =  lineData_double_HMnew_ptA[3]*1e17;
+std::cout << "HMnew_ptA_dose" << HMnew_ptA_dose << std::endl;
 
 std::string linenew_OAR;
 while (std::getline(HMnew_OAR,linenew_OAR)) //reads the harmony memory into a new vector
@@ -246,17 +250,59 @@ while (std::getline(HMnew_OAR,linenew_OAR)) //reads the harmony memory into a ne
  }
  }
 }
-double HMnew_OAR_dose =  lineData_double_HMnew_OAR[3]*1e18;
-std::cout << HMnew_OAR_dose << std::endl;
+double HMnew_OAR_dose =  lineData_double_HMnew_OAR[3]*1e17;
+std::cout << "HMnew_OAR_dose" << HMnew_OAR_dose << std::endl;
+
+
+std::string line100_OAR;
+while (std::getline(HMall_100_OAR,line100_OAR)) //reads the harmony memory into a new vector
+ {
+  std::vector<double>   lineData_double_HMall_100_OAR;
+  std::stringstream  lineStream(line100_OAR);
+
+ if ((line100_OAR.length() != 22)&&(line100_OAR.length() != 32))
+  {
+  double value;
+  while(lineStream >> value)
+ {
+  lineData_double_HMall_100_OAR.push_back(value);
+ }
+ }
+}
+double HMall_100_OAR_dose =  lineData_double_HMall_100_OAR[3]*1e17;
+std::cout << "HMall_100_OAR_dose" << HMall_100_OAR_dose << std::endl;
+
+
+std::string line100_ptA;
+while (std::getline(HMall_100_ptA,line100_ptA)) //reads the harmony memory into a new vector
+ {
+  std::vector<double>   lineData_double_HMall_100_ptA;
+  std::stringstream  lineStream(line100_ptA);
+
+ if ((line100_ptA.length() != 22)&&(line100_ptA.length() != 32))
+  {
+  double value;
+  while(lineStream >> value)
+ {
+  lineData_double_HMall_100_ptA.push_back(value);
+ }
+ }
+}
+double HMall_100_ptA_dose =  lineData_double_HMall_100_ptA[3]*1e17;
+std::cout << "HMall_100_ptA_dose" << HMall_100_ptA_dose << std::endl;
+
+
+
+
 //// NEXT: INPUT THESE DOSES INTO THE OBJECTIVE FUNCTION
 
-double w_min_cx = 2.;
-double w_max_cx = 2.;
-double w_max_oar = 2.;
+double w_min_cx = 4.;
+double w_max_cx = 1.;
+double w_max_oar = 3.;
 
-double D_min_Cx = 50.;
-double D_max_Cx = 150.;
-double D_max_OAR = 70.;
+double D_min_Cx = 2.5;
+double D_max_Cx = 4.0.;
+double D_max_OAR = 1.5;
 
 double OF_1 = w_min_cx*(D_min_Cx - HM1_ptA_dose) + w_max_cx*(HM1_ptA_dose - D_max_Cx) + w_max_oar*(HM1_OAR_dose - D_max_OAR);
 double OF_2 = w_min_cx*(D_min_Cx - HM2_ptA_dose) + w_max_cx*(HM2_ptA_dose - D_max_Cx) + w_max_oar*(HM2_OAR_dose - D_max_OAR);
@@ -266,6 +312,8 @@ double OF_5 = w_min_cx*(D_min_Cx - HM5_ptA_dose) + w_max_cx*(HM5_ptA_dose - D_ma
 double OF_new = w_min_cx*(D_min_Cx - HMnew_ptA_dose) + w_max_cx*(HMnew_ptA_dose - D_max_Cx) + w_max_oar*(HMnew_OAR_dose - D_max_OAR);
 
 
+double OF_100 = w_min_cx*(D_min_Cx - HMall_100_ptA_dose) + w_max_cx*(HMall_100_ptA_dose - D_max_Cx) + w_max_oar*(HMall_100_OAR_dose - D_max_OAR);
+
 //std::cout<< "*********** THE OBJECTIVE FUNCTIONS ARE ******************"
 std::cout << "HM_1 = " << OF_1 << std::endl;
 std::cout << "HM_2 = " << OF_2 << std::endl;
@@ -273,5 +321,6 @@ std::cout << "HM_3 = " << OF_3 << std::endl;
 std::cout << "HM_4 = " << OF_4 << std::endl;
 std::cout << "HM_5 = " << OF_5 << std::endl;
 std::cout << "HM_new = " << OF_new << std::endl;
+std::cout << "HM_all_100 = " << OF_100 << std::endl;
 
 }
