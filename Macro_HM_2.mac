@@ -19,36 +19,36 @@
 /score/list
 /gammamed/detector/SourceTranslationZ 1.
 /control/execute source_HM_1.mac
-/run/beamOn 4643769
+/run/beamOn 8011880
 /gammamed/detector/SourceTranslationZ 2.
 /control/execute source_HM_2.mac
-/run/beamOn 7830138
+/run/beamOn 5666129
 /gammamed/detector/SourceTranslationZ 3.
 /control/execute source_HM_3.mac
-/run/beamOn 1135637
+/run/beamOn 631126
 /gammamed/detector/SourceTranslationZ 4.
 /control/execute source_HM_4.mac
-/run/beamOn 6648583
+/run/beamOn 7334101
 /gammamed/detector/SourceTranslationZ 5.
 /control/execute source_HM_5.mac
-/run/beamOn 2726355
+/run/beamOn 4240728
 /gammamed/detector/SourceTranslationZ 6.
 /control/execute source_HM_6.mac
-/run/beamOn 1856715
+/run/beamOn 3908911
 /gammamed/detector/SourceTranslationZ 7.
 /control/execute source_HM_7.mac
-/run/beamOn 5810338
+/run/beamOn 7068663
 /gammamed/detector/SourceTranslationZ 8.
 /control/execute source_HM_8.mac
-/run/beamOn 4355865
+/run/beamOn 3025704
 /gammamed/detector/SourceTranslationZ 9.
 /control/execute source_HM_9.mac
-/run/beamOn 9015416
+/run/beamOn 3006262
 /gammamed/detector/SourceTranslationZ 10.
 /control/execute source_HM_10.mac
-/run/beamOn 2099288
+/run/beamOn 6243997
 /gammamed/detector/SourceTranslationZ 11.
 /control/execute source_HM_11.mac
-/run/beamOn 2727387
+/run/beamOn 2859227
 /score/dumpQuantityToFile boxMesh_5 doseDep EnergyDeposition_HM_2_ptA.out
 /score/dumpQuantityToFile boxMesh_4 doseDep EnergyDeposition_HM_2_OAR.out
