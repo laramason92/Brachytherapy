@@ -53,7 +53,7 @@ for (int m=0; m<vec_length; m++){ //construct a new vector
    Int_t plusminus = TMath::Nint( (double) rand()/((double)RAND_MAX+1)); 
 
    if (plusminus ==0){
-    int cand_val = TMath::Nint(new_val - (double) rand()/((double)RAND_MAX+1)*BW);
+    int cand_val = abs(TMath::Nint(new_val - (double) rand()/((double)RAND_MAX+1)*BW));
     }
    if (plusminus ==1){
     int cand_val = TMath::Nint(new_val + (double) rand()/((double)RAND_MAX+1)*BW);
@@ -407,7 +407,7 @@ for (int s=0; s<HMS; s++)
    Macro_HM_4 << "/gammamed/detector/SourceTranslationZ 11." <<"\n";
    Macro_HM_4 << "/control/execute source_HM_11.mac"  <<"\n";
    }
-   Macro_HM_4 << "/run/beamOn " << data[s][m]*secs_to_events << "\n";
+   Macro_HM_4 << "/run/beamOn " << data[s][m] << "\n";
    }
 // *****************************************************************************//
   if (s==4){
